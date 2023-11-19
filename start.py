@@ -1,10 +1,20 @@
 from flask import Flask
+import json
 
 app = Flask(__name__)
 
+config = 0
+
+
 @app.route('/')
-def hello_world():
+def index():
     return 'Hello, World!'
 
+def load_configurate(file:str):
+    global config
+    with open(file) as f:
+        config = json.load(f)  
+
 if __name__ == '__main__':
-    app.run(port=80)
+    load_configurate('config.json')
+    app.run(port=int(config['server_port']), debug=bool(config['server_debug']))
