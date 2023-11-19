@@ -1,4 +1,4 @@
 {
     "server_port": 80,
-    "server_debug": true,
+    "server_debug": true
 }
