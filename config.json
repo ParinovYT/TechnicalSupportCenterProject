@@ -1,4 +1,5 @@
 {
+    "server_host": "193.124.56.136",
     "server_port": 80,
     "server_debug": true
 }

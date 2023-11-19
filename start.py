@@ -17,4 +17,4 @@ def load_configurate(file:str):
 
 if __name__ == '__main__':
     load_configurate('config.json')
-    app.run(port=int(config['server_port']), debug=bool(config['server_debug']))
+    app.run(port=int(config['server_port']), host=str(config['server_host']), debug=bool(config['server_debug']))
