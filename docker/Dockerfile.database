@@ -1,0 +1,18 @@
+FROM mysql:latest
+
+ENV MYSQL_ROOT_PASSWORD='rootsroot12345:D'
+ENV MYSQL_DATABASE='technical_support'
+ENV MYSQL_USER='user'
+ENV MYSQL_PASSWORD='userpassword'
+
+# Проверяем существование директории перед созданием
+RUN [ -d /docker-entrypoint-initdb.d ] || mkdir /docker-entrypoint-initdb.d
+
+# Копируем схему базы данных в директорию загрузки
+COPY ./../database/schema.sql /docker-entrypoint-initdb.d/
+
+# Указываем порт, который будет прослушивать MySQL
+EXPOSE 3306
+
+# Команда, которая будет выполнена при запуске контейнера
+CMD ["mysqld"]
