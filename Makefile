@@ -26,6 +26,12 @@ init:
 	python -m venv $(VENV-NAME)
 	$(VENV-PATH)/pip install -r $(PATH-TO-REQUIREMENTS)
 
+test:
+	$(VENV-PATH)/python -m pytest
+
+create-requirements-txt:
+	$(VENV-PATH)/pip freeze > $(PATH-TO-REQUIREMENTS)
+
 app-run-release:
 	$(VENV-PATH)/python -m flask --app $(PATH-TO-APP-FILE) run
 

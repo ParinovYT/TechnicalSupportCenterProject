@@ -1,6 +1,8 @@
 import mysql.connector
 
-class MySQLConnection:
+from src.core.classes.mysql.connection import MySqlConnection
+
+class Connection(MySqlConnection):
     def __init__(self):
         self.__host = 'localhost'
         self.__port = '3306'
@@ -9,7 +11,7 @@ class MySQLConnection:
         self.__database = 'database'
         self.connection = None
 
-    def open_connection(self):
+    def open(self):
         try:
             self.connection = mysql.connector.connect(
                 host=self.__host,
@@ -22,7 +24,7 @@ class MySQLConnection:
         except mysql.connector.Error as err:
             print(f"Error: {err}")
 
-    def close_connection(self):
+    def close(self):
         if self.connection:
             self.connection.close()
             print("Connection closed.")
