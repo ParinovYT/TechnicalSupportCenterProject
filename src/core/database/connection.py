@@ -7,8 +7,8 @@ class Connection(MySqlConnection):
         self.__host = 'localhost'
         self.__port = '3306'
         self.__user = 'user'
-        self.__password = 'password'
-        self.__database = 'database'
+        self.__password = 'userpassword'
+        self.__database = 'technical_support'
         self.connection = None
 
     def open(self):

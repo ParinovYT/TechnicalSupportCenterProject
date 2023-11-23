@@ -48,7 +48,7 @@ def get_rule_by_value(value: str):
             return rule_id
         else:
             # Если не найдено, можно вернуть, например, None
-            return None
+            return 1
     finally:
         db_connection.close()
 
@@ -57,9 +57,9 @@ def test_create_user():
     db_connection.open()
     try:
         cursor = db_connection.connection.cursor(prepared=True,)
-        insert_query = "INSERT INTO `users` VALUES (NULL, %s, %s, %s);"
+        insert_query = "INSERT INTO `users` VALUES (NULL, %s, %s, %s, %s);"
         current_time = int(time.time())
-        params = ('user1', current_time, get_rule_by_value('user'))
+        params = ('user1', 'password1', current_time, get_rule_by_value('user'))
 
         cursor.execute(insert_query, params)
         db_connection.connection.commit()  # Важно применить изменения в базе данных
