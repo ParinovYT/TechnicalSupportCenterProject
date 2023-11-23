@@ -32,7 +32,7 @@ app-run-release:
 app-run-debug:
 	$(VENV-PATH)/python -m flask --app $(PATH-TO-APP-FILE) run --debug
 
-docker-deploy:
+docker-deploy-dev:
 	docker-compose -f $(PATH-TO-DOCKER-COMPOSE-YML) up -d
 
 docker-database-create-shema:
