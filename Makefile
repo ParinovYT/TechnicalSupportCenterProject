@@ -4,6 +4,31 @@ MYSQL-ROOT-PASSWORD = rootsroot12345:D
 MYSQL-WORK-DATABASE = technical_support
 MYSQL-PATH-TO-SCHEMA = database/schema.sql
 
+#VENV
+VENV-NAME = venv
+
+#PYTHON
+PATH-TO-REQUIREMENTS = requirements.txt
+
+#APP
+PATH-TO-APP-FILE = src.start
+
+ifeq ($(OS),Windows_NT)
+	VENV-PATH = ./$(VENV-NAME)/Scripts
+else
+	VENV-PATH = ./$(VENV-NAME)/bin
+endif
+
+init:
+	python -m venv $(VENV-NAME)
+	$(VENV-PATH)/pip install -r $(PATH-TO-REQUIREMENTS)
+
+app-run-release:
+	$(VENV-PATH)/python -m flask --app $(PATH-TO-APP-FILE) run
+
+app-run-debug:
+	$(VENV-PATH)/python -m flask --app $(PATH-TO-APP-FILE) run --debug
+
 docker-deploy:
 	docker-compose -f docker/docker-compose.yml up -d
 

@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-import config
+import src.config as config
 
 app = Flask(__name__)
 
