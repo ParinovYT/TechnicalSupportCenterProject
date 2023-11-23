@@ -1,3 +1,6 @@
+#DOCKER
+PATH-TO-DOCKER-COMPOSE-YML = docker/docker-compose.yml
+
 #MYSQL
 MYSQL-CONTAINER = docker-mysql-1
 MYSQL-ROOT-PASSWORD = rootsroot12345:D
@@ -30,7 +33,7 @@ app-run-debug:
 	$(VENV-PATH)/python -m flask --app $(PATH-TO-APP-FILE) run --debug
 
 docker-deploy:
-	docker-compose -f docker/docker-compose.yml up -d
+	docker-compose -f $(PATH-TO-DOCKER-COMPOSE-YML) up -d
 
 docker-database-create-shema:
 	docker exec -i $(MYSQL-CONTAINER) mysqldump -u root --password="$(MYSQL-ROOT-PASSWORD)" $(MYSQL-WORK-DATABASE) > $(MYSQL-PATH-TO-SCHEMA)
