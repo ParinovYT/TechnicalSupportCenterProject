@@ -33,12 +33,12 @@ create-requirements-txt:
 	$(VENV-PATH)/pip freeze > $(PATH-TO-REQUIREMENTS)
 
 app-run-release:
-	$(VENV-PATH)/python -m flask --app $(PATH-TO-APP-FILE) run
+    $(VENV-PATH)/python -m flask --app $(PATH-TO-APP-FILE) run
 
 app-run-debug:
 	$(VENV-PATH)/python -m flask --app $(PATH-TO-APP-FILE) run --debug
 
-docker-deploy-dev:
+docker-deploy:
 	docker-compose -f $(PATH-TO-DOCKER-COMPOSE-YML) up -d
 
 docker-database-create-shema:
