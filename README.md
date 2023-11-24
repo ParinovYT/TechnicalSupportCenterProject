@@ -37,7 +37,7 @@ MYSQL-ROOT-PASSWORD = rootpassword
 ```
 ## И потом выполнить команду
 ```
-make docker-database-create-shema
+make docker-database-create-schema
 ```
 
 ## Чтобы обновить список библеотек выполни эту команду 👇
