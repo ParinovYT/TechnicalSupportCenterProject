@@ -1,5 +1,5 @@
-from abc import abstractmethod
-
+from src.core.database.authentication import Authentication
+from src.core.classes.mysql.queries import MySqlQuery
 from src.core.classes.mysql.connection import MySqlConnection
 from src.core.database.connection import Connection
 
@@ -9,5 +9,5 @@ class MySql:
         connection: MySqlConnection = Connection()
         return connection
 
-    @abstractmethod
-    def queries():...
+    def queries(self):
+        return MySqlQuery
