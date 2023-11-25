@@ -29,6 +29,10 @@ init:
 test:
 	$(VENV-PATH)/python -m pytest
 
+.PHONY: pip-install
+pip-install:
+	$(VENV-PATH)/pip install $(lib)
+
 create-requirements-txt:
 	$(VENV-PATH)/pip freeze > $(PATH-TO-REQUIREMENTS)
 
