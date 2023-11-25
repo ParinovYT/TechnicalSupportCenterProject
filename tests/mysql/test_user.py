@@ -1,10 +1,10 @@
 from src.core.classes.models.user import ModelUser
-from src.core.classes.mysql import MySql
+from src.core.classes.mysql import MySqlBase
 import time
 from http.client import OK
 
 def get_rule_by_value(value: str):
-    db_connection = MySql().connection()
+    db_connection = MySqlBase().connection()
     db_connection.open()
     try:
         cursor = db_connection.connection.cursor()
@@ -25,7 +25,7 @@ def get_rule_by_value(value: str):
         db_connection.close()
 
 def test_create_user():
-    MySQl = MySql()
+    MySQl = MySqlBase()
     MySQlQueries = MySQl.queries()
     db_connection = MySQl.connection()
     db_connection.open()

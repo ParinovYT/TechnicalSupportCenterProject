@@ -1,8 +1,8 @@
-from src.core.classes.mysql import MySql
+from src.core.classes.mysql import MySqlBase
 
 
 def test_connection():
-    db_connection = MySql().connection()
+    db_connection = MySqlBase().connection()
     db_connection.open()
     try:
         cursor = db_connection.connection.cursor()
