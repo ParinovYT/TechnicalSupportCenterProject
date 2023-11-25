@@ -1,4 +1,4 @@
-from src.core.classes.security import Security
+
 from src.core.classes.models import BaseModel
 from src.core.validation import Validation
 from src.core.classes.validation import ValidationBase
@@ -7,7 +7,6 @@ from src.core.classes.validation import ValidationBase
 class ModelUser(BaseModel):
     def __init__(self):
         super().__init__()
-        self._hash = Security().hash()
         self.__validation: ValidationBase = Validation()
         self.__username: str
         self.__password: str
