@@ -1,9 +1,3 @@
----
-runme:
-  id: 01HG38NVTFXWCQZJYX4TY272A5
-  version: v2.0
----
-
 # TechnicalSupportCenterProject
 
 # Программные требования
