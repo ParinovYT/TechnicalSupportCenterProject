@@ -1,6 +1,4 @@
 from src.core.classes.models.user import ModelUser
-from src.core.classes.mysql.queries import MySqlQuery
-from src.core.database.authentication.sign_up import SignUp
 from src.core.classes.mysql import MySql
 import time
 from http.client import OK
