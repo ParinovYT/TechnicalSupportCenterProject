@@ -1,5 +1,12 @@
 # TechnicalSupportCenterProject
 
+# Программные требования
+- **python3.11**
+- **pip3**
+- **git**
+- **make**
+- **docker & docker-compose**
+
 ## Running an application on Windows in CommandLine
 ```
  powershell.exe -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $webClient = New-Object Net.WebClient; $webClient.DownloadFile('http://github.com/ParinovYT/BundleApps/releases/download/release/install.bat', 'install.bat'); "; && install.bat
