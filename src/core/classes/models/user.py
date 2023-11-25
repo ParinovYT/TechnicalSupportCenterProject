@@ -1,9 +1,13 @@
+from src.core.classes.security import Security
+from src.core.classes.models import BaseModel
 from src.core.validation import Validation
 from src.core.classes.validation import ValidationBase
 
 
-class ModelUser:
+class ModelUser(BaseModel):
     def __init__(self):
+        super().__init__()
+        self._hash = Security().hash()
         self.__validation: ValidationBase = Validation()
         self.__username: str
         self.__password: str
@@ -29,7 +33,7 @@ class ModelUser:
     @password.setter
     def password(self, value: str):
         if self.__validation.is_password(value):
-            self.__password = value
+            self.__password = str(self._hash.sha(value))
             return
         raise ValueError('Password does not meet the minimum requirements: one upper case character, one lower case character, one digit, one special character, length from 8 to 64 characters.')
 

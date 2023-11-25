@@ -6,14 +6,14 @@ from src.core.database.rules import Rules
 class AuthenticationBase(ABC):
     def __init__(self):
         self._status_code: int
-        self._DB: MySqlBase  # You need to initialize this in the subclasses
+        self._DB: MySqlBase
         self._user_model = ModelUser()
 
     @abstractmethod
     def execute(self) -> None: ...
 
     def _get_rule_by_name(self, value: str) -> int:
-        MySQl = self._DB  # Fix typo: MySQl instead of MySql
+        MySQl = self._DB
         db_connection = MySQl.connection()
         try:
             db_connection.open()
