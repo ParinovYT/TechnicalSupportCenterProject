@@ -53,7 +53,7 @@ DROP TABLE IF EXISTS `issues`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `issues` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `owner` varchar(256) NOT NULL,
+  `user_id` bigint unsigned NOT NULL,
   `issue` varchar(256) NOT NULL,
   `device_id` bigint unsigned NOT NULL,
   `created_at` bigint unsigned NOT NULL,
@@ -63,7 +63,9 @@ CREATE TABLE `issues` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `issues_devices_id_fk` (`device_id`),
-  CONSTRAINT `issues_devices_id_fk` FOREIGN KEY (`device_id`) REFERENCES `devices` (`id`)
+  KEY `issues_users_id_fk` (`user_id`),
+  CONSTRAINT `issues_devices_id_fk` FOREIGN KEY (`device_id`) REFERENCES `devices` (`id`),
+  CONSTRAINT `issues_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -256,4 +258,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-25 13:26:40
+-- Dump completed on 2023-11-25 15:51:04

@@ -32,8 +32,8 @@ def test_create_user():
 
     try:
         model = ModelUser()
-        model.username = 'user1'
-        model.password = 'password'
+        model.username = 'user-__123'
+        model.password = 'UserPassword123#'
         model.created_at = int(time.time())
         model.rule = get_rule_by_value('user')
         model.admin = False
