@@ -32,6 +32,8 @@
 
 ## Example:
 ```python
+from src.core.classes.user import User
+
 def sign_up():
     user_obj = User().sign_up()
     user_obj.execute(USERNAME, PASSWORD)
