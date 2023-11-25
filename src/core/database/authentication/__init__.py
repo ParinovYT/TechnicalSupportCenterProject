@@ -1,3 +1,5 @@
+from src.core.classes.models.token import ModelToken
+from src.core.database.authentication.sign_in import SignIn
 from src.core.database.connection import Connection
 from src.core.classes.models.user import ModelUser
 from src.core.classes.mysql.queries import MySqlQuery
@@ -12,4 +14,6 @@ class Authentication:
         obj: MySqlQuery = SignUp(self.__connection, model)
         return obj
     
-    def sign_in(self, model: ModelUser):...
+    def sign_in(self, model_token: ModelToken):
+        obj: MySqlQuery = SignIn(self.__connection, model_token)
+        return obj

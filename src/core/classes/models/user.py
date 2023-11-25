@@ -1,4 +1,3 @@
-
 from src.core.classes.models import BaseModel
 from src.core.validation import Validation
 from src.core.classes.validation import ValidationBase

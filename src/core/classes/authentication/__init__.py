@@ -1,13 +1,16 @@
 from abc import ABC, abstractmethod
+from src.core.classes.models.token import ModelToken
 from src.core.classes.mysql import MySqlBase
 from src.core.classes.models.user import ModelUser
 from src.core.database.rules import Rules
 
 class AuthenticationBase(ABC):
-    def __init__(self):
+    def __init__(self, admin: bool = False):
         self._status_code: int
-        self._DB: MySqlBase
+        self._DB = MySqlBase()
         self._user_model = ModelUser()
+        self._token_model = ModelToken()
+        self._admin: bool = admin
 
     @abstractmethod
     def execute(self) -> None: ...
