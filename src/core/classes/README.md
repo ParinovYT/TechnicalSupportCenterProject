@@ -57,7 +57,7 @@ def sign_in():
     user_obj.status_code
     user_obj.get_token
 
-def sign_in():
+def sign_out():
     user_obj = User().sign_out()
     user_obj.execute(TOKEN)
     user_obj.status_code
