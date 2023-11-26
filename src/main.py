@@ -13,6 +13,7 @@ def login():
         password = request.form['password']
         
         # Здесь может быть проверка данных пользователя
+        # ОНА УЖЕ ЕСТЬ, ОВЕТ BAD_REQUEST ЭТО И ЕСТЬ НЕПРАВИЛЬНЫЕ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ :D
              
         if request.form['submit_button'] == 'login':
             return f'Добро пожаловать, {username}!'
