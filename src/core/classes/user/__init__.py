@@ -1,4 +1,4 @@
-from src.core.user.authentication.sign_in import SignIn
+from src.core.user.authentication import SignIn
 from src.core.user.authentication import SignUp
 from src.core.classes.authentication import AuthenticationBase
 
