@@ -38,14 +38,27 @@ class UserInfo(MySqlQuery):
     def status_code(self) -> int:
         return self._status_code
 
-    def execute(self, username: str, password: str) -> None:
+    def execute(self, username: str = '', password: str = '', token: str = '') -> None:
         try:
             cursor = self._connection.connection.cursor()
 
-            cursor.execute("""
-            SELECT id, username, created_at, rule, admin FROM users
-            WHERE username = %s AND password = %s
-            """, (username, password))
+            if len(token) != 0 and len(username) == 0 and len(password) == 0:
+                cursor.execute("""
+                SELECT users.id, users.username, users.created_at, users.rule, users.admin
+                FROM users
+                JOIN tokens ON tokens.user_id = users.id
+                WHERE tokens.token=%s
+                """, (token,))
+
+
+            elif len(token) == 0 and len(username) != 0 or len(password) != 0:
+                cursor.execute("""
+                SELECT id, username, created_at, rule, admin FROM users
+                WHERE username = %s AND password = %s
+                """, (username, password))
+            else:
+                cursor.execute("""
+                """)
 
             row = cursor.fetchone()
 

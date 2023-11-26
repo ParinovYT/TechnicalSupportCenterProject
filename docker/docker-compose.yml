@@ -5,6 +5,7 @@ services:
     build:
       context: ../
       dockerfile: docker/Dockerfile.database
+    restart: always
     ports:
       - "3306:3306"
     volumes:

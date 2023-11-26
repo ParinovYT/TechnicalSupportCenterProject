@@ -45,7 +45,8 @@ class SignIn(AuthenticationBase):
                 return
 
             token = self.__generate_token(256)
-
+            self.__token = token
+            
             self._token_model.user_id = query_user_info.id
             self._token_model.token = token
             self._token_model.created_at = int(time.time())
@@ -55,7 +56,6 @@ class SignIn(AuthenticationBase):
             query_sign_in: MySQlQueries = Authentication(db_connection).sign_in(self._token_model)
             query_sign_in.execute()
             self._status_code = query_sign_in.status_code
-            self.__token = token
             return
 
         except ValueError:

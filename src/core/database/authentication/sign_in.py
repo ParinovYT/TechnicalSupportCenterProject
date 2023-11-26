@@ -1,9 +1,6 @@
 from http.client import CONFLICT, INTERNAL_SERVER_ERROR, OK
 from mysql.connector.errors import InterfaceError
 from src.core.classes.models.token import ModelToken
-
-from src.core.database.user_info import UserInfo
-from src.core.classes.models.user import ModelUser
 from src.core.classes.mysql.queries import MySqlQuery
 from src.core.database.connection import Connection
 

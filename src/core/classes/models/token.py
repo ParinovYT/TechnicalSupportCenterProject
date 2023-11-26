@@ -24,7 +24,10 @@ class ModelToken(BaseModel):
 
     @token.setter
     def token(self, value: str):
-        self.__token = str(self._hash.sha(value))
+        if len(value) == 256:
+            self.__token = str(self._hash.sha(value))
+            return
+        raise ValueError(f'Invalid token value, length = {len(value)}')
 
     @property
     def created_at(self) -> int:

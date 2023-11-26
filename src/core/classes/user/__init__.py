@@ -1,3 +1,4 @@
+from src.core.user.authentication.sign_out import SignOut
 from src.core.user.authentication import SignIn
 from src.core.user.authentication import SignUp
 from src.core.classes.authentication import AuthenticationBase
@@ -12,6 +13,10 @@ class User:
     
     def sign_in(self) -> SignIn:
         obj: AuthenticationBase = SignIn(self._admin)
+        return obj
+    
+    def sign_out(self) -> SignOut:
+        obj: AuthenticationBase = SignOut(self._admin)
         return obj
 
 """
