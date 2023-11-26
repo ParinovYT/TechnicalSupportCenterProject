@@ -85,3 +85,5 @@ make pip-install lib=<name>
 make create-requirements-txt
 
 ```
+
+## Документация по классам [вот тута](https://github.com/ParinovYT/TechnicalSupportCenterProject/blob/main/src/core/classes/README.md) 😵
