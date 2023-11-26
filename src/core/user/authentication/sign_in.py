@@ -1,12 +1,10 @@
 from http.client import BAD_REQUEST, INTERNAL_SERVER_ERROR, OK
 import secrets
-from sqlite3 import connect
 import string
 import time
-from uu import Error
+from mysql.connector.errors import Error
 from src.core.database.user_info import UserInfo
 from src.core.database.authentication import Authentication
-from src.core.database.rules.consts import USER
 from src.core.classes.authentication import AuthenticationBase
 
 class SignIn(AuthenticationBase):
