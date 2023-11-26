@@ -6,6 +6,7 @@
 | - | - | - |
 | sign_up | | SignUp | |
 | sign_in | | SignIn | |
+| sign_out | | SignOut | |
 
 ## `SignUp`
 ## methods
@@ -30,6 +31,17 @@
 | status_code | integer | |
 | get_token | integer | |
 
+## `SignOut`
+## methods
+| method | params | return |
+| - | - | - |
+| execute | token: string | | |
+
+## properties
+| property | return |
+| - | - |
+| status_code | integer | |
+
 ## Example:
 ```python
 from src.core.classes.user import User
@@ -44,4 +56,9 @@ def sign_in():
     user_obj.execute(USERNAME, PASSWORD, EXPIRATION)
     user_obj.status_code
     user_obj.get_token
+
+def sign_in():
+    user_obj = User().sign_out()
+    user_obj.execute(TOKEN)
+    user_obj.status_code
 ```
