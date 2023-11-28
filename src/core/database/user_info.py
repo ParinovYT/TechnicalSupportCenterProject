@@ -1,6 +1,7 @@
-from http.client import INTERNAL_SERVER_ERROR, OK
+from http.client import OK, UNAUTHORIZED
 
-from mysql.connector.errors import Error 
+from mysql.connector.errors import Error
+from src.core.exception import InvalidParametersError 
 from src.core.database.connection import Connection
 from src.core.classes.mysql.queries import MySqlQuery
 
@@ -57,8 +58,7 @@ class UserInfo(MySqlQuery):
                 WHERE username = %s AND password = %s
                 """, (username, password))
             else:
-                cursor.execute("""
-                """)
+                raise InvalidParametersError('You can enter only parameters: username and password or only token')
 
             row = cursor.fetchone()
 
@@ -70,8 +70,8 @@ class UserInfo(MySqlQuery):
                 self.__admin = bool(row[4])
                 self._status_code = OK
             else:
-                self._status_code = INTERNAL_SERVER_ERROR
+                self._status_code = UNAUTHORIZED
 
         except Error as e:
-            self._status_code = INTERNAL_SERVER_ERROR
+            self._status_code = UNAUTHORIZED
             print(e)

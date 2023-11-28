@@ -67,7 +67,6 @@ class SignOut:
         self.__bad_request = 0  # Set an initial value
         self.__token = token
 
-
     @property
     def ok(self) -> int:
         return self.__ok

@@ -18,6 +18,8 @@ class User:
     def sign_out(self) -> SignOut:
         obj: AuthenticationBase = SignOut(self._admin)
         return obj
+    
+    def report(self):...
 
 """
 class Admin(User):
