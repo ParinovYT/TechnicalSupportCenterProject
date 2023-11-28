@@ -42,6 +42,18 @@
 | - | - |
 | status_code | integer | |
 
+# • Report
+## methods
+| method | params | return |
+| - | - | - |
+| create | | Create | |
+
+## `Create`
+## methods
+| method | params | return |
+| - | - | - |
+| execute | token: string, issue: string, device_id: int | | |
+
 ## Example:
 ```python
 from src.core.classes.user import User
