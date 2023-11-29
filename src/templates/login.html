@@ -27,8 +27,14 @@
                                 <label for="username">Имя пользователя</label>
                             </div>
                             <div class="input-field">
+
+                                {% if password %}
+                                <input value="{{ password }}" id="password" type="text" class="validate" name="password" required>
+                                {% else %}
                                 <input id="password" type="password" class="validate" name="password" required>
+                                {% endif %}
                                 <label for="password">Пароль</label>
+                                <a href="login?passwordGenerate=true" onclick="document.forms[1].submit();">Сгенерировать надежный пароль</a>
                             </div>
                             <button class="btn waves-effect waves-light" name="submit_button" type="submit" value="login">Войти
                                 <i class="material-icons right">send</i>
