@@ -6,14 +6,15 @@ from src.core.database.rules import Rules
 
 class AuthenticationBase(ABC):
     def __init__(self, admin: bool = False):
-        self._status_code: int
+        self._status_code: int = 0
         self._DB = MySqlBase()
         self._user_model = ModelUser()
         self._token_model = ModelToken()
         self._admin: bool = admin
 
     @abstractmethod
-    def execute(self) -> None: ...
+    def execute(self) -> None:
+        pass
 
     def _get_rule_by_name(self, value: str) -> int:
         MySQl = self._DB

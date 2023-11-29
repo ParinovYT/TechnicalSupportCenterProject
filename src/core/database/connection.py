@@ -1,6 +1,7 @@
+from typing import Any
 import mysql.connector
 
-class Connection(object):
+class Connection(Any):
     def __init__(self):
         self.__host = 'localhost'
         self.__port = '3306'

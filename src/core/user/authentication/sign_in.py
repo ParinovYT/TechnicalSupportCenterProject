@@ -11,7 +11,7 @@ class SignIn(AuthenticationBase):
 
     def __init__(self, admin: bool = False):
         super().__init__(admin=admin)
-        self.__token: str
+        self.__token: str = ""
 
     @property
     def status_code(self) -> int:
