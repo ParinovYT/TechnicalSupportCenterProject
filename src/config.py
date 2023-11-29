@@ -5,3 +5,4 @@ def load_configurate(file:str):
     with open(file) as f:
         data = json.load(f)  
 
+    return data

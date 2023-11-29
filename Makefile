@@ -14,7 +14,7 @@ VENV-NAME = venv
 PATH-TO-REQUIREMENTS = requirements.txt
 
 # APP
-PATH-TO-APP-FILE = src.start
+PATH-TO-APP-FILE = app.py
 
 ifeq ($(OS),Windows_NT)
 	VENV-PATH = ./$(VENV-NAME)/Scripts
@@ -37,10 +37,10 @@ create-requirements-txt:
 	$(VENV-PATH)/pip freeze > $(PATH-TO-REQUIREMENTS)
 
 app-run-release:
-	$(VENV-PATH)/python -m flask --app $(PATH-TO-APP-FILE) run
+	$(VENV-PATH)/python $(PATH-TO-APP-FILE)
 
 app-run-debug:
-	$(VENV-PATH)/python -m flask --app $(PATH-TO-APP-FILE) run --debug
+	$(VENV-PATH)/python $(PATH-TO-APP-FILE)
 
 docker-deploy:
 	docker-compose -f $(PATH-TO-DOCKER-COMPOSE-YML) up -d

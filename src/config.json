@@ -1,5 +1,5 @@
 {
     "server_host": "127.0.0.1",
     "server_port": 80,
-    "server_debug": true
+    "server_debug": false
 }

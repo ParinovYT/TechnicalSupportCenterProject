@@ -1,8 +1,6 @@
 import mysql.connector
 
-from src.core.classes.mysql.connection import MySqlConnection
-
-class Connection(MySqlConnection):
+class Connection(object):
     def __init__(self):
         self.__host = 'localhost'
         self.__port = '3306'
