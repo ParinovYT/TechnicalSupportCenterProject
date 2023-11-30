@@ -67,4 +67,5 @@ def test_device():
     get_device.exec()
 
     assert get_device.ok == OK, get_device.resp.id
+    assert get_device.resp.object_name == OBJECT_NAME, get_device.resp.object_name
     assert get_device.not_found == NOT_FOUND, get_device.not_found
