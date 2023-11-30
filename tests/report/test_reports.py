@@ -83,9 +83,9 @@ class Create:
     def bad_request(self) -> int:
         return self.__bad_request
 
-    def exec(self, device_id: int):
+    def exec(self, inventory_number: str):
         user_obj = Report().create()
-        user_obj.execute(self.__token, 'Issue', device_id)
+        user_obj.execute(self.__token, 'Issue', inventory_number)
         self.__ok = user_obj.status_code
 
         user_obj.execute('v23c423v3', '4342c342vv2343c2v4c424vc32v24c2343vc324c234vv', 1)
@@ -94,7 +94,7 @@ class Create:
         user_obj.execute(
             'GnpQIcODM9hyQqM1dwNs1uxFnUr7VCJF445lbaDZlHmQVf7TRpYCfeS1IhTIM0Mel9OiS7XJJWDi15edYbL2Laf1Y5Tt0bMKm2oJ6me4NxtWgFmK81bKNFRC8v1aKOoGBB9lb7ZmsZ16iN6halzuz1mIAYQtBF07qgEkRlEg7TKFc9qNSQvHWPIV7ak0DVbrBVO7aHOkJnA50TGLjfTjkqoS54UI87j9Eiofe3n9cIekWdsIDVP90Dq0hXlOMXKG',
             '4342c342vv2343c2v4c424vc32v24c2343vc324c234vv',
-            1
+            inventory_number
         )
         self.__unauthorized = user_obj.status_code
 
@@ -160,7 +160,7 @@ def test():
     create_device(inventory_number)
 
     report_create = Create(sign_in.token)
-    report_create.exec(get_device_id_by_inventory_number(inventory_number))
+    report_create.exec(inventory_number)
 
     assert report_create.ok == OK, report_create.ok
     assert report_create.bad_request == BAD_REQUEST, report_create.bad_request
