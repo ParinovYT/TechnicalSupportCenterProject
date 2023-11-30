@@ -1,0 +1,1 @@
+from src.core.device.get_by_inventory_number import DeviceGetByInventoryNumber

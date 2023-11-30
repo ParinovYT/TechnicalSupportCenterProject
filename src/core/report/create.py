@@ -35,7 +35,7 @@ class Create(ReportBase):
 
             self._model_issue.user_id = query_user_info.id
             self._model_issue.issue = issue
-            self._model_issue.device_id = device_id
+            self._model_issue.device_id = device_id #!!!РЕАЛИЗОВАТЬ КЛАСС Device В КОТОРОМ БУДЕТ БУДЕТ ИНФОРМАЦИЯ ОБ deivces ПО ЕГО inventory_number!!!
             self._model_issue.created_at = int(time.time())
             self._model_issue.updated_at = int(time.time())
             self._model_issue.line = 1
