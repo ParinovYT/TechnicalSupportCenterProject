@@ -8,7 +8,7 @@ from flask import Flask, render_template, request
 from src.config import load_configurate
 from src.core.classes.user import User
 
-cfg = load_configurate('config.json')
+cfg = load_configurate('src/config.json')
 
 app = Flask(__name__)
 
