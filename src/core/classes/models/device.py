@@ -1,5 +1,6 @@
 from src.core.classes.models import BaseModel
 
+
 class ModelDevice(BaseModel):
     def __init__(self):
         super().__init__()

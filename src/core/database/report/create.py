@@ -1,8 +1,10 @@
 from http.client import INTERNAL_SERVER_ERROR, UNAUTHORIZED, OK
+
 from mysqlx import InterfaceError
+
 from src.core.classes.models.issue import ModelIssue
-from src.core.database.connection import Connection
 from src.core.classes.mysql.queries import MySqlQuery
+from src.core.database.connection import Connection
 
 
 class Create(MySqlQuery):
@@ -16,7 +18,7 @@ class Create(MySqlQuery):
 
     def execute(self) -> None:
         try:
-            cursor = self._connection.connection.cursor(prepared=True,)
+            cursor = self._connection.connection.cursor(prepared=True, )
             insert_query = """
             INSERT INTO issues VALUES (NULL, %s, %s, %s, %s, %s, %s, %s);
             """

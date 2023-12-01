@@ -1,10 +1,12 @@
 import hashlib
 from typing import Literal
+
 from src.core.classes.security.hash import HashBase
 
 
 class Hash(HashBase):
-    def sha(self, value: bytes | str, encode: Literal['utf-8', 'ascii'] = 'utf-8', length: Literal['256', '512'] = '256'):
+    def sha(self, value: bytes | str, encode: Literal['utf-8', 'ascii'] = 'utf-8',
+            length: Literal['256', '512'] = '256'):
         if isinstance(value, bytes):
             return self._sha256(value, length).digest()
         elif isinstance(value, str):

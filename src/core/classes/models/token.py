@@ -9,7 +9,7 @@ class ModelToken(BaseModel):
         self.__created_at: int
         self.__updated_at: int
         self.__expiration: int
-    
+
     @property
     def user_id(self) -> int:
         return self.__user_id

@@ -2,6 +2,7 @@ import mysql.connector
 
 from src.core.classes.mysql.connection import MySqlConnection
 
+
 class Connection(MySqlConnection):
     def __init__(self):
         self.__host = 'localhost'

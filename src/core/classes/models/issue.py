@@ -1,4 +1,5 @@
 from typing import Literal
+
 from src.core.classes.models import BaseModel
 
 
@@ -37,7 +38,7 @@ class ModelIssue(BaseModel):
     @issue.setter
     def issue(self, value: str):
         value_len: int = 256
-        if len(value)>value_len:
+        if len(value) > value_len:
             raise ValueError(f'Max issue length {value_len}')
         self.__issue = value
 

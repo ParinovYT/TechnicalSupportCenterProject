@@ -1,89 +1,111 @@
 # Classes
 
 # • User
+
 ## methods
-| method | params | return |
-| - | - | - |
-| sign_up | | SignUp | |
-| sign_in | | SignIn | |
-| sign_out | | SignOut | |
-| device | | Device | |
+
+| method   | params | return  |
+|----------|--------|---------|
+| sign_up  |        | SignUp  | |
+| sign_in  |        | SignIn  | |
+| sign_out |        | SignOut | |
+| device   |        | Device  | |
 
 ## `SignUp`
+
 ## methods
-| method | params | return |
-| - | - | - |
-| execute | username: string, password: string | | |
+
+| method  | params                             | return |
+|---------|------------------------------------|--------|
+| execute | username: string, password: string |        | |
 
 ## properties
-| property | return |
-| - | - |
+
+| property    | return  |
+|-------------|---------|
 | status_code | integer | |
 
 ## `SignIn`
+
 ## methods
-| method | params | return |
-| - | - | - |
-| execute | username: string, password: string, expiration: integer | | |
+
+| method  | params                                                  | return |
+|---------|---------------------------------------------------------|--------|
+| execute | username: string, password: string, expiration: integer |        | |
 
 ## properties
-| property | return |
-| - | - |
+
+| property    | return  |
+|-------------|---------|
 | status_code | integer | |
-| get_token | integer | |
+| get_token   | integer | |
 
 ## `SignOut`
+
 ## methods
-| method | params | return |
-| - | - | - |
-| execute | token: string | | |
+
+| method  | params        | return |
+|---------|---------------|--------|
+| execute | token: string |        | |
 
 ## properties
-| property | return |
-| - | - |
+
+| property    | return  |
+|-------------|---------|
 | status_code | integer | |
 
 # • Report
+
 ## methods
+
 | method | params | return |
-| - | - | - |
-| create | | Create | |
+|--------|--------|--------|
+| create |        | Create | |
 
 ## `Create`
+
 ## methods
-| method | params | return |
-| - | - | - |
-| execute | token: string, issue: string, inventory_number: int | | |
+
+| method  | params                                              | return |
+|---------|-----------------------------------------------------|--------|
+| execute | token: string, issue: string, inventory_number: int |        | |
 
 ## properties
-| property | return |
-| - | - |
+
+| property    | return  |
+|-------------|---------|
 | status_code | integer | |
 
 # • Device
+
 ## methods
-| method | params | return |
-| - | - | - |
-| get_by_inventory_number | | DeviceGetByInventoryNumber | |
+
+| method                  | params | return                     |
+|-------------------------|--------|----------------------------|
+| get_by_inventory_number |        | DeviceGetByInventoryNumber | |
 
 ## `DeviceGetByInventoryNumber`
+
 ## methods
-| method | params | return |
-| - | - | - |
-| execute | inventory_number: string | | |
+
+| method  | params                   | return |
+|---------|--------------------------|--------|
+| execute | inventory_number: string |        | |
 
 ## properties
-| property | return |
-| - | - |
-| status_code | integer | |
-| response.id | integer | |
-| response.inventory_number | string | |
-| response.object_name | string | |
-| response.year_issue | datetime | |
-| response.floor | integer | |
-| response.office_number | string | |
+
+| property                  | return   |
+|---------------------------|----------|
+| status_code               | integer  | |
+| response.id               | integer  | |
+| response.inventory_number | string   | |
+| response.object_name      | string   | |
+| response.year_issue       | datetime | |
+| response.floor            | integer  | |
+| response.office_number    | string   | |
 
 ## Example:
+
 ```python
 from src.core.classes.user import User
 

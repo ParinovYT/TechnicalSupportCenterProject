@@ -1,6 +1,8 @@
 from http.client import INTERNAL_SERVER_ERROR, OK
-from src.core.database.connection import Connection
+
 from src.core.classes.mysql.queries import MySqlQuery
+from src.core.database.connection import Connection
+
 
 class Rules(MySqlQuery):
     def __init__(self, connection: Connection):

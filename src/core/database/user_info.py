@@ -1,9 +1,10 @@
 from http.client import OK, UNAUTHORIZED
 
 from mysql.connector.errors import Error
-from src.core.exception import InvalidParametersError 
-from src.core.database.connection import Connection
+
 from src.core.classes.mysql.queries import MySqlQuery
+from src.core.database.connection import Connection
+from src.core.exception import InvalidParametersError
 
 
 class UserInfo(MySqlQuery):
@@ -18,7 +19,7 @@ class UserInfo(MySqlQuery):
     @property
     def id(self) -> int:
         return self.__id
-    
+
     @property
     def username(self) -> str:
         return self.__username

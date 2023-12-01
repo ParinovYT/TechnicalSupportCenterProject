@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
+
 from src.core.classes.models.token import ModelToken
-from src.core.classes.mysql import MySqlBase
 from src.core.classes.models.user import ModelUser
+from src.core.classes.mysql import MySqlBase
 from src.core.database.rules import Rules
+
 
 class AuthenticationBase(ABC):
     def __init__(self, admin: bool = False):
@@ -27,7 +29,7 @@ class AuthenticationBase(ABC):
             rules_query.execute(value)
 
             return rules_query.get
-        
+
         except Exception:
             return -1
 

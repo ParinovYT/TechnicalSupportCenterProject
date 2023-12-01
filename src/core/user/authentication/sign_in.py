@@ -1,11 +1,14 @@
-from http.client import BAD_REQUEST, INTERNAL_SERVER_ERROR, OK
 import secrets
 import string
 import time
+from http.client import BAD_REQUEST, INTERNAL_SERVER_ERROR, OK
+
 from mysql.connector.errors import Error
-from src.core.database.user_info import UserInfo
-from src.core.database.authentication import Authentication
+
 from src.core.classes.authentication import AuthenticationBase
+from src.core.database.authentication import Authentication
+from src.core.database.user_info import UserInfo
+
 
 class SignIn(AuthenticationBase):
 
@@ -16,7 +19,7 @@ class SignIn(AuthenticationBase):
     @property
     def status_code(self) -> int:
         return self._status_code
-    
+
     @property
     def get_token(self) -> str:
         return self.__token
@@ -44,7 +47,7 @@ class SignIn(AuthenticationBase):
 
             token = self.__generate_token(256)
             self.__token = token
-            
+
             self._token_model.user_id = query_user_info.id
             self._token_model.token = token
             self._token_model.created_at = int(time.time())

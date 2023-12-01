@@ -1,4 +1,5 @@
 from http.client import CONFLICT, OK
+
 from mysql.connector.errors import InterfaceError
 
 from src.core.classes.models.user import ModelUser
@@ -10,14 +11,14 @@ class SignUp(MySqlQuery):
     def __init__(self, connection: Connection, model: ModelUser):
         super().__init__(connection)
         self.__model: ModelUser = model
-    
+
     @property
     def status_code(self) -> int:
         return self._status_code
-    
+
     def execute(self) -> None:
         try:
-            cursor = self._connection.connection.cursor(prepared=True,)
+            cursor = self._connection.connection.cursor(prepared=True, )
             insert_query = "INSERT INTO users VALUES (NULL, %s, %s, %s, %s, %s);"
             params = (
                 self.__model.username,
@@ -33,4 +34,3 @@ class SignUp(MySqlQuery):
 
         except InterfaceError:
             self._status_code = CONFLICT
-        

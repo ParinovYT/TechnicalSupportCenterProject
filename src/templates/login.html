@@ -15,40 +15,44 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col s12 m6 offset-m3">
-                <div class="card">
-                    <div class="card-content">
-                        <span class="card-title">Авторизация</span>
-                        <form method="POST" action="{{ url_for('login') }}">
-                            <div class="input-field">
-                                <input id="username" type="text" class="validate" name="username" required>
-                                <label for="username">Имя пользователя</label>
-                            </div>
-                            <div class="input-field">
+<div class="container">
+    <div class="row">
+        <div class="col s12 m6 offset-m3">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Авторизация</span>
+                    <form method="POST" action="{{ url_for('login') }}">
+                        <div class="input-field">
+                            <input id="username" type="text" class="validate" name="username" required>
+                            <label for="username">Имя пользователя</label>
+                        </div>
+                        <div class="input-field">
 
-                                {% if password %}
-                                <input value="{{ password }}" id="password" type="text" class="validate" name="password" required>
-                                {% else %}
+                            {% if password %}
+                                <input value="{{ password }}" id="password" type="text" class="validate" name="password"
+                                       required>
+                            {% else %}
                                 <input id="password" type="password" class="validate" name="password" required>
-                                {% endif %}
-                                <label for="password">Пароль</label>
-                                <a href="login?passwordGenerate=true" onclick="document.forms[1].submit();">Сгенерировать надежный пароль</a>
-                            </div>
-                            <button class="btn waves-effect waves-light" name="submit_button" type="submit" value="login">Войти
-                                <i class="material-icons right">send</i>
-                            </button>
-                            <button class="btn waves-effect waves-light" name="submit_button" type="submit" value="register">Зарегистрироваться
-                                <i class="material-icons right">send</i>
-                            </button>
-                        </form>
-                    </div>
+                            {% endif %}
+                            <label for="password">Пароль</label>
+                            <a href="login?passwordGenerate=true" onclick="document.forms[1].submit();">Сгенерировать
+                                надежный пароль</a>
+                        </div>
+                        <button class="btn waves-effect waves-light" name="submit_button" type="submit" value="login">
+                            Войти
+                            <i class="material-icons right">send</i>
+                        </button>
+                        <button class="btn waves-effect waves-light" name="submit_button" type="submit"
+                                value="register">Зарегистрироваться
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 
 </html>

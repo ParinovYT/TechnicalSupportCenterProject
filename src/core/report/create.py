@@ -1,9 +1,10 @@
-from http.client import BAD_REQUEST, INTERNAL_SERVER_ERROR, OK
 import time
+from http.client import BAD_REQUEST, INTERNAL_SERVER_ERROR, OK
 
 from mysqlx import Error
-from src.core.database.device import Device
+
 from src.core.classes.report.base import ReportBase
+from src.core.database.device import Device
 from src.core.database.report import Report
 from src.core.database.user_info import UserInfo
 
@@ -11,7 +12,7 @@ from src.core.database.user_info import UserInfo
 class Create(ReportBase):
     def __init__(self) -> None:
         super().__init__()
-    
+
     @property
     def status_code(self) -> int:
         return self._status_code
@@ -29,7 +30,7 @@ class Create(ReportBase):
             MySQlQueries = MySQl.queries()
             query_user_info: MySQlQueries = UserInfo(db_connection)
 
-            query_user_info.execute(token = self._model_token.token)
+            query_user_info.execute(token=self._model_token.token)
 
             if query_user_info.status_code != OK:
                 self._status_code = query_user_info.status_code
@@ -43,7 +44,7 @@ class Create(ReportBase):
 
             self._model_issue.user_id = query_user_info.id
             self._model_issue.issue = issue
-            self._model_issue.device_id = query_device.response.id #!!!РЕАЛИЗОВАТЬ КЛАСС Device В КОТОРОМ БУДЕТ БУДЕТ ИНФОРМАЦИЯ ОБ deivces ПО ЕГО inventory_number!!!
+            self._model_issue.device_id = query_device.response.id  # !!!РЕАЛИЗОВАТЬ КЛАСС Device В КОТОРОМ БУДЕТ БУДЕТ ИНФОРМАЦИЯ ОБ deivces ПО ЕГО inventory_number!!!
             self._model_issue.created_at = int(time.time())
             self._model_issue.updated_at = int(time.time())
             self._model_issue.line = 1

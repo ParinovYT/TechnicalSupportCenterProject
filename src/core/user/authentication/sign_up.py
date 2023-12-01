@@ -1,8 +1,10 @@
-from http.client import BAD_REQUEST
 import time
+from http.client import BAD_REQUEST
+
+from src.core.classes.authentication import AuthenticationBase
 from src.core.database.authentication import Authentication
 from src.core.database.rules.consts import USER
-from src.core.classes.authentication import AuthenticationBase
+
 
 class SignUp(AuthenticationBase):
 
@@ -25,7 +27,7 @@ class SignUp(AuthenticationBase):
             self._user_model.admin = self._admin
 
             db_connection.open()
-            MySQlQueries = MySQl.queries() 
+            MySQlQueries = MySQl.queries()
             query: MySQlQueries = Authentication(db_connection).sign_up(self._user_model)
             query.execute()
             self._status_code = query.status_code

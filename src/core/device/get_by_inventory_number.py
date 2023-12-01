@@ -1,16 +1,18 @@
 from http.client import NOT_FOUND
+
+from src.core.classes.device.base import DeviceBase
 from src.core.classes.models.device import ModelDevice
 from src.core.database.device import Device
-from src.core.classes.device.base import DeviceBase
+
 
 class DeviceGetByInventoryNumber(DeviceBase):
     def __init__(self):
         super().__init__()
-    
+
     @property
     def status_code(self) -> int:
         return self._status_code
-    
+
     @property
     def response(self) -> ModelDevice:
         return self._response
@@ -19,7 +21,7 @@ class DeviceGetByInventoryNumber(DeviceBase):
         MySQl = self._DB
         db_connection = MySQl.connection()
         MySQlQueries = MySQl.queries()
-        
+
         try:
             db_connection.open()
             MySQlQueries = MySQl.queries()

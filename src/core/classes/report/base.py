@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
+
 from src.core.classes.models.device import ModelDevice
-from src.core.classes.mysql import MySqlBase
 from src.core.classes.models.issue import ModelIssue
 from src.core.classes.models.token import ModelToken
+from src.core.classes.mysql import MySqlBase
 
 
 class ReportBase(ABC):
@@ -14,4 +15,4 @@ class ReportBase(ABC):
         self._model_device = ModelDevice()
 
     @abstractmethod
-    def execute(self) -> None:...
+    def execute(self) -> None: ...

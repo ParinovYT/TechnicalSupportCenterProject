@@ -1,19 +1,21 @@
 from http.client import NOT_FOUND, OK
+
+from mysql.connector.errors import Error
+
 from src.core.classes.models.device import ModelDevice
 from src.core.classes.mysql.queries import MySqlQuery
 from src.core.database.connection import Connection
-from mysql.connector.errors import Error
 
 
 class GetByInventoryNumber(MySqlQuery):
     def __init__(self, connection: Connection, model_device: ModelDevice) -> None:
         super().__init__(connection)
         self.__model_device: ModelDevice = model_device
-    
+
     @property
     def response(self) -> ModelDevice:
         return self.__model_device
-    
+
     @property
     def status_code(self) -> int:
         return self._status_code
@@ -37,7 +39,7 @@ class GetByInventoryNumber(MySqlQuery):
                 self.__model_device.year_issue = str(row[3])
                 self.__model_device.floor = int(row[4])
                 self.__model_device.office_number = str(row[5])
-                
+
                 self._status_code = OK
             else:
                 self._status_code = NOT_FOUND

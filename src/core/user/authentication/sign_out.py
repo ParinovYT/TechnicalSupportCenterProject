@@ -1,7 +1,9 @@
 from http.client import BAD_REQUEST, OK
-from src.core.database.user_info import UserInfo
-from src.core.database.authentication import Authentication
+
 from src.core.classes.authentication import AuthenticationBase
+from src.core.database.authentication import Authentication
+from src.core.database.user_info import UserInfo
+
 
 class SignOut(AuthenticationBase):
 
@@ -17,7 +19,7 @@ class SignOut(AuthenticationBase):
         db_connection = MySQl.connection()
         MySQlQueries = MySQl.queries()
         query_user_info: MySQlQueries = UserInfo(db_connection)
-        
+
         try:
             db_connection.open()
             self._token_model.token = token
@@ -25,11 +27,11 @@ class SignOut(AuthenticationBase):
 
             if query_user_info.status_code != OK:
                 self._status_code = query_user_info.status_code
-                return  
+                return
 
             self._token_model.user_id = query_user_info.id
 
-            MySQlQueries = MySQl.queries() 
+            MySQlQueries = MySQl.queries()
             query: MySQlQueries = Authentication(db_connection).sign_out(self._token_model)
             query.execute()
             self._status_code = query.status_code

@@ -1,6 +1,6 @@
 from src.core.classes.models import BaseModel
-from src.core.validation import Validation
 from src.core.classes.validation import ValidationBase
+from src.core.validation import Validation
 
 
 class ModelUser(BaseModel):
@@ -23,7 +23,7 @@ class ModelUser(BaseModel):
             self.__username = value
             return
         raise ValueError('Can only be present: hyphen, underscore, Latin characters only')
-    
+
     @property
     def password(self) -> str:
         return self.__password
@@ -33,7 +33,8 @@ class ModelUser(BaseModel):
         if self.__validation.is_password(value):
             self.__password = str(self._hash.sha(value))
             return
-        raise ValueError('Password does not meet the minimum requirements: one upper case character, one lower case character, one digit, one special character, length from 8 to 64 characters.')
+        raise ValueError(
+            'Password does not meet the minimum requirements: one upper case character, one lower case character, one digit, one special character, length from 8 to 64 characters.')
 
     @property
     def created_at(self) -> int:
@@ -42,7 +43,7 @@ class ModelUser(BaseModel):
     @created_at.setter
     def created_at(self, value: int):
         self.__created_at = value
-    
+
     @property
     def rule(self) -> int:
         return self.__rule

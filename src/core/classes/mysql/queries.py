@@ -3,6 +3,7 @@ from typing import Any
 
 from src.core.database.connection import Connection
 
+
 class MySqlQuery(ABC):
     def __init__(self, connection: Connection):
         self._connection: Connection = connection
@@ -10,4 +11,4 @@ class MySqlQuery(ABC):
         self._response: Any
 
     @abstractmethod
-    def execute(self) -> None:...
+    def execute(self) -> None: ...
