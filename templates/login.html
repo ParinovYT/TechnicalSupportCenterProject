@@ -1,58 +1,146 @@
-<!DOCTYPE html>
-<html lang="en">
+<html class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <title>TechnicalSupportCenterProject - Login</title>
+        <meta content="Admin Dashboard" name="description">
+        <meta content="ThemeDesign" name="author">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-    <style>
-        .container {
-            margin-top: 100px;
-        }
-    </style>
-    <title>Login</title>
-</head>
+        <link rel="shortcut icon" href="assets/images/faviicon.png">
 
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col s12 m6 offset-m3">
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
+        <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+
+    </head>
+
+
+    <body style="overflow: visible;">
+
+        <!-- Begin page -->
+        <div class="accountbg"></div>
+        <div class="wrapper-page">
+
             <div class="card">
-                <div class="card-content">
-                    <span class="card-title">Авторизация</span>
-                    <form method="POST" action="{{ url_for('routes.login') }}">
-                        <div class="input-field">
-                            <input id="username" type="text" class="validate" name="username" required>
-                            <label for="username">Имя пользователя</label>
-                        </div>
-                        <div class="input-field">
+                <div class="card-body">
 
-                            {% if password %}
-                                <input value="{{ password }}" id="password" type="text" class="validate" name="password"
-                                       required>
-                            {% else %}
-                                <input id="password" type="password" class="validate" name="password" required>
+                    <h3 class="text-center mt-0 m-b-15">
+                        <a href="index.html" class="logo logo-admin"><img src="assets/images/logo.png" height="30" alt="logo"></a>
+                    </h3>
+
+                    <h4 class="text-muted text-center font-18"><b>Вход в учетную запись</b></h4>
+
+                    <div class="p-3">
+
+                        {% if error == 1  %} 
+                            <div class="alert alert-warning alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                Сессия истекла: <b>требуется авторизация</b>
+                            </div>
+                        {% endif %}
+
+                        <form class="form-horizontal m-t-20" method="POST" action="{{ url_for('routes.login') }}">
+                            {% if status == 400  %}
+                                <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    Неправильный <b>Логин</b> или <b>Пароль</b>!
+                                </div>
                             {% endif %}
-                            <label for="password">Пароль</label>
-                            <a href="login?passwordGenerate=true" onclick="document.forms[1].submit();">Сгенерировать
-                                надежный пароль</a>
-                        </div>
-                        <button class="btn waves-effect waves-light" name="submit_button" type="submit" value="login">
-                            Войти
-                            <i class="material-icons right">send</i>
-                        </button>
-                        <button class="btn waves-effect waves-light" name="submit_button" type="submit"
-                                value="register">Зарегистрироваться
-                            <i class="material-icons right">send</i>
-                        </button>
-                    </form>
+
+                            {% if status == 401  %}
+                                <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    Ошибка <b>Пользователь не найден</b>!
+                                </div>
+                            {% endif %}
+                            
+                            {% if status == 200  %} 
+                                <div class="alert alert-success alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    Авторизовались, токен: <b>{{ token }}</b>
+                                </div>
+                            {% endif %}
+                            
+                            {% if status == 999  %}
+                                <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    Вы не можете войти с ролью: <b>{{rule}}</b>!
+                            </div>
+                            {% endif %}
+
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <input name="username" class="form-control" type="text" required="" placeholder="Логин">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <input name="password" class="form-control" type="password" required="" placeholder="Пароль">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Роль</label>
+
+
+                                <div class="col-sm-10">
+                                    <select name="rule"  class="form-control">
+                                        <option>Пользователь</option>
+                                        <option>Сотрудник</option>
+                                        <option>Администратор</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <b>&nbsp</b>
+
+                            <div class="form-group row">
+                                <div class="col-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                        <label class="custom-control-label" for="customCheck1">Запомнить меня</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group text-center row m-t-20">
+                                <div class="col-12">
+                                    <button class="btn btn-info btn-block waves-effect waves-light" type="submit">Войти</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group m-t-10 mb-0 row">
+                                <div class="col-sm-7 m-t-20">
+                                    <a href="pages-recoverpw.html" class="text-muted"><i class="mdi mdi-lock"></i> Забыли пароль?</a>
+                                </div>
+                                <div class="col-sm-5 m-t-20">
+                                    <a href="register" class="text-muted"><i class="mdi mdi-account-circle"></i> Создать аккаунт</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-</body>
 
-</html>
+
+
+        <!-- jQuery  -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/modernizr.min.js"></script>
+        <script src="assets/js/detect.js"></script>
+        <script src="assets/js/fastclick.js"></script>
+        <script src="assets/js/jquery.slimscroll.js"></script>
+        <script src="assets/js/jquery.blockUI.js"></script>
+        <script src="assets/js/waves.js"></script>
+        <script src="assets/js/jquery.nicescroll.js"></script>
+        <script src="assets/js/jquery.scrollTo.min.js"></script>
+
+        <!-- App js -->
+        <script src="assets/js/app.js"></script>
+
+    
+</body></html>
