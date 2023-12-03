@@ -92,12 +92,12 @@ class Create:
         user_obj.execute(self.__token, 'Issue', 'Issue Text', inventory_number)
         self.__ok = user_obj.status_code
 
-        user_obj.execute('v23c423v3', '4342c342vv2343c2v4c424vc32v24c2343vc324c234vv', 1)
+        user_obj.execute('v23c423v3', '4342c342vv2343c2v4c424vc32v24c2343vc324c234vv', 'BMuLczvcFvASPN8ryybzKVkOut03PvruC', 1)
         self.__bad_request = user_obj.status_code
 
         user_obj.execute(
             'GnpQIcODM9hyQqM1dwNs1uxFnUr7VCJF445lbaDZlHmQVf7TRpYCfeS1IhTIM0Mel9OiS7XJJWDi15edYbL2Laf1Y5Tt0bMKm2oJ6me4NxtWgFmK81bKNFRC8v1aKOoGBB9lb7ZmsZ16iN6halzuz1mIAYQtBF07qgEkRlEg7TKFc9qNSQvHWPIV7ak0DVbrBVO7aHOkJnA50TGLjfTjkqoS54UI87j9Eiofe3n9cIekWdsIDVP90Dq0hXlOMXKG',
-            '4342c342vv2343c2v4c424vc32v24c2343vc324c234vv',
+            '4342c342vv2343c2v4c424vc32v24c2343vc324c234vv', 'BMuLczvcFvASPN8ryybzKVkOut03PvruC',
             inventory_number
         )
         self.__unauthorized = user_obj.status_code
