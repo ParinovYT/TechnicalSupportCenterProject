@@ -17,7 +17,7 @@ class Create(ReportBase):
     def status_code(self) -> int:
         return self._status_code
 
-    def execute(self, token: str, issue: str, inventory_number: str) -> None:
+    def execute(self, token: str, issue: str, comments: str, inventory_number: str) -> None:
         MySQl = self._DB
         db_connection = MySQl.connection()
         MySQlQueries = MySQl.queries()
@@ -44,6 +44,7 @@ class Create(ReportBase):
 
             self._model_issue.user_id = query_user_info.id
             self._model_issue.issue = issue
+            self._model_issue.comments = comments
             self._model_issue.device_id = query_device.response.id  # !!!РЕАЛИЗОВАТЬ КЛАСС Device В КОТОРОМ БУДЕТ БУДЕТ ИНФОРМАЦИЯ ОБ deivces ПО ЕГО inventory_number!!!
             self._model_issue.created_at = int(time.time())
             self._model_issue.updated_at = int(time.time())

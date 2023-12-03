@@ -89,7 +89,7 @@ class Create:
 
     def exec(self, inventory_number: str):
         user_obj = Report().create()
-        user_obj.execute(self.__token, 'Issue', inventory_number)
+        user_obj.execute(self.__token, 'Issue', 'Issue Text', inventory_number)
         self.__ok = user_obj.status_code
 
         user_obj.execute('v23c423v3', '4342c342vv2343c2v4c424vc32v24c2343vc324c234vv', 1)

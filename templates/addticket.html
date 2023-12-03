@@ -18,7 +18,7 @@
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
         <link href="assets/css/style.css" rel="stylesheet" type="text/css">
-
+        <link href="netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     </head>
 
 
@@ -134,11 +134,21 @@
 
                                             <h4 class="mt-0 header-title">Создание заявки</h4>
                                             <p class="text-muted m-b-30 font-14">В этом поле вы можете ввести информацию и отправить ее специалистам технической поддержки.</p>
-
-                                            <div class="summernote">Подробное описание проблемы</div>
-
+                                            
+                        <form class="form-horizontal m-t-20" method="POST" action="{{ url_for('routes.addticket') }}">
+                                            <div class="form-group row">
+                                                <label for="label_desc" class="col-sm-2 col-form-label">Заголовок</label>
+                                                <div class="col-sm-10">
+                                                    <input name='desc_ticket' class="form-control form-control-sm" type="text" placeholder="Введите краткую информацию" id="label_desc">
+                                                </div>
+                                            </div>
+                                            <textarea id="summernote" name="text_ticket" class='summernote'></textarea>
                                         </div>
                                     </div>
+                                    <button type="submit" class="btn btn-primary waves-effect m-l-5">
+                                        Отправить
+                                    </button>
+                                </form>
                                 </div> <!-- end col -->
                             </div> <!-- end row -->
 

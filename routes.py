@@ -1,6 +1,7 @@
 import calendar
 import time
-from imports import Blueprint, redirect, render_template, request, User, session, getConfigurate, url_for, is_valid_password, is_valid_username
+
+from imports import Blueprint, redirect, render_template, request, User, Report, session, getConfigurate, url_for, is_valid_password, is_valid_username
 
 routes = Blueprint('routes', __name__)
 
@@ -148,4 +149,17 @@ def addticket():
         return redirect(url_for('.login'))
     rule = session.get('type')
     if rule == 'Пользователь':
+        if request.method == 'POST':
+            login = session.get('login')
+            time_created = calendar.timegm(time.gmtime())
+            desc = request.form['desc_ticket']
+            text = request.form['text_ticket']
+            
+            user_obj = Report().create()
+            user_obj.execute(session.get('token'), desc, text, 'null')
+
+            
+            
+            print(f'Попытка создания заявки:\nLogin:{login}\nTime:{time_created}\nDescription:{desc}\nText:{text}\nStatus: {user_obj.status_code}')
+            
         return render_template('addticket.html', login=session.get('login'), rule=rule)

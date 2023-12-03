@@ -9,6 +9,7 @@ class ModelIssue(BaseModel):
         self.__id: int
         self.__user_id: int
         self.__issue: str
+        self.__comments: str
         self.__device_id: int
         self.__created_at: int
         self.__updated_at: int
@@ -41,6 +42,17 @@ class ModelIssue(BaseModel):
         if len(value) > value_len:
             raise ValueError(f'Max issue length {value_len}')
         self.__issue = value
+
+    @property
+    def comments(self) -> str:
+        return self.__comments
+
+    @comments.setter
+    def comments(self, value: str):
+        value_len: int = 1024
+        if len(value) > value_len:
+            raise ValueError(f'Max comments length {value_len}')
+        self.__comments = value
 
     @property
     def device_id(self) -> int:
