@@ -132,89 +132,45 @@
 
                     </div>
                     <!-- Top Bar End -->
-
                     <div class="page-content-wrapper ">
-
                         <div class="container-fluid">
-
-                            <div class="row">
-                                <div class="col-lg-6">
+                            <div id="accordion">
+                                {% for category in template_issueses['categories'] %}
                                     <div class="card m-b-30">
-                                        <div class="card-body">
-
-                                            <h4 class="mt-0 header-title">Диагностика и настройка оборудования/подключения интернет(а)</h4>
-                                          
-                                            <div class="list-group">
-                                                <a data-toggle="modal" data-target="#myModal1" class="list-group-item list-group-item-action">Иногда внезапно возникают проблемы со скоростью интернета, через некоторое время всё налаживается.</a>
-                                                <a data-toggle="modal" data-target="#myModal2" class="list-group-item list-group-item-action">Постоянно низкая скорость.</a>
-                                              </div>
+                                        <div class="card-header" id="heading{{ loop.index }}">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
+                                                    {{ category['category'] }}
+                                                </button>
+                                            </h5>
                                         </div>
-                                    </div>
-                                </div>
-
-                                
-                                <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h5 class="modal-title" id="myModalLabel">Возможные проблемы по вашему вопросу</h5>
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
-                                            <span aria-hidden="true">&times;</span>
-                                          </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div id="accordion" role="tablist" aria-multiselectable="true">
-                                                <div class="card">
-                                                    <div class="card-header" role="tab" id="headingOne">
-                                                        <h5 class="mb-0 mt-0 font-16">
-                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="text-dark collapsed">
-                                                                МБ/с и Мбит/с — не одно и то же
-                                                            </a>
-                                                        </h5>
-                                                    </div>
-
-                                                    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" style="">
-                                                        <div class="card-body">
-                                                            <p>Как правило, интернет-провайдеры, описывая тарифный план, обозначают скорость в битах в секунду (бит/с). Но в сети также встречается другой вариант измерения — в байтах в секунду (Б/с). Это может сбивать с толку.</p>
-                                                            
-                                                            <p>Например, на этой картинке скорость скачивания составляет 94.56 Мбит/с (Mbit/s):</p>
-
-                                                            <img src="//rt-static.rt.ru/sites/default/files/img/support/internet-4-32-01.png" class="">
+                        
+                                        <div id="collapse{{ loop.index }}" class="collapse" aria-labelledby="heading{{ loop.index }}" data-parent="#accordion">
+                                            <div class="card-body">
+                                                {% for issue in category['list'] %}
+                                                    <div class="card m-b-3">
+                                                        <div class="card-header" id="issueHeading{{ loop.index0 }}">
+                                                            <h5 class="mb-0">
+                                                                <button class="btn btn-link" data-toggle="collapse" data-target="#issueCollapse{{ loop.index0 }}_{{ loop.index }}" aria-expanded="true" aria-controls="issueCollapse{{ loop.index0 }}_{{ loop.index }}">
+                                                                    {{ issue['issue'] }}
+                                                                </button>
+                                                            </h5>
+                                                        </div>
+                                                        <div id="issueCollapse{{ loop.index0 }}_{{ loop.index }}" class="collapse" aria-labelledby="issueHeading{{ loop.index0 }}">
+                                                            <div class="card-body">
+                                                                {{ issue['solution'] }}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="card">
-                                                    <div class="card-header" role="tab" id="headingTwo">
-                                                        <h5 class="mb-0 mt-0 font-16">
-                                                            <a class="collapsed text-dark" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                                Ограничение скорости на оборудовании или неисправность на сетях провайдера
-                                                            </a>
-                                                        </h5>
-                                                    </div>
-                                                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                        <div class="card-body">
-                                                            <p> Обратитесь к нам любым удобным способом и опишите вашу ситуацию, чтобы мы могли выявить причину проблемы.</p>
-
-                                                            <p>Пример обращения:</p>
-                                                            
-                                                            Низкая скорость интернета. В кабинете 304, 8 корпус, при скачивании скорость не больше 10 Мбит/с. Компьютер подключен к интернету кабелем, не по Wi-Fi. Я проверил: в настройках сетевой карты выставлено 100 Мбит/с, просканировал ПК антивирусом, ничего не нашел. Иванов Петр Семенович.
-                                                        </div>
-                                                    </div>
-                                                </div>   
+                                                {% endfor %}
+                                            </div>
                                         </div>
-                                        <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                                        </div>
-                                      </div>
                                     </div>
-                                  </div>
-
+                                {% endfor %}
                             </div>
+                        </div>
                             <!-- end row -->
-
                         </div><!-- container -->
-
-
                     </div>
 
                 </div> <!-- content -->
@@ -229,6 +185,15 @@
         </div>
         <!-- END wrapper -->
 
+        <script>
+            $(document).ready(function () {
+                // Добавляем обработчик события клика для всех элементов с классом 'clickable'
+                $('.clickable').on('click', function () {
+                    // Переключаем состояние видимости collapse при клике
+                    $($(this).data('target')).collapse('toggle');
+                });
+            });
+        </script>
 
         <!-- jQuery  -->
         <script src="assets/js/jquery.min.js"></script>
