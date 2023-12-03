@@ -26,7 +26,7 @@ CREATE TABLE `category_issue` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `value` varchar(64) NOT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,6 +35,7 @@ CREATE TABLE `category_issue` (
 
 LOCK TABLES `category_issue` WRITE;
 /*!40000 ALTER TABLE `category_issue` DISABLE KEYS */;
+INSERT INTO `category_issue` VALUES (1,'Шоколадки с интернетом'),(2,'Шоколадки с устройством');
 /*!40000 ALTER TABLE `category_issue` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +101,6 @@ CREATE TABLE `issues` (
 
 LOCK TABLES `issues` WRITE;
 /*!40000 ALTER TABLE `issues` DISABLE KEYS */;
-INSERT INTO `issues` VALUES (1,1,'MEWMEW','[{\"sender\": \"user\", \"text\": \"<p>GAVGAV</p>\"}, {\"sender\": \"user\", \"text\": \"<p>MEWMEW</p>\"}]',1,1701600068,1701600100,1,0);
 /*!40000 ALTER TABLE `issues` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,13 +198,14 @@ DROP TABLE IF EXISTS `template_issueses`;
 CREATE TABLE `template_issueses` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `category_id` bigint unsigned NOT NULL,
-  `value` varchar(256) NOT NULL,
+  `issue` varchar(256) NOT NULL,
+  `solution` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `template_issueses_pk` (`value`),
+  UNIQUE KEY `template_issueses_pk` (`issue`),
   KEY `template_issueses_category_issue_id_fk` (`category_id`),
   CONSTRAINT `template_issueses_category_issue_id_fk` FOREIGN KEY (`category_id`) REFERENCES `category_issue` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,6 +214,7 @@ CREATE TABLE `template_issueses` (
 
 LOCK TABLES `template_issueses` WRITE;
 /*!40000 ALTER TABLE `template_issueses` DISABLE KEYS */;
+INSERT INTO `template_issueses` VALUES (2,1,'Иногда внезапно возникают проблемы со скоростью интернета, через некоторое время всё налаживается.','Обратитесь к нам любым удобным способом и опишите вашу ситуацию, чтобы мы могли выявить причину проблемы.\n\nПример обращения:\n\nНизкая скорость интернета. В кабинете 304, 8 корпус, при скачивании скорость не больше 10 Мбит/с. Компьютер подключен к интернету кабелем, не по Wi-Fi. Я проверил: в настройках сетевой карты выставлено 100 Мбит/с, просканировал ПК антивирусом, ничего не нашел. Иванов Петр Семенович.'),(3,1,'Сетевой путь не найден”(The Network Path Cannot Be Found) , “IP-адрес не найден”( IP Address Could Not Be Found) или “DNS-имя не существует”(DNS Name Does Not Exist)','рабочие станции и другие сетевые устройства можно настроить на использование своих собственных DNS-серверов, игнорируя сервер, назначенный DHCP. Проверка настроек «Протокол Интернета версии 4 (TCP/IP)» для вашего адаптера покажет, если указан неправильный DNS-сервер, поэтому просто выберите «Получить адрес DNS-сервера автоматически»');
 /*!40000 ALTER TABLE `template_issueses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,7 +246,6 @@ CREATE TABLE `tokens` (
 
 LOCK TABLES `tokens` WRITE;
 /*!40000 ALTER TABLE `tokens` DISABLE KEYS */;
-INSERT INTO `tokens` VALUES (1,1,'0dabf556f34a9c0debfe103c1e0f8a3bb54f03a776a1f33f80fb26d89447cd0a',1701600045,1701600045,3600);
 /*!40000 ALTER TABLE `tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -276,7 +277,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'User123','bc5848f227cc161eb5f68dfe98cb13110a9c843ce69e953a88107d865583d397',1701600040,4,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -289,4 +289,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-03 11:06:38
+-- Dump completed on 2023-12-03 11:24:51
