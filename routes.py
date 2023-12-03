@@ -6,6 +6,14 @@ routes = Blueprint('routes', __name__)
 
 cfg = getConfigurate()
 
+@routes.errorhandler(AttributeError)
+def handle_attribute_error(e):
+    return redirect('/error_page')
+
+@routes.route('/error_page')
+def error_page():
+    return render_template('errors/500.html')
+
 def checkLogin():
     result = False
     if 'login' in session and 'time' in session and 'token' in session and 'type' in session:  
