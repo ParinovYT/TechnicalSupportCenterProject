@@ -6,13 +6,10 @@ routes = Blueprint('routes', __name__)
 
 cfg = getConfigurate()
 
-@routes.errorhandler(AttributeError)
-def handle_attribute_error(e):
-    return redirect('/error_page')
-
-@routes.route('/error_page')
-def error_page():
-    return render_template('errors/500.html')
+if cfg['server_debug'] == False:
+    @routes.errorhandler(Exception)
+    def handle_error(e):
+        return render_template('errors/500.html', error=e)
 
 def checkLogin():
     result = False
