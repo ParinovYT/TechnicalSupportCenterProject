@@ -55,6 +55,7 @@ CREATE TABLE `issues` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint unsigned NOT NULL,
   `issue` varchar(256) NOT NULL,
+  `comments` longtext NOT NULL,
   `device_id` bigint unsigned NOT NULL,
   `created_at` bigint unsigned NOT NULL,
   `updated_at` bigint unsigned NOT NULL,
