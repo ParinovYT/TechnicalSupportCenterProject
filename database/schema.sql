@@ -16,6 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `category_issue`
+--
+
+DROP TABLE IF EXISTS `category_issue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `category_issue` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `value` varchar(64) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category_issue`
+--
+
+LOCK TABLES `category_issue` WRITE;
+/*!40000 ALTER TABLE `category_issue` DISABLE KEYS */;
+/*!40000 ALTER TABLE `category_issue` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `devices`
 --
 
@@ -68,7 +91,7 @@ CREATE TABLE `issues` (
   KEY `issues_users_id_fk` (`user_id`),
   CONSTRAINT `issues_devices_id_fk` FOREIGN KEY (`device_id`) REFERENCES `devices` (`id`),
   CONSTRAINT `issues_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,6 +100,7 @@ CREATE TABLE `issues` (
 
 LOCK TABLES `issues` WRITE;
 /*!40000 ALTER TABLE `issues` DISABLE KEYS */;
+INSERT INTO `issues` VALUES (1,1,'MEWMEW','[{\"sender\": \"user\", \"text\": \"<p>GAVGAV</p>\"}, {\"sender\": \"user\", \"text\": \"<p>MEWMEW</p>\"}]',1,1701600068,1701600100,1,0);
 /*!40000 ALTER TABLE `issues` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,6 +197,7 @@ DROP TABLE IF EXISTS `template_issueses`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `template_issueses` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `category_id` bigint unsigned NOT NULL,
   `value` varchar(256) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
@@ -208,7 +233,7 @@ CREATE TABLE `tokens` (
   UNIQUE KEY `tokens_pk` (`token`),
   KEY `tokens_users_id_fk` (`user_id`),
   CONSTRAINT `tokens_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -217,6 +242,7 @@ CREATE TABLE `tokens` (
 
 LOCK TABLES `tokens` WRITE;
 /*!40000 ALTER TABLE `tokens` DISABLE KEYS */;
+INSERT INTO `tokens` VALUES (1,1,'0dabf556f34a9c0debfe103c1e0f8a3bb54f03a776a1f33f80fb26d89447cd0a',1701600045,1701600045,3600);
 /*!40000 ALTER TABLE `tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +265,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `users_pk` (`username`),
   KEY `users_rules_id_fk` (`rule`),
   CONSTRAINT `users_rules_id_fk` FOREIGN KEY (`rule`) REFERENCES `rules` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,6 +274,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'User123','bc5848f227cc161eb5f68dfe98cb13110a9c843ce69e953a88107d865583d397',1701600040,4,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -260,4 +287,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-03 10:38:46
+-- Dump completed on 2023-12-03 11:04:41
