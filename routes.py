@@ -116,8 +116,11 @@ def login():
     _token = 0
     _rule_selected = 0
     _rule_selected_index = 0
+    block_login = 0
+    
     
     if request.method == 'POST':
+        block_login = 0
         user_obj = User().sign_in()
         user_obj.execute(request.form['username'], request.form['password'], int(cfg['login_timeout']))  
         _status = user_obj.status_code
@@ -133,11 +136,14 @@ def login():
              
         if get_rule_by_login(request.form['username']) != _rule_selected_index:
             if get_rule_by_login(request.form['username']) != 2 or get_rule_by_login(request.form['username']) != 3 and _rule_selected_index != 4:      
-                return render_template('login.html', status=999, token='', rule=_rule_selected)
+                block_login = 1
         
         
         
         if _status == 200:
+            if block_login == 1:
+                return render_template('login.html', status=999, token='', rule=_rule_selected)
+            
             session['login'] = request.form['username']
             session['time'] = calendar.timegm(time.gmtime()) + int(cfg['login_timeout'])
             session['token'] = _token
