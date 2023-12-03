@@ -166,11 +166,17 @@
   <div class="c1">
     
   </div>
-  {% if status_ticket == 2 %}
+  {% if status_ticket == 3 %}
 
   {% else %}
     <textarea id="new-comment-text" class='summernote'></textarea>
-    <button class="btn btn-primary" onclick="addComment('user')">Добавить комментарий</button>
+
+    {% if rule == 'Пользователь' %}
+        <button class="btn btn-primary" onclick="addComment('user')">Добавить комментарий</button>
+    {% else %}
+        <button class="btn btn-primary" onclick="addComment('support')">Добавить комментарий</button>
+    {% endif %}
+
   {% endif %}
 
 

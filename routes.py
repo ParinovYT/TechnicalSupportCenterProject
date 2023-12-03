@@ -50,6 +50,63 @@ def get_rule_by_login(value: str):
     finally:
         db_connection.close()
 
+def get_stats():
+    stats = []
+    
+    db_connection = MySqlBase().connection()
+    db_connection.open()
+    try:
+        cursor = db_connection.connection.cursor()
+        
+        cursor.execute("SELECT COUNT(*) FROM issues")
+        tickets_all = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM users")
+        users_all = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM issues WHERE status = 0")
+        tickets_work = cursor.fetchone()[0]
+        
+        tickets_closed = tickets_all - tickets_work
+        stats = [tickets_closed, tickets_work, users_all]
+        return stats
+    finally:
+        db_connection.close()
+
+
+def get_all_tickets():
+    issues = [] 
+    db_connection = MySqlBase().connection()
+    db_connection.open()
+    try:
+        cursor = db_connection.connection.cursor()
+        cursor.execute('SELECT * FROM issues')
+        row = cursor.fetchall()      
+    finally:
+        db_connection.close()    
+        for rows in row:
+            issue_status = 'В работе'
+            issue_color = 'danger'
+            
+            if rows[8] == 0:
+                issue_color = 'info'
+                issue_status = 'Открыто'
+            elif rows[8] == 1:
+                issue_color = 'success'
+                issue_status = 'Решено'
+            elif rows[8] == 2:
+                issue_color = 'danger'
+                issue_status = 'В работе'
+            elif rows[8] == 3:
+                issue_color = 'warning'
+                issue_status = 'Закрыт'
+                
+            issue_date = datetime.fromtimestamp(int(rows[5])).strftime('%Y-%m-%d %H:%M:%S')
+            issue_date_update = datetime.fromtimestamp(int(rows[6])).strftime('%Y-%m-%d %H:%M:%S')  
+            issue = [str(rows[0]), issue_date, issue_date_update, str(rows[2]), issue_status, issue_color]
+            issues.append(issue)
+
+
+    return issues
+
 @routes.route('/login', methods=['GET', 'POST'])
 def login():
     if checkLogin() == True:
@@ -69,16 +126,24 @@ def login():
         _rule_selected = request.form['rule'] 
         if _rule_selected == 'Пользователь':
             _rule_selected_index = 4
-        
+        if _rule_selected == 'Сотрудник':
+            _rule_selected_index = 3
+        if _rule_selected == 'Администратор':
+            _rule_selected_index = 2   
+             
         if get_rule_by_login(request.form['username']) != _rule_selected_index:
-            return render_template('login.html', status=999, token='', rule=_rule_selected)
+            if get_rule_by_login(request.form['username']) != 2 or get_rule_by_login(request.form['username']) != 3 and _rule_selected_index != 4:      
+                return render_template('login.html', status=999, token='', rule=_rule_selected)
+        
+        
         
         if _status == 200:
             session['login'] = request.form['username']
             session['time'] = calendar.timegm(time.gmtime()) + int(cfg['login_timeout'])
             session['token'] = _token
             session['type'] = _rule_selected
-            return render_template('login.html', status=_status, token=_token)
+            return redirect(url_for('.home_general')) 
+            #return render_template('login.html', status=_status, token=_token)
         
     return render_template('login.html', status=_status, token=_token)
 
@@ -127,8 +192,10 @@ def home_general():
     rule = session.get('type')
     if rule == 'Пользователь':
         return render_template('userarea.html', login=session.get('login'), rule=rule)
-    else:
-        return render_template('example/home.html')
+    elif rule == 'Администратор':
+        stats = get_stats()
+        issues = get_all_tickets()
+        return render_template('admin/adminarea.html', login=session.get('login'), rule=rule, tickets_work=stats[1], tickets_done=stats[0], all_useers=stats[2], tickets=issues)
 
 @routes.route('/logout', methods=['GET', 'POST'])
 def logout():
@@ -180,8 +247,6 @@ def get_id_by_login():
     finally:
         db_connection.close()
 
-
-
 @routes.route('/my_tickets')
 def my_tickets():
     issues = []
@@ -205,12 +270,15 @@ def my_tickets():
             issue_status = 'В работе'
             issue_color = 'danger'
             if rows[8] == 0:
-                issue_color = 'danger'
-                issue_status = 'В работе'
+                issue_color = 'info'
+                issue_status = 'Открыто'
             elif rows[8] == 1:
                 issue_color = 'success'
                 issue_status = 'Решено'
             elif rows[8] == 2:
+                issue_color = 'danger'
+                issue_status = 'В работе'
+            elif rows[8] == 3:
                 issue_color = 'warning'
                 issue_status = 'Закрыт'
                 
@@ -271,7 +339,7 @@ def add_comment():
         comments_data.append(new_comment)
         cursor.execute("UPDATE issues SET comments = %s, updated_at = %s WHERE user_id = %s AND id = %s", (json.dumps(comments_data), calendar.timegm(time.gmtime()), user_id, ticket_id))       
         if sender == 'system': 
-             cursor.execute("UPDATE issues SET status = %s WHERE user_id = %s AND id = %s", ('2', user_id, ticket_id))         
+             cursor.execute("UPDATE issues SET status = %s WHERE user_id = %s AND id = %s", ('3', user_id, ticket_id))         
         db_connection.connection.commit()
     finally:
         cursor.close()
@@ -285,6 +353,27 @@ def viewticket():
     if checkLogin() == False:
         return redirect(url_for('.login'))
     rule = session.get('type')
+    if rule == 'Администратор':
+        if request.method == 'GET':
+            ticket_id = request.args.get('ticket_id')
+            db_connection = MySqlBase().connection()
+            db_connection.open()
+            try:
+                cursor = db_connection.connection.cursor()
+                cursor.execute('SELECT * FROM issues WHERE id = %s', (ticket_id,))
+                row = cursor.fetchall()      
+            finally:
+                db_connection.close()
+                
+            for rows in row:        
+                ticket_id = rows[0]
+                comments = json.loads(rows[3])
+                history_chat_.append({'comments': comments})
+                _status_ticket = rows[8]
+                
+        return render_template('viewticket.html', login=session.get('login'), rule=rule, id=ticket_id, history_chat=history_chat_, status_ticket=_status_ticket)
+    
+    
     if rule == 'Пользователь':
         if request.method == 'GET':
             ticket_id = request.args.get('ticket_id')

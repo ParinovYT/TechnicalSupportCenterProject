@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <title>TechnicalSupportCenterProject - adminarea</title>
+        <meta content="Admin Dashboard" name="description" />
+        <meta content="ThemeDesign" name="author" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <link rel="shortcut icon" href="assets/images/faviicon.png">
+
+        <!-- DataTables -->
+        <link href="assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <!-- Responsive datatable examples -->
+        <link href="assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
+        <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+
+    </head>
+
+
+    <body class="fixed-left">
+
+        <!-- Loader -->
+        <div id="preloader"><div id="status"><div class="spinner"></div></div></div>
+
+        <!-- Begin page -->
+        <div id="wrapper">
+
+            <!-- ========== Left Sidebar Start ========== -->
+            <div class="left side-menu">
+                <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect">
+                    <i class="ion-close"></i>
+                </button>
+
+                <!-- LOGO -->
+                <div class="topbar-left">
+                    <div class="text-center">
+                        <!--<a href="index.html" class="logo">Admiry</a>-->
+                        <a href="index.html" class="logo"><img src="assets/images/logo.png" height="24" alt="logo"></a>
+                    </div>
+                </div>
+
+                <div class="sidebar-inner slimscrollleft">
+
+                    <div class="user-details">
+                        <div class="text-center">
+                            <img src="assets/images/users/avatar-5.jpg" alt="" class="rounded-circle">
+                        </div>
+                        <div class="user-info">
+                                <h4 class="font-16 text-white">{{login}}</h4>
+                                <h4 class="font-14 text-white">{{rule}}</h4>
+                        </div>
+                    </div>
+
+                <div id="sidebar-menu">
+                    <ul>
+                        <li class="menu-title text-white">Меню</li>
+
+                    <li>
+                        <a href="home" class="waves-effect">
+                            <i class="ti-home"></i>
+                            <span> Главная <span class="badge badge-primary"></span></span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="my_tickets" class="waves-effect">
+                            <i class="fa fa-ticket"></i>
+                            <span> Все заявки <span class="badge badge-primary"></span></span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="add_ticket" class="waves-effect">
+                            <i class="fa fa-users"></i>
+                            <span> Пользователи <span class="badge badge-primary"></span></span>
+                        </a>
+                    </li>
+
+                </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                </div> <!-- end sidebarinner -->
+            </div>
+            <!-- Left Sidebar End -->
+
+            <!-- Start right Content here -->
+
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+
+                    <!-- Top Bar Start -->
+                    <div class="topbar">
+
+                        <nav class="navbar-custom">
+
+                            <ul class="list-inline float-right mb-0">
+                              
+                                <li class="list-inline-item dropdown notification-list">
+                                    <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
+                                       aria-haspopup="false" aria-expanded="false">
+                                        <img src="assets/images/users/avatar-5.jpg" alt="user" class="rounded-circle">
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                                        <a class="dropdown-item" href="logout"><i class="mdi mdi-logout m-r-5 text-muted"></i> Выход</a>
+                                    </div>
+                                </li>
+
+                            </ul>
+
+                            <ul class="list-inline menu-left mb-0">
+                                <li class="list-inline-item">
+                                    <button type="button" class="button-menu-mobile open-left waves-effect">
+                                        <i class="ion-navicon"></i>
+                                    </button>
+                                </li>
+                                <li class="hide-phone list-inline-item app-search">
+                                    <h3 class="page-title">Портал технической поддержки | Главная</h3>
+                                </li>
+                            </ul>
+
+                            <div class="clearfix"></div>
+
+                        </nav>
+
+                    </div>
+                    <!-- Top Bar End -->
+
+                    <div class="page-content-wrapper ">
+			
+<div class="row col-12">
+                            <div class="col-md-6 col-xl-3">
+                                <div class="mini-stat clearfix bg-white">
+                                    <span class="mini-stat-icon"><i class="fa fa-ticket"></i></span>
+                                    <div class="mini-stat-info text-right text-light">
+                                        <span class="counter text-white">{{tickets_done}}</span> Решеные/закрытые заявки
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-3">
+                                <div class="mini-stat clearfix bg-success">
+                                    <span class="mini-stat-icon">
+                                        <i class="fa fa-ticket"></i>
+                                    </span>
+                                    <div class="mini-stat-info text-right text-light">
+                                        <span class="counter text-white">{{tickets_work}}</span> Заявки в работе
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-3">
+                                <div class="mini-stat clearfix bg-info">
+                                    <span class="mini-stat-icon">
+                                        <i class="ti-user"></i>
+                                    </span>
+                                    <div class="mini-stat-info text-right text-light">
+                                        <span class="counter text-white">{{all_useers}}</span> Всего пользователей
+                                    </div>
+                                </div>
+                            </div>
+                        </div>			
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+
+                                    <h4 class="mt-0 header-title">открытые заявки</h4>
+
+                                    <table id="datatable" class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>Идентификатор</th>
+                                            <th>Создано</th>
+                                            <th>Обновлено</th>
+                                            <th>Заголовок</th>
+                                            <th>Статус</th>
+                                            <th>Действия</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                       
+                                            {% for ticket in tickets %}
+                                            <tr>
+                                                {% if ticket[4] == 'Открыто' %}
+                                                 
+                                                <td>#{{ ticket[0] }}</td>
+                                                <td>{{ ticket[1] }}</td>
+                                                <td>{{ ticket[2] }}</td>
+                                                <td>{{ ticket[3] }}</td>
+                                                <td> <span class="badge badge-{{ ticket[5] }}">{{ ticket[4] }}</span></td>
+
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-dark waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                      Action
+                                                    </button>
+                                                    <div class="dropdown-menu" style="">
+                                                      <a class="btn btn-outline-info waves-effect waves-light dropdown-item view_ticket" href="view_ticket?ticket_id={{ ticket[0] }}">View</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="btn btn-outline-danger waves-effect waves-light dropdown-item delete_ticket" onclick="close_ticket('{{ ticket[0] }}')">Close</a>
+                                                    </div>
+                                                </td>
+                                                
+                                                {% endif %}
+                                            </tr>
+                                            {% endfor %}                                                    
+                                            
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                    
+                </div> <!-- content -->
+
+                <footer class="footer">
+                    © 2023 ParinovYT - ft by >.< Навалил.  <i class="mdi mdi-heart text-danger"></i>
+                </footer>
+
+            </div>
+            <!-- End Right content here -->
+
+        </div>
+        <!-- END wrapper -->
+
+
+        <!-- jQuery  -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/modernizr.min.js"></script>
+        <script src="assets/js/detect.js"></script>
+        <script src="assets/js/fastclick.js"></script>
+        <script src="assets/js/jquery.slimscroll.js"></script>
+        <script src="assets/js/jquery.blockUI.js"></script>
+        <script src="assets/js/waves.js"></script>
+        <script src="assets/js/jquery.nicescroll.js"></script>
+        <script src="assets/js/jquery.scrollTo.min.js"></script>
+        
+        <!-- Required datatable js -->
+        <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- Buttons examples -->
+        <script src="assets/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="assets/plugins/datatables/jszip.min.js"></script>
+        <script src="assets/plugins/datatables/pdfmake.min.js"></script>
+        <script src="assets/plugins/datatables/vfs_fonts.js"></script>
+        <script src="assets/plugins/datatables/buttons.html5.min.js"></script>
+        <script src="assets/plugins/datatables/buttons.print.min.js"></script>
+        <script src="assets/plugins/datatables/buttons.colVis.min.js"></script>
+        <!-- Responsive examples -->
+        <script src="assets/plugins/datatables/dataTables.responsive.min.js"></script>
+        <script src="assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+        <!-- Datatable init js -->
+        <script src="assets/pages/datatables.init.js"></script>
+
+
+        <!-- App js -->
+        <script src="assets/js/app.js"></script>
+
+        <script>
+            function close_ticket(id) {
+              $.post('/add_comment', { ticket_id: id, sender: 'system', text: 'Ваше обращение закрыть. Всего доброго!' }, function(response) {
+                location.reload();  // Перезагрузка страницы после добавления комментария
+              });
+            }
+          </script>
+
+
+    </body>
+</html>
