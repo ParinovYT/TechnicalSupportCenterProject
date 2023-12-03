@@ -201,7 +201,9 @@ CREATE TABLE `template_issueses` (
   `value` varchar(256) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `template_issueses_pk` (`value`)
+  UNIQUE KEY `template_issueses_pk` (`value`),
+  KEY `template_issueses_category_issue_id_fk` (`category_id`),
+  CONSTRAINT `template_issueses_category_issue_id_fk` FOREIGN KEY (`category_id`) REFERENCES `category_issue` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -287,4 +289,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-03 11:04:41
+-- Dump completed on 2023-12-03 11:06:38
