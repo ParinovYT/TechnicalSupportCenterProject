@@ -35,7 +35,7 @@ CREATE TABLE `category_issue` (
 
 LOCK TABLES `category_issue` WRITE;
 /*!40000 ALTER TABLE `category_issue` DISABLE KEYS */;
-INSERT INTO `category_issue` VALUES (1,'Шоколадки с интернетом'),(2,'Шоколадки с устройством');
+INSERT INTO `category_issue` VALUES (1,'Неполадки с интернетом'),(2,'Неполадки с устройством');
 /*!40000 ALTER TABLE `category_issue` ENABLE KEYS */;
 UNLOCK TABLES;
 
