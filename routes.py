@@ -1,9 +1,9 @@
 import calendar
 from datetime import datetime
 import json
-import time 
+import time
 
-from imports import Blueprint, redirect, render_template, request, User, Report, MySqlBase, session, getConfigurate, url_for, is_valid_password, is_valid_username
+from imports import Blueprint, redirect, render_template, request, User, Report, MySqlBase, TemplateIssue, session, getConfigurate, url_for, is_valid_password, is_valid_username
 
 routes = Blueprint('routes', __name__)
 
@@ -191,7 +191,18 @@ def home_general():
         return redirect(url_for('.login'))
     rule = session.get('type')
     if rule == 'Пользователь':
-        return render_template('userarea.html', login=session.get('login'), rule=rule)
+        __obj = TemplateIssue()
+        obj = __obj.get()
+        obj.execute()
+        obj.status_code   
+        
+        respone=obj.response
+        print(respone)
+        
+        text = json.loads(respone)      
+        print(text)
+        
+        return render_template('userarea.html', login=session.get('login'), rule=rule, template_issueses=text)
     elif rule == 'Администратор':
         stats = get_stats()
         issues = get_all_tickets()
