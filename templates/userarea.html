@@ -132,28 +132,45 @@
 
                     </div>
                     <!-- Top Bar End -->
-
                     <div class="page-content-wrapper ">
-
                         <div class="container-fluid">
-                            
-                            {% for issueses in template_issueses %}
-                            <div class="row">
-                                <div class="col-lg-6">
+                            <div id="accordion">
+                                {% for category in template_issueses['categories'] %}
                                     <div class="card m-b-30">
-                                        <div class="card-body">
-                                            <h4 class="mt-0 header-title">{{issueses}}</h4>                     
+                                        <div class="card-header" id="heading{{ loop.index }}">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
+                                                    {{ category['category'] }}
+                                                </button>
+                                            </h5>
+                                        </div>
+                        
+                                        <div id="collapse{{ loop.index }}" class="collapse" aria-labelledby="heading{{ loop.index }}" data-parent="#accordion">
+                                            <div class="card-body">
+                                                {% for issue in category['list'] %}
+                                                    <div class="card m-b-3">
+                                                        <div class="card-header" id="issueHeading{{ loop.index0 }}">
+                                                            <h5 class="mb-0">
+                                                                <button class="btn btn-link" data-toggle="collapse" data-target="#issueCollapse{{ loop.index0 }}_{{ loop.index }}" aria-expanded="true" aria-controls="issueCollapse{{ loop.index0 }}_{{ loop.index }}">
+                                                                    {{ issue['issue'] }}
+                                                                </button>
+                                                            </h5>
+                                                        </div>
+                                                        <div id="issueCollapse{{ loop.index0 }}_{{ loop.index }}" class="collapse" aria-labelledby="issueHeading{{ loop.index0 }}">
+                                                            <div class="card-body">
+                                                                {{ issue['solution'] }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}  
-
+                        </div>
                             <!-- end row -->
-
                         </div><!-- container -->
-
-
                     </div>
 
                 </div> <!-- content -->
@@ -168,6 +185,15 @@
         </div>
         <!-- END wrapper -->
 
+        <script>
+            $(document).ready(function () {
+                // Добавляем обработчик события клика для всех элементов с классом 'clickable'
+                $('.clickable').on('click', function () {
+                    // Переключаем состояние видимости collapse при клике
+                    $($(this).data('target')).collapse('toggle');
+                });
+            });
+        </script>
 
         <!-- jQuery  -->
         <script src="assets/js/jquery.min.js"></script>
