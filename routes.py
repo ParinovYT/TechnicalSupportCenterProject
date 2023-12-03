@@ -1,7 +1,8 @@
 import calendar
-import time
+from datetime import datetime
+import time 
 
-from imports import Blueprint, redirect, render_template, request, User, Report, session, getConfigurate, url_for, is_valid_password, is_valid_username
+from imports import Blueprint, redirect, render_template, request, User, Report, MySqlBase, session, getConfigurate, url_for, is_valid_password, is_valid_username
 
 routes = Blueprint('routes', __name__)
 
@@ -142,6 +143,81 @@ def logout():
     
     return redirect(url_for('.login'))
 
+def get_rule_by_value(value: str):
+    db_connection = MySqlBase().connection()
+    db_connection.open()
+    try:
+        cursor = db_connection.connection.cursor()
+
+        # Используем параметризованный запрос
+        cursor.execute("SELECT id FROM rules WHERE name=%s", (value,))
+
+        row = cursor.fetchone()
+
+        # Проверяем, есть ли результат
+        if row:
+            rule_id = int(row[0])
+            return rule_id
+        else:
+            # Если не найдено, можно вернуть, например, None
+            return 1
+    finally:
+        db_connection.close()
+
+def get_id_by_login():
+    db_connection = MySqlBase().connection()
+    db_connection.open()
+    try:
+        cursor = db_connection.connection.cursor()
+        cursor.execute("SELECT id FROM users WHERE username=%s", (session.get('login'),))
+        row = cursor.fetchone()
+        if row:
+            rule_id = int(row[0])
+            return rule_id
+        else:
+            return -1
+    finally:
+        db_connection.close()
+
+
+
+@routes.route('/my_tickets')
+def my_tickets():
+    issues = []
+    
+    
+    if checkLogin() == False:
+        return redirect(url_for('.login'))
+    rule = session.get('type')
+    if rule == 'Пользователь':
+        user_id = get_id_by_login()
+        db_connection = MySqlBase().connection()
+        db_connection.open()
+        try:
+            cursor = db_connection.connection.cursor()
+            cursor.execute('SELECT * FROM issues WHERE user_id = %s', (user_id,))
+            row = cursor.fetchall()      
+        finally:
+            db_connection.close()
+        
+        for rows in row:
+            issue_status = 'В работе'
+            issue_color = 'danger'
+            if rows[8] == 0:
+                issue_color = 'danger'
+                issue_status = 'В работе'
+            elif rows[8] == 1:
+                issue_color = 'success'
+                issue_status = 'Решено'
+            
+            issue_date = datetime.fromtimestamp(int(rows[5])).strftime('%Y-%m-%d %H:%M:%S')
+            issue_date_update = datetime.fromtimestamp(int(rows[6])).strftime('%Y-%m-%d %H:%M:%S')
+            
+            issue = [str(rows[0]), issue_date, issue_date_update, str(rows[2]), issue_status, issue_color]
+            issues.append(issue)
+
+
+        return render_template('mytickets.html', login=session.get('login'), rule=rule, tickets=issues)
 
 @routes.route('/add_ticket', methods=['GET', 'POST'])
 def addticket():

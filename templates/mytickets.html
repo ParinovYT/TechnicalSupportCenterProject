@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-        <title>TechnicalSupportCenterProject - Userarea</title>
+        <title>TechnicalSupportCenterProject - Issues Popular</title>
         <meta content="Admin Dashboard" name="description" />
         <meta content="ThemeDesign" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -122,7 +122,7 @@
                                     </button>
                                 </li>
                                 <li class="hide-phone list-inline-item app-search">
-                                    <h3 class="page-title">Портал технической поддержки | Помощь</h3>
+                                    <h3 class="page-title">Портал технической поддержки | Мои заявки</h3>
                                 </li>
                             </ul>
 
@@ -138,84 +138,59 @@
                         <div class="container-fluid">
 
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-12">
                                     <div class="card m-b-30">
                                         <div class="card-body">
 
-                                            <h4 class="mt-0 header-title">Диагностика и настройка оборудования/подключения интернет(а)</h4>
-                                          
-                                            <div class="list-group">
-                                                <a data-toggle="modal" data-target="#myModal1" class="list-group-item list-group-item-action">Иногда внезапно возникают проблемы со скоростью интернета, через некоторое время всё налаживается.</a>
-                                                <a data-toggle="modal" data-target="#myModal2" class="list-group-item list-group-item-action">Постоянно низкая скорость.</a>
-                                              </div>
+                                            <h4 class="mt-0 header-title">3аявки</h4>
+                                            <p class="text-muted m-b-30 font-14">
+                                                В этой таблице представлены все заявки, открытые вами.
+                                            </p>
+
+                                            <table id="datatable" class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Идентификатор</th>
+                                                    <th>Создано</th>
+                                                    <th>Обновлено</th>
+                                                    <th>Заголовок</th>
+                                                    <th>Статус</th>
+                                                    <th>Действия</th>
+                                                </tr>
+                                                </thead>
+
+                                                <tbody>
+                                               
+                                                    {% for ticket in tickets %}
+                                                    <tr>
+                                                        <td>#{{ ticket[0] }}</td>
+                                                        <td>{{ ticket[1] }}</td>
+                                                        <td>{{ ticket[2] }}</td>
+                                                        <td>{{ ticket[3] }}</td>
+                                                        <td> <span class="badge badge-{{ ticket[5] }}">{{ ticket[4] }}</span></td>
+
+                                                        <td class="text-center">
+                                                            <button type="button" class="btn btn-dark waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                              Action
+                                                            </button>
+                                                            <div class="dropdown-menu" style="">
+                                                              <a class="btn btn-outline-info waves-effect waves-light dropdown-item view_ticket" href="./index.php?page=view_ticket&amp;id=2" data-id="2">View</a>
+                                                              <div class="dropdown-divider"></div>
+                                                              <a class="btn btn-outline-danger waves-effect waves-light dropdown-item delete_ticket" href="javascript:void(0)" data-id="2">Close</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}                                                    
+                                                    
+
+                                                </tbody>
+                                            </table>
+
                                         </div>
                                     </div>
-                                </div>
-
-                                
-                                <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h5 class="modal-title" id="myModalLabel">Возможные проблемы по вашему вопросу</h5>
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
-                                            <span aria-hidden="true">&times;</span>
-                                          </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div id="accordion" role="tablist" aria-multiselectable="true">
-                                                <div class="card">
-                                                    <div class="card-header" role="tab" id="headingOne">
-                                                        <h5 class="mb-0 mt-0 font-16">
-                                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="text-dark collapsed">
-                                                                МБ/с и Мбит/с — не одно и то же
-                                                            </a>
-                                                        </h5>
-                                                    </div>
-
-                                                    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" style="">
-                                                        <div class="card-body">
-                                                            <p>Как правило, интернет-провайдеры, описывая тарифный план, обозначают скорость в битах в секунду (бит/с). Но в сети также встречается другой вариант измерения — в байтах в секунду (Б/с). Это может сбивать с толку.</p>
-                                                            
-                                                            <p>Например, на этой картинке скорость скачивания составляет 94.56 Мбит/с (Mbit/s):</p>
-
-                                                            <img src="//rt-static.rt.ru/sites/default/files/img/support/internet-4-32-01.png" class="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card">
-                                                    <div class="card-header" role="tab" id="headingTwo">
-                                                        <h5 class="mb-0 mt-0 font-16">
-                                                            <a class="collapsed text-dark" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                                Ограничение скорости на оборудовании или неисправность на сетях провайдера
-                                                            </a>
-                                                        </h5>
-                                                    </div>
-                                                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                        <div class="card-body">
-                                                            <p> Обратитесь к нам любым удобным способом и опишите вашу ситуацию, чтобы мы могли выявить причину проблемы.</p>
-
-                                                            <p>Пример обращения:</p>
-                                                            
-                                                            Низкая скорость интернета. В кабинете 304, 8 корпус, при скачивании скорость не больше 10 Мбит/с. Компьютер подключен к интернету кабелем, не по Wi-Fi. Я проверил: в настройках сетевой карты выставлено 100 Мбит/с, просканировал ПК антивирусом, ничего не нашел. Иванов Петр Семенович.
-                                                        </div>
-                                                    </div>
-                                                </div>   
-                                        </div>
-                                        <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                            </div>
-                            <!-- end row -->
-
-                        </div><!-- container -->
-
-
-                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+                    </div> <!-- Page content Wrapper -->
 
                 </div> <!-- content -->
 
