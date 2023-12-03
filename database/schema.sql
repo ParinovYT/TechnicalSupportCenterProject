@@ -154,7 +154,7 @@ CREATE TABLE `rules` (
 
 LOCK TABLES `rules` WRITE;
 /*!40000 ALTER TABLE `rules` DISABLE KEYS */;
-INSERT INTO `rules` VALUES (1,'L1'),(2,'L2'),(3,'L3'),(4,'user');
+INSERT INTO `rules` VALUES (1,'banned'),(2,'admin'),(3,'staff'),(4,'user');
 /*!40000 ALTER TABLE `rules` ENABLE KEYS */;
 UNLOCK TABLES;
 
