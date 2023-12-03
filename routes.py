@@ -210,7 +210,10 @@ def my_tickets():
             elif rows[8] == 1:
                 issue_color = 'success'
                 issue_status = 'Решено'
-            
+            elif rows[8] == 2:
+                issue_color = 'warning'
+                issue_status = 'Закрыт'
+                
             issue_date = datetime.fromtimestamp(int(rows[5])).strftime('%Y-%m-%d %H:%M:%S')
             issue_date_update = datetime.fromtimestamp(int(rows[6])).strftime('%Y-%m-%d %H:%M:%S')
             
@@ -252,7 +255,7 @@ from flask import request
 def add_comment():
     comments_data = []
     ticket_id = request.form['ticket_id']  # Получаем ticket_id
-    sender = request.form['sender']  # Получаем отправителя (user или support)
+    sender = request.form['sender']  # Получаем отправителя
     text = request.form['text']  # Получаем текст комментария
 
     user_id = get_id_by_login()
@@ -267,13 +270,14 @@ def add_comment():
         new_comment = {'sender': sender, 'text': text}
         comments_data.append(new_comment)
         cursor.execute("UPDATE issues SET comments = %s, updated_at = %s WHERE user_id = %s AND id = %s", (json.dumps(comments_data), calendar.timegm(time.gmtime()), user_id, ticket_id))       
+        if sender == 'system': 
+             cursor.execute("UPDATE issues SET status = %s WHERE user_id = %s AND id = %s", ('2', user_id, ticket_id))         
         db_connection.connection.commit()
     finally:
         cursor.close()
         db_connection.close()
-
-    return f'Комментарий добавлен успешно!\nUserID:{user_id}\nTicketID:{ticket_id}\nComments:{comments_data}\nSQL: {0}'
-
+        
+    return f'200'
 
 @routes.route('/view_ticket', methods=['GET', 'POST'])
 def viewticket():
@@ -298,5 +302,6 @@ def viewticket():
                 ticket_id = rows[0]
                 comments = json.loads(rows[3])
                 history_chat_.append({'comments': comments})
+                _status_ticket = rows[8]
                 
-        return render_template('viewticket.html', login=session.get('login'), rule=rule, id=ticket_id, history_chat=history_chat_)    
+        return render_template('viewticket.html', login=session.get('login'), rule=rule, id=ticket_id, history_chat=history_chat_, status_ticket=_status_ticket)    

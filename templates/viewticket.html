@@ -30,6 +30,12 @@
           padding: 10px;
           margin-bottom: 10px;
         }
+        .system-message {
+            background-color: #efcbf0;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
         .c1 {
             background-color: transparent;
             border-radius: 10px;
@@ -151,18 +157,21 @@
                                 <div class="user-message"><strong>Пользователь:</strong> {{ comment['text']|safe }}</div>
                             {% elif comment['sender'] == 'support' %}
                                 <div class="support-message"><strong>Поддержка:</strong> {{ comment['text']|safe }}</div>
+                            {% elif comment['sender'] == 'system' %}
+                                <div class="system-message"><strong>Система:</strong> {{ comment['text']|safe }}</div>
                             {% endif %}
                         {% endfor %}     
                       {% endfor %}     
 
-
   <div class="c1">
     
   </div>
+  {% if status_ticket == 2 %}
 
-  <textarea id="new-comment-text" class='summernote'></textarea>
-  
-        <button class="btn btn-primary" onclick="addComment('user')">Добавить комментарий</button>
+  {% else %}
+    <textarea id="new-comment-text" class='summernote'></textarea>
+    <button class="btn btn-primary" onclick="addComment('user')">Добавить комментарий</button>
+  {% endif %}
 
 
                     </div>
@@ -218,7 +227,6 @@
           
               // Выполнение POST-запроса
               $.post('/add_comment', { ticket_id: {{id}}, sender: sender, text: text }, function(response) {
-                alert(response);  // Показываем сообщение об успешном добавлении (можно заменить на более красивое уведомление)
                 location.reload();  // Перезагрузка страницы после добавления комментария
               });
             }

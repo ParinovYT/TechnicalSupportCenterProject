@@ -175,8 +175,12 @@
                                                             </button>
                                                             <div class="dropdown-menu" style="">
                                                               <a class="btn btn-outline-info waves-effect waves-light dropdown-item view_ticket" href="view_ticket?ticket_id={{ ticket[0] }}">View</a>
-                                                              <div class="dropdown-divider"></div>
-                                                              <a class="btn btn-outline-danger waves-effect waves-light dropdown-item delete_ticket" href="javascript:void(0)" data-id="2">Close</a>
+                                                              {% if ticket[4] == 'Закрыт' %}
+
+                                                              {% else %}
+                                                                <div class="dropdown-divider"></div>
+                                                                <a class="btn btn-outline-danger waves-effect waves-light dropdown-item delete_ticket" onclick="close_ticket('{{ ticket[0] }}')">Close</a>
+                                                              {% endif %}
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -240,6 +244,14 @@
 
         <!-- App js -->
         <script src="assets/js/app.js"></script>
+
+        <script>
+            function close_ticket(id) {
+              $.post('/add_comment', { ticket_id: id, sender: 'system', text: 'Пользователь закрыл обращение' }, function(response) {
+                location.reload();  // Перезагрузка страницы после добавления комментария
+              });
+            }
+          </script>
 
     </body>
 </html>
