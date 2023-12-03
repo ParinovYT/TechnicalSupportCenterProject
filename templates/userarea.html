@@ -134,43 +134,56 @@
                     <!-- Top Bar End -->
                     <div class="page-content-wrapper ">
                         <div class="container-fluid">
-                            <div id="accordion">
-                                {% for category in template_issueses['categories'] %}
-                                    <div class="card m-b-30">
-                                        <div class="card-header" id="heading{{ loop.index }}">
-                                            <h5 class="mb-0">
-                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
-                                                    {{ category['category'] }}
-                                                </button>
-                                            </h5>
-                                        </div>
-                        
-                                        <div id="collapse{{ loop.index }}" class="collapse" aria-labelledby="heading{{ loop.index }}" data-parent="#accordion">
-                                            <div class="card-body">
-                                                {% for issue in category['list'] %}
-                                                    <div class="card m-b-3">
-                                                        <div class="card-header" id="issueHeading{{ loop.index0 }}">
-                                                            <h5 class="mb-0">
-                                                                <button class="btn btn-link" data-toggle="collapse" data-target="#issueCollapse{{ loop.index0 }}_{{ loop.index }}" aria-expanded="true" aria-controls="issueCollapse{{ loop.index0 }}_{{ loop.index }}">
-                                                                    {{ issue['issue'] }}
+                            {% for category in template_issueses['categories'] %}
+                            <div class="col-lg-6">
+                                <div class="card m-b-30">
+                                    <div class="card-body">
+                                        <h4 class="mt-0 header-title"> {{ category['category'] }} </h4>
+                                        <div class="list-group">
+                                            {% for issue in category['list'] %}
+                                                <a data-toggle="modal" data-target="#myModal{{ loop.index0 }}" class="list-group-item list-group-item-action">{{ issue['issue'] }}</a>
+                                                <div class="modal fade" id="myModal{{ loop.index0 }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="myModalLabel">Возможные проблемы по вашему вопросу</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                                                                  <span aria-hidden="true">&times;</span>
                                                                 </button>
-                                                            </h5>
-                                                        </div>
-                                                        <div id="issueCollapse{{ loop.index0 }}_{{ loop.index }}" class="collapse" aria-labelledby="issueHeading{{ loop.index0 }}">
-                                                            <div class="card-body">
-                                                                {{ issue['solution'] }}
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
+                                                            <div class="modal-body">
+                                                                <div id="accordion" role="tablist" aria-multiselectable="true">
+                                                                    <div class="card">
+                                                                        <div class="card-header" role="tab" id="headingOne">
+                                                                            <h5 class="mb-0 mt-0 font-16">
+                                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="text-dark collapsed">
+                                                                                    {{ issue['title'] }}
+                                                                                </a>
+                                                                            </h5>
+                                                                        </div>
+                                                                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" style="">
+                                                                            <div class="card-body">
+                                                                                {{issue['solution']|safe}}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>   
+                                                                </div>   
+                                                            </div>  
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                                            </div> 
+                                                        </div>       
+                                                    </div> 
+                                                </div>
+                                            {% endfor %}
+                                          </div>
                                     </div>
-                                {% endfor %}
+                                </div>
                             </div>
+
+                            
+                            {% endfor %}
                         </div>
-                            <!-- end row -->
-                        </div><!-- container -->
                     </div>
 
                 </div> <!-- content -->

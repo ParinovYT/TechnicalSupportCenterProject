@@ -198,6 +198,7 @@ DROP TABLE IF EXISTS `template_issueses`;
 CREATE TABLE `template_issueses` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `category_id` bigint unsigned NOT NULL,
+  `title` varchar(256) NOT NULL,
   `issue` varchar(256) NOT NULL,
   `solution` text NOT NULL,
   PRIMARY KEY (`id`),

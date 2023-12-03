@@ -23,6 +23,7 @@ class TemplateIssue(MySqlQuery):
             cursor.execute("""
             SELECT template_issueses.id,
             ci.value as category,
+            title,
             issue,
             solution
             FROM template_issueses
@@ -40,8 +41,9 @@ class TemplateIssue(MySqlQuery):
             for row in rows:
                 category = row[1]  # Assuming category is at index 1 in the result
                 issue_id = row[0]  # Assuming issue_id is at index 0 in the result
-                issue = row[2]  # Assuming issue is at index 2 in the result
-                solution = row[3]  # Assuming solution is at index 3 in the result
+                title = row[2]
+                issue = row[3]  # Assuming issue is at index 2 in the result
+                solution = row[4]  # Assuming solution is at index 3 in the result
 
                 if current_category != category:
                     if category_data["category"]:
@@ -52,6 +54,7 @@ class TemplateIssue(MySqlQuery):
 
                 category_data["list"].append({
                     "issue_id": issue_id,
+                    "title": title,
                     "issue": issue,
                     "solution": solution
                 })
