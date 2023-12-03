@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>TechnicalSupportCenterProject - View Ticket</title>
+    <meta content="Admin Dashboard" name="description" />
+    <meta content="ThemeDesign" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="assets/images/faviicon.png">
+    <!-- Summernote css -->
+    <link href="assets/plugins/summernote/summernote-bs4.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css">
+    <link href="netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+    <style>
+        /* Custom styling */
+        .user-message {
+          background-color: #f0f0f0;
+          border-radius: 10px;
+          padding: 10px;
+          margin-bottom: 10px;
+        }
+        .support-message {
+          background-color: #e2f0cb;
+          border-radius: 10px;
+          padding: 10px;
+          margin-bottom: 10px;
+        }
+        .c1 {
+            background-color: transparent;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+          }
+      </style>
+
+  </head>
+  <body class="fixed-left">
+    <!-- Loader -->
+    <div id="preloader">
+      <div id="status">
+        <div class="spinner"></div>
+      </div>
+    </div>
+    <!-- Begin page -->
+    <div id="wrapper">
+      <!-- ========== Left Sidebar Start ========== -->
+      <div class="left side-menu">
+        <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect">
+          <i class="ion-close"></i>
+        </button>
+        <!-- LOGO -->
+        <div class="topbar-left">
+          <div class="text-center">
+            <!--<a href="index.html" class="logo">Admiry</a>-->
+            <a href="index.html" class="logo">
+              <img src="assets/images/logo.png" height="24" alt="logo">
+            </a>
+          </div>
+        </div>
+        <div class="sidebar-inner slimscrollleft">
+          <div class="user-details">
+            <div class="text-center">
+              <img src="assets/images/users/avatar-5.jpg" alt="" class="rounded-circle">
+            </div>
+            <div class="user-info">
+              <h4 class="font-16 text-white">{{login}}</h4>
+              <h4 class="font-14 text-white">{{rule}}</h4>
+            </div>
+          </div>
+          <div id="sidebar-menu">
+            <ul>
+              <li class="menu-title text-white">Меню</li>
+              <li>
+                <a href="home" class="waves-effect">
+                  <i class="ti-home"></i>
+                  <span> Главная <span class="badge badge-primary"></span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="my_tickets" class="waves-effect">
+                  <i class="fa fa-ticket"></i>
+                  <span> Мои заявки <span class="badge badge-primary"></span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="add_ticket" class="waves-effect">
+                  <i class="fa fa-ticket"></i>
+                  <span> Создать заявку <span class="badge badge-primary"></span>
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <!-- end sidebarinner -->
+      </div>
+      <!-- Left Sidebar End -->
+      <!-- Start right Content here -->
+      <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+          <!-- Top Bar Start -->
+          <div class="topbar">
+            <nav class="navbar-custom">
+              <ul class="list-inline float-right mb-0">
+                <li class="list-inline-item dropdown notification-list">
+                  <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    <img src="assets/images/users/avatar-5.jpg" alt="user" class="rounded-circle">
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                    <a class="dropdown-item" href="logout">
+                      <i class="mdi mdi-logout m-r-5 text-muted"></i> Выход </a>
+                  </div>
+                </li>
+              </ul>
+              <ul class="list-inline menu-left mb-0">
+                <li class="list-inline-item">
+                  <button type="button" class="button-menu-mobile open-left waves-effect">
+                    <i class="ion-navicon"></i>
+                  </button>
+                </li>
+                <li class="hide-phone list-inline-item app-search">
+                  <h3 class="page-title">Портал технической поддержки | Просмотр заявки</h3>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </nav>
+          </div>
+          <!-- Top Bar End -->
+          <div class="page-content-wrapper ">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card m-b-30">
+                    <div class="card-body">
+                      <h4 class="mt-0 header-title">Заявка #{{id}}</h4>
+                      <p class="text-muted m-b-30 font-14">В этом поле вы можете взаимодействовать с вашей заявкой.</p>
+
+              
+                      {% for message in history_chat %}
+                        {% for comment in message['comments'] %}
+                            {% if comment['sender'] == 'user' %}
+                                <div class="user-message"><strong>Пользователь:</strong> {{ comment['text']|safe }}</div>
+                            {% elif comment['sender'] == 'support' %}
+                                <div class="support-message"><strong>Поддержка:</strong> {{ comment['text']|safe }}</div>
+                            {% endif %}
+                        {% endfor %}     
+                      {% endfor %}     
+
+
+  <div class="c1">
+    
+  </div>
+
+  <textarea id="new-comment-text" class='summernote'></textarea>
+  
+        <button class="btn btn-primary" onclick="addComment('user')">Добавить комментарий</button>
+
+
+                    </div>
+                    <!-- end col -->
+                  </div>
+                  <!-- end row -->
+                </div>
+                <!-- container -->
+              </div>
+              <!-- Page content Wrapper -->
+            </div>
+            <!-- content -->
+            <footer class="footer"> © 2023 ParinovYT - ft by >.< Навалил. <i class="mdi mdi-heart text-danger"></i>
+            </footer>
+          </div>
+          <!-- End Right content here -->
+        </div>
+        <!-- END wrapper -->
+        <!-- jQuery  -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/modernizr.min.js"></script>
+        <script src="assets/js/detect.js"></script>
+        <script src="assets/js/fastclick.js"></script>
+        <script src="assets/js/jquery.slimscroll.js"></script>
+        <script src="assets/js/jquery.blockUI.js"></script>
+        <script src="assets/js/waves.js"></script>
+        <script src="assets/js/jquery.nicescroll.js"></script>
+        <script src="assets/js/jquery.scrollTo.min.js"></script>
+        <!--Summernote js-->
+        <script src="assets/plugins/summernote/summernote-bs4.min.js"></script>
+        <!-- App js -->
+        <script src="assets/js/app.js"></script>
+        <script>
+          jQuery(document).ready(function() {
+            $('.summernote').summernote({
+              height: 300, // set editor height
+              minHeight: null, // set minimum height of editor
+              maxHeight: null, // set maximum height of editor
+              focus: true // set focus to editable area after initializing summernote
+            });
+          });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+              $('.summernote').summernote();
+            });
+          
+            function addComment(sender) {
+              var text = $('#new-comment-text').summernote('code');  // Получаем текст из Summernote
+          
+              // Выполнение POST-запроса
+              $.post('/add_comment', { ticket_id: {{id}}, sender: sender, text: text }, function(response) {
+                alert(response);  // Показываем сообщение об успешном добавлении (можно заменить на более красивое уведомление)
+                location.reload();  // Перезагрузка страницы после добавления комментария
+              });
+            }
+          </script>
+  </body>
+</html>
