@@ -16,6 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `category_issue`
+--
+
+DROP TABLE IF EXISTS `category_issue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `category_issue` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `value` varchar(64) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category_issue`
+--
+
+LOCK TABLES `category_issue` WRITE;
+/*!40000 ALTER TABLE `category_issue` DISABLE KEYS */;
+INSERT INTO `category_issue` VALUES (1,'Шоколадки с интернетом'),(2,'Шоколадки с устройством');
+/*!40000 ALTER TABLE `category_issue` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `devices`
 --
 
@@ -32,7 +56,7 @@ CREATE TABLE `devices` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `devices_pk` (`inventory_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +65,7 @@ CREATE TABLE `devices` (
 
 LOCK TABLES `devices` WRITE;
 /*!40000 ALTER TABLE `devices` DISABLE KEYS */;
+INSERT INTO `devices` VALUES (1,'null','null','2006-06-05 00:00:00',0,'0');
 /*!40000 ALTER TABLE `devices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +92,7 @@ CREATE TABLE `issues` (
   KEY `issues_users_id_fk` (`user_id`),
   CONSTRAINT `issues_devices_id_fk` FOREIGN KEY (`device_id`) REFERENCES `devices` (`id`),
   CONSTRAINT `issues_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,11 +197,15 @@ DROP TABLE IF EXISTS `template_issueses`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `template_issueses` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `value` varchar(256) NOT NULL,
+  `category_id` bigint unsigned NOT NULL,
+  `issue` varchar(256) NOT NULL,
+  `solution` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `template_issueses_pk` (`value`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `template_issueses_pk` (`issue`),
+  KEY `template_issueses_category_issue_id_fk` (`category_id`),
+  CONSTRAINT `template_issueses_category_issue_id_fk` FOREIGN KEY (`category_id`) REFERENCES `category_issue` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,6 +214,7 @@ CREATE TABLE `template_issueses` (
 
 LOCK TABLES `template_issueses` WRITE;
 /*!40000 ALTER TABLE `template_issueses` DISABLE KEYS */;
+INSERT INTO `template_issueses` VALUES (2,1,'Иногда внезапно возникают проблемы со скоростью интернета, через некоторое время всё налаживается.','Обратитесь к нам любым удобным способом и опишите вашу ситуацию, чтобы мы могли выявить причину проблемы.\n\nПример обращения:\n\nНизкая скорость интернета. В кабинете 304, 8 корпус, при скачивании скорость не больше 10 Мбит/с. Компьютер подключен к интернету кабелем, не по Wi-Fi. Я проверил: в настройках сетевой карты выставлено 100 Мбит/с, просканировал ПК антивирусом, ничего не нашел. Иванов Петр Семенович.'),(3,1,'Сетевой путь не найден”(The Network Path Cannot Be Found) , “IP-адрес не найден”( IP Address Could Not Be Found) или “DNS-имя не существует”(DNS Name Does Not Exist)','рабочие станции и другие сетевые устройства можно настроить на использование своих собственных DNS-серверов, игнорируя сервер, назначенный DHCP. Проверка настроек «Протокол Интернета версии 4 (TCP/IP)» для вашего адаптера покажет, если указан неправильный DNS-сервер, поэтому просто выберите «Получить адрес DNS-сервера автоматически»');
 /*!40000 ALTER TABLE `template_issueses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -207,7 +237,7 @@ CREATE TABLE `tokens` (
   UNIQUE KEY `tokens_pk` (`token`),
   KEY `tokens_users_id_fk` (`user_id`),
   CONSTRAINT `tokens_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,7 +268,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `users_pk` (`username`),
   KEY `users_rules_id_fk` (`rule`),
   CONSTRAINT `users_rules_id_fk` FOREIGN KEY (`rule`) REFERENCES `rules` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -259,4 +289,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-28 20:05:08
+-- Dump completed on 2023-12-03 11:24:51
