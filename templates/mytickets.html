@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-        <title>TechnicalSupportCenterProject - Issues Popular</title>
+        <title>TechnicalSupportCenterProject - Tickets</title>
         <meta content="Admin Dashboard" name="description" />
         <meta content="ThemeDesign" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -69,6 +69,25 @@
                         </a>
                     </li>
 
+                    {% if drawing_creator_ticket == 1 %}
+                    
+                       
+                    <li>
+                        <a href="my_tickets" class="waves-effect">
+                            <i class="fa fa-ticket"></i>
+                            <span> Все заявки <span class="badge badge-primary"></span></span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="users" class="waves-effect">
+                            <i class="fa fa-users"></i>
+                            <span> Пользователи <span class="badge badge-primary"></span></span>
+                        </a>
+                    </li>
+
+                    {% else %}
+
                     <li>
                         <a href="my_tickets" class="waves-effect">
                             <i class="fa fa-ticket"></i>
@@ -82,6 +101,14 @@
                             <span> Создать заявку <span class="badge badge-primary"></span></span>
                         </a>
                     </li>
+
+
+
+                    {% endif %}
+
+
+
+
 
                 </ul>
                     </div>
@@ -151,6 +178,9 @@
                                                 <thead>
                                                 <tr>
                                                     <th>Идентификатор</th>
+                                                    {% if drawing_creator_ticket == 1 %}
+                                                    <th>Автор</th>
+                                                    {% endif %}
                                                     <th>Создано</th>
                                                     <th>Обновлено</th>
                                                     <th>Заголовок</th>
@@ -164,6 +194,11 @@
                                                     {% for ticket in tickets %}
                                                     <tr>
                                                         <td>#{{ ticket[0] }}</td>
+
+                                                        {% if drawing_creator_ticket == 1 %}
+                                                            <td>{{ ticket[6] }}</td>
+                                                        {% endif %}
+
                                                         <td>{{ ticket[1] }}</td>
                                                         <td>{{ ticket[2] }}</td>
                                                         <td>{{ ticket[3] }}</td>

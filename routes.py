@@ -264,6 +264,58 @@ def get_id_by_login():
     finally:
         db_connection.close()
 
+def get_login_by_id(id):
+    db_connection = MySqlBase().connection()
+    db_connection.open()
+    try:
+        cursor = db_connection.connection.cursor()
+        cursor.execute("SELECT username FROM users WHERE id=%s", (id,))
+        row = cursor.fetchone()
+        if row:
+            rule_id = str(row[0])
+            return rule_id
+        else:
+            return ''
+    finally:
+        db_connection.close()
+
+@routes.route('/users')
+def users():
+    array = []
+    
+    
+    if checkLogin() == False:
+        return redirect(url_for('.login'))
+    rule = session.get('type')
+    if rule != 'Пользователь':
+        db_connection = MySqlBase().connection()
+        db_connection.open()
+        try:
+            cursor = db_connection.connection.cursor()
+            cursor.execute('SELECT * FROM users')
+            row = cursor.fetchall()      
+        finally:
+            db_connection.close()
+        
+        for rows in row:
+            registration_date = datetime.fromtimestamp(int(rows[3])).strftime('%Y-%m-%d %H:%M:%S')
+            _rule = None
+            __rule = rows[4]
+            
+            if __rule == 4:
+                _rule = 'Пользователь'
+            elif __rule == 3:
+                _rule = 'Сотрудник'
+            elif __rule == 2:
+                _rule = 'Администратор' 
+            elif __rule == 1:
+                _rule = 'Заблокирован'  
+                            
+            _str = [str(rows[0]), str(rows[1]), registration_date, _rule]
+            array.append(_str)    
+            
+        return render_template('admin/users.html', login=session.get('login'), rule=rule, users=array)
+
 @routes.route('/my_tickets')
 def my_tickets():
     issues = []
@@ -272,6 +324,40 @@ def my_tickets():
     if checkLogin() == False:
         return redirect(url_for('.login'))
     rule = session.get('type')
+    if rule != 'Пользователь':
+        db_connection = MySqlBase().connection()
+        db_connection.open()
+        try:
+            cursor = db_connection.connection.cursor()
+            cursor.execute('SELECT * FROM issues')
+            row = cursor.fetchall()      
+        finally:
+            db_connection.close()
+        
+        for rows in row:
+            issue_status = 'В работе'
+            issue_color = 'danger'
+            if rows[8] == 0:
+                issue_color = 'info'
+                issue_status = 'Открыто'
+            elif rows[8] == 1:
+                issue_color = 'success'
+                issue_status = 'Решено'
+            elif rows[8] == 2:
+                issue_color = 'danger'
+                issue_status = 'В работе'
+            elif rows[8] == 3:
+                issue_color = 'warning'
+                issue_status = 'Закрыт'
+                
+            issue_date = datetime.fromtimestamp(int(rows[5])).strftime('%Y-%m-%d %H:%M:%S')
+            issue_date_update = datetime.fromtimestamp(int(rows[6])).strftime('%Y-%m-%d %H:%M:%S')
+            
+            issue = [str(rows[0]), issue_date, issue_date_update, str(rows[2]), issue_status, issue_color, get_login_by_id(rows[1])]
+            issues.append(issue)    
+            
+        return render_template('mytickets.html', login=session.get('login'), drawing_creator_ticket=True,rule=rule, tickets=issues)
+    
     if rule == 'Пользователь':
         user_id = get_id_by_login()
         db_connection = MySqlBase().connection()
@@ -306,7 +392,7 @@ def my_tickets():
             issues.append(issue)
 
 
-        return render_template('mytickets.html', login=session.get('login'), rule=rule, tickets=issues)
+        return render_template('mytickets.html', drawing_creator_ticket=False, login=session.get('login'), rule=rule, tickets=issues)
 
 @routes.route('/add_ticket', methods=['GET', 'POST'])
 def addticket():

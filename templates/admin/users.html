@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-        <title>TechnicalSupportCenterProject - Main</title>
+        <title>TechnicalSupportCenterProject - Users</title>
         <meta content="Admin Dashboard" name="description" />
         <meta content="ThemeDesign" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -83,6 +83,10 @@
                         </a>
                     </li>
 
+
+
+
+
                 </ul>
                     </div>
                     <div class="clearfix"></div>
@@ -122,7 +126,7 @@
                                     </button>
                                 </li>
                                 <li class="hide-phone list-inline-item app-search">
-                                    <h3 class="page-title">Портал технической поддержки | Главная</h3>
+                                    <h3 class="page-title">Портал технической поддержки | Пользователи</h3>
                                 </li>
                             </ul>
 
@@ -134,95 +138,60 @@
                     <!-- Top Bar End -->
 
                     <div class="page-content-wrapper ">
-			
-<div class="row col-12">
-                            <div class="col-md-6 col-xl-3">
-                                <div class="mini-stat clearfix bg-white">
-                                    <span class="mini-stat-icon"><i class="fa fa-ticket"></i></span>
-                                    <div class="mini-stat-info text-right text-light">
-                                        <span class="counter text-white">{{tickets_done}}</span> Решеные/закрытые заявки
+
+                        <div class="container-fluid">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card m-b-30">
+                                        <div class="card-body">
+
+                                            <h4 class="mt-0 header-title">Пользователи</h4>
+                                            <p class="text-muted m-b-30 font-14">
+                                                В этой таблице представлены все пользователи.
+                                            </p>
+
+                                            <table id="datatable" class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>Идентификатор</th>
+                                                    <th>Логин</th>
+                                                    <th>Дата регистрации</th>
+                                                    <th>Роль</th>
+                                                    <th>Действия</th>
+                                                </tr>
+                                                </thead>
+
+                                                <tbody>
+                                               
+                                                    {% for user in users %}
+                                                    <tr>
+                                                        <td>#{{ user[0] }}</td>
+                                                        <td>{{ user[1] }}</td>
+                                                        <td>{{ user[2] }}</td>
+                                                        <td>{{ user[3] }}</td>
+                                                      
+                                                        <td class="text-center">
+                                                            <button type="button" class="btn btn-dark waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                              Action
+                                                            </button>
+                                                            <div class="dropdown-menu" style="">
+                                                              <a class="btn btn-outline-info waves-effect waves-light dropdown-item view_ticket" href="#?ticket_id={{ user[0] }}">View</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}                                                    
+                                                    
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xl-3">
-                                <div class="mini-stat clearfix bg-success">
-                                    <span class="mini-stat-icon">
-                                        <i class="fa fa-ticket"></i>
-                                    </span>
-                                    <div class="mini-stat-info text-right text-light">
-                                        <span class="counter text-white">{{tickets_work}}</span> Заявки в работе
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xl-3">
-                                <div class="mini-stat clearfix bg-info">
-                                    <span class="mini-stat-icon">
-                                        <i class="ti-user"></i>
-                                    </span>
-                                    <div class="mini-stat-info text-right text-light">
-                                        <span class="counter text-white">{{all_useers}}</span> Всего пользователей
-                                    </div>
-                                </div>
-                            </div>
-                        </div>			
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+                    </div> <!-- Page content Wrapper -->
 
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card m-b-30">
-                                <div class="card-body">
-
-                                    <h4 class="mt-0 header-title">открытые заявки</h4>
-
-                                    <table id="datatable" class="table table-bordered">
-                                        <thead>
-                                        <tr>
-                                            <th>Идентификатор</th>
-                                            <th>Создано</th>
-                                            <th>Обновлено</th>
-                                            <th>Заголовок</th>
-                                            <th>Статус</th>
-                                            <th>Действия</th>
-                                        </tr>
-                                        </thead>
-
-                                        <tbody>
-                                       
-                                            {% for ticket in tickets %}
-                                            <tr>
-                                                {% if ticket[4] == 'Открыто' %}
-                                                 
-                                                <td>#{{ ticket[0] }}</td>
-                                                <td>{{ ticket[1] }}</td>
-                                                <td>{{ ticket[2] }}</td>
-                                                <td>{{ ticket[3] }}</td>
-                                                <td> <span class="badge badge-{{ ticket[5] }}">{{ ticket[4] }}</span></td>
-
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-dark waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                      Action
-                                                    </button>
-                                                    <div class="dropdown-menu" style="">
-                                                      <a class="btn btn-outline-info waves-effect waves-light dropdown-item view_ticket" href="view_ticket?ticket_id={{ ticket[0] }}">View</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="btn btn-outline-danger waves-effect waves-light dropdown-item delete_ticket" onclick="close_ticket('{{ ticket[0] }}')">Close</a>
-                                                    </div>
-                                                </td>
-                                                
-                                                {% endif %}
-                                            </tr>
-                                            {% endfor %}                                                    
-                                            
-
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-                        </div> <!-- end col -->
-                    </div> <!-- end row -->
-                    
                 </div> <!-- content -->
 
                 <footer class="footer">
@@ -248,7 +217,7 @@
         <script src="assets/js/waves.js"></script>
         <script src="assets/js/jquery.nicescroll.js"></script>
         <script src="assets/js/jquery.scrollTo.min.js"></script>
-        
+
         <!-- Required datatable js -->
         <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
@@ -274,12 +243,11 @@
 
         <script>
             function close_ticket(id) {
-              $.post('/add_comment', { ticket_id: id, sender: 'system', text: 'Ваше обращение закрыть. Всего доброго!' }, function(response) {
+              $.post('/add_comment', { ticket_id: id, sender: 'system', text: 'Пользователь закрыл обращение' }, function(response) {
                 location.reload();  // Перезагрузка страницы после добавления комментария
               });
             }
           </script>
-
 
     </body>
 </html>
