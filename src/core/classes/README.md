@@ -141,3 +141,51 @@ def device():
     obj.response.floor
     obj.response.office_number
 ```
+
+# • TemplateIssue
+## methods
+
+| method   | params | return  |
+|----------|--------|---------|
+| get |        | TemplateIssueGet | |
+
+## `TemplateIssueGet`
+
+## methods
+
+| method  | params                             | return |
+|---------|------------------------------------|--------|
+| execute | username: string, password: string |        | |
+
+## properties
+
+| property    | return  |
+|-------------|---------|
+| status_code | integer | |
+| response | string (json) | |
+
+```python
+from src.core.classes.template_issue import TemplateIssue
+
+def template_issue():
+    __obj = TemplateIssue()
+    obj = __obj.get()
+    obj.execute()
+    obj.status_code
+    obj.response
+```
+
+```json
+{
+    "categories": [
+        {
+            "category": "Text",
+            "list": [
+                "issue_id": 1,
+                "issue": "Text",
+                "solution": "Text"
+            ]
+        }
+    ]
+}
+```
