@@ -1,5 +1,6 @@
 import calendar
 from datetime import datetime
+import json
 import time 
 
 from imports import Blueprint, redirect, render_template, request, User, Report, MySqlBase, session, getConfigurate, url_for, is_valid_password, is_valid_username
@@ -231,6 +232,9 @@ def addticket():
             desc = request.form['desc_ticket']
             text = request.form['text_ticket']
             
+            once_comment = [{"sender": "user", "text": text}]
+            text = json.dumps(once_comment)
+            
             user_obj = Report().create()
             user_obj.execute(session.get('token'), desc, text, 'null')
 
@@ -239,3 +243,60 @@ def addticket():
             print(f'Попытка создания заявки:\nLogin:{login}\nTime:{time_created}\nDescription:{desc}\nText:{text}\nStatus: {user_obj.status_code}')
             
         return render_template('addticket.html', login=session.get('login'), rule=rule)
+
+#[{"sender": "user", "text": "Привет! У меня проблема с продуктом."}, {"sender": "support", "text": "Здравствуйте! Давайте разберемся в этом вопросе."}]
+
+from flask import request
+
+@routes.route('/add_comment', methods=['POST'])
+def add_comment():
+    comments_data = []
+    ticket_id = request.form['ticket_id']  # Получаем ticket_id
+    sender = request.form['sender']  # Получаем отправителя (user или support)
+    text = request.form['text']  # Получаем текст комментария
+
+    user_id = get_id_by_login()
+    
+    db_connection = MySqlBase().connection()
+    db_connection.open()
+    try:
+        cursor = db_connection.connection.cursor()
+        cursor.execute('SELECT comments FROM issues WHERE user_id = %s AND id = %s', (user_id, ticket_id,))
+        row = cursor.fetchone()
+        comments_data = json.loads(row[0]) if row else [] 
+        new_comment = {'sender': sender, 'text': text}
+        comments_data.append(new_comment)
+        cursor.execute("UPDATE issues SET comments = %s, updated_at = %s WHERE user_id = %s AND id = %s", (json.dumps(comments_data), calendar.timegm(time.gmtime()), user_id, ticket_id))       
+        db_connection.connection.commit()
+    finally:
+        cursor.close()
+        db_connection.close()
+
+    return f'Комментарий добавлен успешно!\nUserID:{user_id}\nTicketID:{ticket_id}\nComments:{comments_data}\nSQL: {0}'
+
+
+@routes.route('/view_ticket', methods=['GET', 'POST'])
+def viewticket():
+    history_chat_ = []
+    if checkLogin() == False:
+        return redirect(url_for('.login'))
+    rule = session.get('type')
+    if rule == 'Пользователь':
+        if request.method == 'GET':
+            ticket_id = request.args.get('ticket_id')
+            user_id = get_id_by_login()
+            db_connection = MySqlBase().connection()
+            db_connection.open()
+            try:
+                cursor = db_connection.connection.cursor()
+                cursor.execute('SELECT * FROM issues WHERE user_id = %s AND id = %s', (user_id, ticket_id,))
+                row = cursor.fetchall()      
+            finally:
+                db_connection.close()
+            
+            for rows in row:        
+                ticket_id = rows[0]
+                comments = json.loads(rows[3])
+                history_chat_.append({'comments': comments})
+                
+        return render_template('viewticket.html', login=session.get('login'), rule=rule, id=ticket_id, history_chat=history_chat_)    
