@@ -47,4 +47,4 @@ jobs:
         run: |
           git remote add gitlab ${{secrets.GITLABURL}}
           git fetch --unshallow
-          git push --quiet gitlab --mirror
+          git push --quiet gitlab --mirror || true
