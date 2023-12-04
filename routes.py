@@ -182,7 +182,9 @@ def register():
             _status = user_obj.status_code
             if _status == 200:
                 return render_template('register.html', status=_status)
-  
+            elif _status == 409:
+                return render_template('register.html', status=_status)
+            
     return render_template('register.html')
 
 
@@ -417,10 +419,6 @@ def addticket():
             
         return render_template('addticket.html', login=session.get('login'), rule=rule)
 
-#[{"sender": "user", "text": "Привет! У меня проблема с продуктом."}, {"sender": "support", "text": "Здравствуйте! Давайте разберемся в этом вопросе."}]
-
-from flask import request
-
 @routes.route('/add_comment', methods=['POST'])
 def add_comment():
     comments_data = []
@@ -434,14 +432,14 @@ def add_comment():
     db_connection.open()
     try:
         cursor = db_connection.connection.cursor()
-        cursor.execute('SELECT comments FROM issues WHERE user_id = %s AND id = %s', (user_id, ticket_id,))
+        cursor.execute('SELECT comments FROM issues WHERE id = %s', (ticket_id,))
         row = cursor.fetchone()
         comments_data = json.loads(row[0]) if row else [] 
         new_comment = {'sender': sender, 'text': text}
         comments_data.append(new_comment)
-        cursor.execute("UPDATE issues SET comments = %s, updated_at = %s WHERE user_id = %s AND id = %s", (json.dumps(comments_data), calendar.timegm(time.gmtime()), user_id, ticket_id))       
+        cursor.execute("UPDATE issues SET comments = %s, updated_at = %s WHERE id = %s", (json.dumps(comments_data), calendar.timegm(time.gmtime()), ticket_id))       
         if sender == 'system': 
-             cursor.execute("UPDATE issues SET status = %s WHERE user_id = %s AND id = %s", ('3', user_id, ticket_id))         
+             cursor.execute("UPDATE issues SET status = %s WHERE id = %s", ('3', ticket_id))         
         db_connection.connection.commit()
     finally:
         cursor.close()
@@ -496,3 +494,8 @@ def viewticket():
                 _status_ticket = rows[8]
                 
         return render_template('viewticket.html', login=session.get('login'), rule=rule, id=ticket_id, history_chat=history_chat_, status_ticket=_status_ticket)    
+    
+@routes.route('/view_profile', methods=['GET', 'POST'])
+def viewprofile():
+    rule = session.get('type')
+    return render_template('admin/view_profile.html', login=session.get('login'), rule=rule)    
