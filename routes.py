@@ -14,6 +14,39 @@ if cfg['server_debug'] == False:
     def handle_error(e):
         return render_template('errors/500.html', error=e)
 
+
+
+def get_id_by_login():
+    db_connection = MySqlBase().connection()
+    db_connection.open()
+    try:
+        cursor = db_connection.connection.cursor()
+        cursor.execute("SELECT id FROM users WHERE username=%s", (session.get('login'),))
+        row = cursor.fetchone()
+        if row:
+            rule_id = int(row[0])
+            return rule_id
+        else:
+            return -1
+    finally:
+        db_connection.close()
+
+def get_login_by_id(id):
+    db_connection = MySqlBase().connection()
+    db_connection.open()
+    try:
+        cursor = db_connection.connection.cursor()
+        cursor.execute("SELECT username FROM users WHERE id=%s", (id,))
+        row = cursor.fetchone()
+        if row:
+            rule_id = str(row[0])
+            return rule_id
+        else:
+            return ''
+    finally:
+        db_connection.close()
+
+
 def checkLogin():
     result = False
     if 'login' in session and 'time' in session and 'token' in session and 'type' in session:  
@@ -101,7 +134,7 @@ def get_all_tickets():
                 
             issue_date = datetime.fromtimestamp(int(rows[5])).strftime('%Y-%m-%d %H:%M:%S')
             issue_date_update = datetime.fromtimestamp(int(rows[6])).strftime('%Y-%m-%d %H:%M:%S')  
-            issue = [str(rows[0]), issue_date, issue_date_update, str(rows[2]), issue_status, issue_color]
+            issue = [str(rows[0]), issue_date, issue_date_update, str(rows[2]), issue_status, issue_color, get_login_by_id(rows[1])]
             issues.append(issue)
 
 
@@ -247,36 +280,6 @@ def get_rule_by_value(value: str):
         else:
             # Если не найдено, можно вернуть, например, None
             return 1
-    finally:
-        db_connection.close()
-
-def get_id_by_login():
-    db_connection = MySqlBase().connection()
-    db_connection.open()
-    try:
-        cursor = db_connection.connection.cursor()
-        cursor.execute("SELECT id FROM users WHERE username=%s", (session.get('login'),))
-        row = cursor.fetchone()
-        if row:
-            rule_id = int(row[0])
-            return rule_id
-        else:
-            return -1
-    finally:
-        db_connection.close()
-
-def get_login_by_id(id):
-    db_connection = MySqlBase().connection()
-    db_connection.open()
-    try:
-        cursor = db_connection.connection.cursor()
-        cursor.execute("SELECT username FROM users WHERE id=%s", (id,))
-        row = cursor.fetchone()
-        if row:
-            rule_id = str(row[0])
-            return rule_id
-        else:
-            return ''
     finally:
         db_connection.close()
 
