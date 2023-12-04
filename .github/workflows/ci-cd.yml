@@ -28,3 +28,23 @@ jobs:
       
       - name: Run Tests
         run: make test
+
+  mirror-to-gitlab:
+    name: Mirror to GitLab
+    needs: tests
+    runs-on: ubuntu-latest
+    if: ${{ needs.tests.result == 'success' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Updating
+        run: |
+          sudo apt-get update
+      
+      - name: Mirror to GitLab
+        run: |
+          git remote add gitlab ${{secrets.GITLABURL}}
+          git fetch --unshallow
+          git push --quiet gitlab --mirror
