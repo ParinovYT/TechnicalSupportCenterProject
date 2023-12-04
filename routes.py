@@ -177,7 +177,6 @@ def register():
             return render_template('register.html', status=400, _error=validate_pwd)
         
         if username != None and password != None and user_agreement_checked == 'on':
-            print('reg!!')
             user_obj = User().sign_up()
             user_obj.execute(username, password)   
             _status = user_obj.status_code
