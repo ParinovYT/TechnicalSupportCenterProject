@@ -11,7 +11,20 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ./../database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    env_file:
+      - .env
+    networks:
+      - app-network
 
+  server:
+    depends_on:
+      - mysql
+    image: ghcr.io/parinovyt/technicalsupportcenterproject:latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "80:8080"
     networks:
       - app-network
 

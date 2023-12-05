@@ -1,3 +1,4 @@
+import os
 import mysql.connector
 
 from src.core.classes.mysql.connection import MySqlConnection
@@ -5,11 +6,11 @@ from src.core.classes.mysql.connection import MySqlConnection
 
 class Connection(MySqlConnection):
     def __init__(self):
-        self.__host = 'localhost'
-        self.__port = '3306'
-        self.__user = 'user'
-        self.__password = 'userpassword'
-        self.__database = 'technical_support'
+        self.__host = os.environ.get('DATABASE_HOST', 'localhost')
+        self.__port = os.environ.get('DATABASE_PORT', '3306')
+        self.__user = os.environ.get('DATABASE_USER', 'user')
+        self.__password = os.environ.get('DATABASE_PASSWORD', 'userpassword')
+        self.__database = os.environ.get('DATABASE_NAME', 'technical_support')
         self.connection = None
 
     def open(self):

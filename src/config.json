@@ -1,7 +1,7 @@
 {
   "login_timeout": 3600,
-  "server_host": "127.0.0.1",
-  "server_port": 80,
+  "server_host": "0.0.0.0",
+  "server_port": 8080,
   "server_secret_key": "JgLR]dC=1a.Z(7(:cw;m.tc)1/;Tslz39]b.W3~6WZV}=DMLSA9jm!L}-eM=sB_K",
   "server_debug": true,
   "server_logging": true

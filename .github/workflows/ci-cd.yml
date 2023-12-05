@@ -28,6 +28,41 @@ jobs:
       
       - name: Run Tests
         run: make test
+  
+  deploy:
+    name: Deploy
+    needs: tests
+    runs-on: ubuntu-latest
+    if: ${{ needs.tests.result == 'success' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up server in release mode
+        run: |
+          python3 -c "import json; data = json.load(open('src/config.json')); data['server_debug'] = False; json.dump(data, open('src/config.json', 'w'), indent=2)"
+      
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.ACTIONS }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: parinovyt/technicalsupportcenterproject
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/parinovyt/technicalsupportcenterproject:latest
+          labels: ${{ steps.meta.outputs.labels }}
 
   mirror-to-gitlab:
     name: Mirror to GitLab
