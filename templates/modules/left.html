@@ -36,6 +36,27 @@
             </a>
         </li>
 
+
+        {% if rule == 'Пользователь'  %}
+
+        
+        <li>
+            <a href="my_tickets" class="waves-effect">
+                <i class="fa fa-ticket"></i>
+                <span> Мои заявки <span class="badge badge-primary"></span></span>
+            </a>
+        </li>
+
+        <li>
+            <a href="add_ticket" class="waves-effect">
+                <i class="fa fa-ticket"></i>
+                <span> Создать заявку <span class="badge badge-primary"></span></span>
+            </a>
+        </li>
+
+
+        {% else  %}
+
         <li>
             <a href="my_tickets" class="waves-effect">
                 <i class="fa fa-ticket"></i>
@@ -50,9 +71,15 @@
             </a>
         </li>
 
+        <li class="has_sub">
+            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-barcode-scan"></i><span> Инвентарь </span> <span class="pull-right"><i class="mdi mdi-chevron-right"></i></span></a>
+            <ul class="list-unstyled" style="display: none;">
+                <li><a href="inventory_list">Список</a></li>
+                <li><a href="inventory_add">Добавить</a></li>
+            </ul>
+        </li>
 
-
-
+        {% endif  %}
 
     </ul>
         </div>

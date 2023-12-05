@@ -9,13 +9,6 @@ routes = Blueprint('routes', __name__)
 
 cfg = getConfigurate()
 
-if cfg['server_debug'] == False:
-    @routes.errorhandler(Exception)
-    def handle_error(e):
-        return render_template('errors/500.html', error=e)
-
-
-
 def get_id_by_login():
     db_connection = MySqlBase().connection()
     db_connection.open()
@@ -500,5 +493,127 @@ def viewticket():
     
 @routes.route('/view_profile', methods=['GET', 'POST'])
 def viewprofile():
-    rule = session.get('type')
-    return render_template('admin/view_profile.html', login=session.get('login'), rule=rule)    
+    
+    return render_template('admin/view_profile.html', login=session.get('login'), rule=session.get('type'))    
+
+
+@routes.route('/inventory_list', methods=['GET', 'POST'])
+def inventorylist():
+    _devices = []
+    db_connection = MySqlBase().connection()
+    db_connection.open()
+    try:
+        cursor = db_connection.connection.cursor()
+        cursor.execute('SELECT * FROM devices')
+        row = cursor.fetchall()      
+    finally:
+        db_connection.close()
+    
+    for rows in row:
+        if rows[1] == 'null':
+            continue
+    
+        _devices.append(rows)      
+    
+    return render_template('admin/materials.html', login=session.get('login'), rule=session.get('type'), devices=_devices)    
+
+@routes.route('/inventory_add', methods=['GET', 'POST'])
+def inventoryadd():
+    if request.method == 'POST':
+        inventory_number = request.form['inventory_number']
+        inventory_name = request.form['inventory_name']
+        inventory_date = request.form['inventory_date']
+        inventory_floor = request.form['inventory_floor']
+        inventory_office = request.form['inventory_office']
+        
+        db_connection = MySqlBase().connection()
+        db_connection.open()
+        try:
+            cursor = db_connection.connection.cursor()
+         
+            insert_query = "INSERT INTO devices VALUES (NULL, %s, %s, %s, %s, %s);"
+            params = (
+               inventory_number, 
+               inventory_name, 
+               inventory_date, 
+               inventory_floor, 
+               inventory_office
+            )
+            cursor.execute(insert_query, params)
+            db_connection.connection.commit()
+            
+        finally:
+            db_connection.close()
+    
+    return render_template('admin/material_add.html', login=session.get('login'), rule=session.get('type'))    
+
+
+
+
+@routes.route('/inventory_edit', methods=['GET', 'POST'])
+def inventoryedit():
+    
+    if request.method == 'GET':
+        has_only_del = request.args.get('delete')
+        inv_number = request.args.get('inv_number')
+
+        if has_only_del == 'true':
+            db_connection = MySqlBase().connection()
+            db_connection.open()
+            try:
+                cursor = db_connection.connection.cursor()
+                cursor.execute('DELETE FROM devices WHERE inventory_number = %s', (session.get('inv_number'),))
+                db_connection.connection.commit()
+            finally:
+                db_connection.close()
+            return redirect(url_for('.inventorylist'))     
+        
+        session['inv_number'] = inv_number
+        
+        db_connection = MySqlBase().connection()
+        db_connection.open()
+        try:
+            cursor = db_connection.connection.cursor()
+            cursor.execute('SELECT * FROM devices WHERE inventory_number = %s', (inv_number,))
+            row_data = cursor.fetchall()      
+        finally:
+            db_connection.close()
+        
+        for data in row_data:
+            inventory_number = data[1]
+            inventory_name = data[2]
+            inventory_date = data[3]
+            inventory_floor = data[4]
+            inventory_office = data[5]    
+                
+     
+    if request.method == 'POST':
+        inventory_number = request.form['inventory_number']
+        inventory_name = request.form['inventory_name']
+        inventory_date = request.form['inventory_date']
+        inventory_floor = request.form['inventory_floor']
+        inventory_office = request.form['inventory_office']
+        
+        db_connection = MySqlBase().connection()
+        db_connection.open()
+        try:
+            cursor = db_connection.connection.cursor()
+            
+            cursor.execute('DELETE FROM devices WHERE inventory_number = %s', (session.get('inv_number'),))
+            db_connection.connection.commit()
+            
+            insert_query = "INSERT INTO devices VALUES (NULL, %s, %s, %s, %s, %s);"
+            params = (
+               inventory_number, 
+               inventory_name, 
+               inventory_date, 
+               inventory_floor, 
+               inventory_office
+            )
+            cursor.execute(insert_query, params)
+            db_connection.connection.commit()
+            
+        finally:
+            db_connection.close()
+            
+    return render_template('admin/material_edit.html', login=session.get('login'), rule=session.get('type'), inventory_number=inventory_number, inventory_name=inventory_name, inventory_date=inventory_date,inventory_floor=inventory_floor,inventory_office=inventory_office)    

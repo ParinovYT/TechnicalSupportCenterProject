@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        {% set page_name = 'Users' %} {% include './modules/head.html' %}
+        {% set page_name = 'inventory_list' %} {% include './modules/head.html' %}
     </head>
 
 
@@ -47,7 +47,7 @@
                                     </button>
                                 </li>
                                 <li class="hide-phone list-inline-item app-search">
-                                    <h3 class="page-title">Портал технической поддержки | Пользователи</h3>
+                                    <h3 class="page-title">Портал технической поддержки | Список зарегистрированой аппаратуры</h3>
                                 </li>
                             </ul>
 
@@ -67,37 +67,40 @@
                                     <div class="card m-b-30">
                                         <div class="card-body">
 
-                                            <h4 class="mt-0 header-title">Пользователи</h4>
+                                            <h4 class="mt-0 header-title">Devices</h4>
                                             <p class="text-muted m-b-30 font-14">
-                                                В этой таблице представлены все пользователи.
+                                                -
                                             </p>
 
                                             <table id="datatable" class="table table-bordered">
                                                 <thead>
                                                 <tr>
-                                                    <th>Идентификатор</th>
-                                                    <th>Логин</th>
-                                                    <th>Дата регистрации</th>
-                                                    <th>Роль</th>
+                                                    <th>Инвентарный номер</th>
+                                                    <th>Название</th>
+                                                    <th>Год выпуска</th>
+                                                    <th>Этаж</th>
+                                                    <th>Кабинет</th>
                                                     <th>Действия</th>
                                                 </tr>
                                                 </thead>
 
                                                 <tbody>
                                                
-                                                    {% for user in users %}
+                                                    {% for device in devices %}
                                                     <tr>
-                                                        <td>#{{ user[0] }}</td>
-                                                        <td>{{ user[1] }}</td>
-                                                        <td>{{ user[2] }}</td>
-                                                        <td>{{ user[3] }}</td>
+                                                        <td>{{ device[1] }}</td>
+                                                        <td>{{ device[2] }}</td>
+                                                        <td>{{ device[3] }}</td>
+                                                        <td>{{ device[4] }}</td>
+                                                        <td>{{ device[5] }}</td>
                                                       
                                                         <td class="text-center">
                                                             <button type="button" class="btn btn-dark waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                               Action
                                                             </button>
                                                             <div class="dropdown-menu" style="">
-                                                              <a class="btn btn-outline-info waves-effect waves-light dropdown-item" href="view_profile?user_id={{ user[0] }}">View</a>
+                                                              <a class="btn btn-outline-info waves-effect waves-light dropdown-item" href="inventory_edit?inv_number={{ device[1] }}">Edit</a>
+                                                              <a class="btn btn-outline-danger waves-effect waves-light dropdown-item" href="inventory_edit?delete=true&inv_number={{ device[1] }}">Delete</a>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -126,14 +129,6 @@
         <!-- END wrapper -->
 
         {% include './modules/scripts.html' %}
-  
-        <script>
-            function close_ticket(id) {
-              $.post('/add_comment', { ticket_id: id, sender: 'system', text: 'Пользователь закрыл обращение' }, function(response) {
-                location.reload();  // Перезагрузка страницы после добавления комментария
-              });
-            }
-          </script>
 
     </body>
 </html>

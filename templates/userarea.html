@@ -13,57 +13,7 @@
         <!-- Begin page -->
         <div id="wrapper">
 
-            <!-- ========== Left Sidebar Start ========== -->
-            <div class="left side-menu">
-                <button type="button" class="button-menu-mobile button-menu-mobile-topbar open-left waves-effect">
-                    <i class="ion-close"></i>
-                </button>
-
-                {% include 'modules/logo.html' %}
-
-                <div class="sidebar-inner slimscrollleft">
-
-                    <div class="user-details">
-                        <div class="text-center">
-                            <img src="assets/images/users/avatar-5.jpg" alt="" class="rounded-circle">
-                        </div>
-                        <div class="user-info">
-                                <h4 class="font-16 text-white">{{login}}</h4>
-                                <h4 class="font-14 text-white">{{rule}}</h4>
-                        </div>
-                    </div>
-
-                <div id="sidebar-menu">
-                    <ul>
-                        <li class="menu-title text-white">Меню</li>
-
-                    <li>
-                        <a href="home" class="waves-effect">
-                            <i class="ti-home"></i>
-                            <span> Главная <span class="badge badge-primary"></span></span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="my_tickets" class="waves-effect">
-                            <i class="fa fa-ticket"></i>
-                            <span> Мои заявки <span class="badge badge-primary"></span></span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="add_ticket" class="waves-effect">
-                            <i class="fa fa-ticket"></i>
-                            <span> Создать заявку <span class="badge badge-primary"></span></span>
-                        </a>
-                    </li>
-
-                </ul>
-                    </div>
-                    <div class="clearfix"></div>
-                </div> <!-- end sidebarinner -->
-            </div>
-            <!-- Left Sidebar End -->
+            {% include "./modules/left.html" %}
 
             <!-- Start right Content here -->
 
