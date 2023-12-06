@@ -8,6 +8,13 @@
 - **make**
 - **docker & docker-compose**
 
+## Тестовый пользователь с админ правами
+
+```
+Логин: TestUser
+Пароль: kT6+qf%C*5@zD(k
+```
+
 ## Running an application on Windows in CommandLine
 
 ```sh {"id":"01HG38NVTFXWCQZJYX48BVRSNX"}

@@ -14,7 +14,6 @@ if log_state == True:
     log.disabled = False
 elif log_state == False:
     log.disabled = True
-    
-    
+       
 if __name__ == '__main__':
     app.run(host=cfg['server_host'], port=int(cfg['server_port']), debug=bool(cfg['server_debug']))
