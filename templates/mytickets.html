@@ -82,6 +82,9 @@
                                                     <th>Создано</th>
                                                     <th>Обновлено</th>
                                                     <th>Заголовок</th>
+                                                    {% if drawing_creator_ticket == 1 %}
+                                                    <th>Оператор</th>
+                                                    {% endif %}
                                                     <th>Статус</th>
                                                     <th>Действия</th>
                                                 </tr>
@@ -100,8 +103,14 @@
                                                         <td>{{ ticket[1] }}</td>
                                                         <td>{{ ticket[2] }}</td>
                                                         <td>{{ ticket[3] }}</td>
+                                                        {% if drawing_creator_ticket == 1 %}
+                                                            {% if ticket[7] == '' %}
+                                                                <td>Не назначен</td>
+                                                            {% else %}
+                                                                <td>{{ ticket[7] }}</td>
+                                                            {% endif %}
+                                                        {% endif %}
                                                         <td> <span class="badge badge-{{ ticket[5] }}">{{ ticket[4] }}</span></td>
-
                                                         <td class="text-center">
                                                             <button type="button" class="btn btn-dark waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                               Action

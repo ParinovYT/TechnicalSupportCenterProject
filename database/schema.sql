@@ -371,6 +371,7 @@ CREATE TABLE `issues` (
   `updated_at` bigint unsigned NOT NULL,
   `line` tinyint unsigned NOT NULL COMMENT 'one of 3 technical support lines',
   `status` tinyint(1) NOT NULL COMMENT 'false if the problem is not solved, true if the problem is solved',
+  `worker` longtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `issues_devices_id_fk` (`device_id`),

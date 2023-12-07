@@ -15,6 +15,7 @@ class ModelIssue(BaseModel):
         self.__updated_at: int
         self.__line: int
         self.__status: bool
+        self.__worker: str     
 
     @property
     def id(self) -> int:
@@ -93,3 +94,11 @@ class ModelIssue(BaseModel):
     @status.setter
     def status(self, value: bool):
         self.__status = value
+
+    @property
+    def worker(self) -> str:
+        return self.__worker
+
+    @worker.setter
+    def worker(self, value: str):
+        self.__worker = value

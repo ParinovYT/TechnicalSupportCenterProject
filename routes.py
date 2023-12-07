@@ -364,7 +364,7 @@ def my_tickets():
             issue_date = datetime.fromtimestamp(int(rows[5])).strftime('%Y-%m-%d %H:%M:%S')
             issue_date_update = datetime.fromtimestamp(int(rows[6])).strftime('%Y-%m-%d %H:%M:%S')
             
-            issue = [str(rows[0]), issue_date, issue_date_update, str(rows[2]), issue_status, issue_color, get_login_by_id(rows[1])]
+            issue = [str(rows[0]), issue_date, issue_date_update, str(rows[2]), issue_status, issue_color, get_login_by_id(rows[1]), str(rows[9])]
             issues.append(issue)    
             
         return render_template('mytickets.html', login=session.get('login'), drawing_creator_ticket=True,rule=rule, tickets=issues)

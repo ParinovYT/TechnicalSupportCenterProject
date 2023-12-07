@@ -20,7 +20,7 @@ class Create(MySqlQuery):
         try:
             cursor = self._connection.connection.cursor(prepared=True, )
             insert_query = """
-            INSERT INTO issues VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s);
+            INSERT INTO issues VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s);
             """
             params = (
                 self.__model_issue.user_id,
@@ -30,7 +30,8 @@ class Create(MySqlQuery):
                 self.__model_issue.created_at,
                 self.__model_issue.updated_at,
                 self.__model_issue.line,
-                self.__model_issue.status
+                self.__model_issue.status,
+                self.__model_issue.worker
             )
 
             cursor.execute(insert_query, params)

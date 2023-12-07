@@ -50,6 +50,7 @@ class Create(ReportBase):
             self._model_issue.updated_at = int(time.time())
             self._model_issue.line = 1
             self._model_issue.status = False
+            self._model_issue.worker = ''
 
             query_sign_in: MySQlQueries = Report(db_connection).create(self._model_issue)
             query_sign_in.execute()
