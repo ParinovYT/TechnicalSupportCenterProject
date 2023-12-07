@@ -42,7 +42,6 @@ class GetByInventoryNumber(MySqlQuery):
                 self.__model_device.type = int(row[6])
                 self.__model_device.responsible = str(row[7])
                 
-                
                 self._status_code = OK
             else:
                 self._status_code = NOT_FOUND
