@@ -1,121 +1,176 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        {% set page_name = 'Add Ticket' %} {% include 'modules/head.html' %}
-    </head>
-
-
-    <body class="fixed-left">
-
-        <!-- Loader -->
-        <div id="preloader"><div id="status"><div class="spinner"></div></div></div>
-  <!-- Begin page -->
-  <div id="wrapper">
-
-    {% include "./modules/left.html" %}
-
-    <!-- Start right Content here -->
-
-    <div class="content-page">
+  <head> 
+    {% set page_name = 'Add Ticket' %} {% include 'modules/head.html' %} 
+  </head>
+  <body class="fixed-left">
+    <!-- Loader -->
+    <div id="preloader">
+      <div id="status">
+        <div class="spinner"></div>
+      </div>
+    </div>
+    <!-- Begin page -->
+    <div id="wrapper"> 
+        {% include "./modules/left.html" %}
+      <!-- Start right Content here -->
+      <div class="content-page">
         <!-- Start content -->
         <div class="content">
-
-            <!-- Top Bar Start -->
-            <div class="topbar">
-
-                <nav class="navbar-custom">
-
-                    <ul class="list-inline float-right mb-0">
-                      
-                        <li class="list-inline-item dropdown notification-list">
-                            <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
-                               aria-haspopup="false" aria-expanded="false">
-                                <img src="assets/images/users/avatar-5.jpg" alt="user" class="rounded-circle">
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
-                                <a class="dropdown-item" href="logout"><i class="mdi mdi-logout m-r-5 text-muted"></i> Выход</a>
-                            </div>
-                        </li>
-
-                    </ul>
-
-                    <ul class="list-inline menu-left mb-0">
-                        <li class="list-inline-item">
-                            <button type="button" class="button-menu-mobile open-left waves-effect">
-                                <i class="ion-navicon"></i>
-                            </button>
-                        </li>
-                        <li class="hide-phone list-inline-item app-search">
-                            <h3 class="page-title">Портал технической поддержки | Создание заявки</h3>
-                        </li>
-                    </ul>
-
-                    <div class="clearfix"></div>
-
-                </nav>
-
-            </div>
-            <!-- Top Bar End -->
-
-                    <div class="page-content-wrapper ">
-
-                        <div class="container-fluid">
-
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="card m-b-30">
-                                        <div class="card-body">
-
-                                            <h4 class="mt-0 header-title">Создание заявки</h4>
-                                            <p class="text-muted m-b-30 font-14">В этом поле вы можете ввести информацию и отправить ее специалистам технической поддержки.</p>
-                                            
-                        <form class="form-horizontal m-t-20" method="POST" action="{{ url_for('routes.addticket') }}">
-                                            <div class="form-group row">
-                                                <label for="label_desc" class="col-sm-2 col-form-label">Заголовок</label>
-                                                <div class="col-sm-10">
-                                                    <input name='desc_ticket' class="form-control form-control-sm" type="text" placeholder="Введите краткую информацию" id="label_desc">
-                                                </div>
-                                            </div>
-                                            <textarea id="summernote" name="text_ticket" class='summernote'></textarea>
-                                        </div>
+          <!-- Top Bar Start -->
+          <div class="topbar">
+            <nav class="navbar-custom">
+              <ul class="list-inline float-right mb-0">
+                <li class="list-inline-item dropdown notification-list">
+                  <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    <img src="assets/images/users/avatar-5.jpg" alt="user" class="rounded-circle">
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                    <a class="dropdown-item" href="logout">
+                      <i class="mdi mdi-logout m-r-5 text-muted"></i> Выход </a>
+                  </div>
+                </li>
+              </ul>
+              <ul class="list-inline menu-left mb-0">
+                <li class="list-inline-item">
+                  <button type="button" class="button-menu-mobile open-left waves-effect">
+                    <i class="ion-navicon"></i>
+                  </button>
+                </li>
+                <li class="hide-phone list-inline-item app-search">
+                  <h3 class="page-title">Портал технической поддержки | Создание заявки</h3>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </nav>
+          </div>
+          <!-- Top Bar End -->
+          <div class="page-content-wrapper ">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <div class="card m-b-30">
+                    <div class="card-body">
+                      <h4 class="mt-0 header-title">Создание заявки</h4>
+                      <p class="text-muted m-b-30 font-14">Пожалуйста, не забудьте заполнить поля, отмеченные красной звездочкой.</p>
+                      <form class="form-horizontal m-t-20" method="POST" action="{{ url_for('routes.addticket') }}">
+                        <div class="form-group row">
+                          <label for="label_desc" class="col-sm-2 col-form-label">Заголовок <a style='color:red'>*</a>
+                          </label>
+                          <div class="col-sm-10">
+                            <input name='desc_ticket' class="form-control form-control-sm" type="text" required placeholder="Введите краткую информацию" id="label_desc">
+                          </div>
+                        </div>
+                        <div class="card">
+                          <div class="card-header" role="tab" id="headingOne">
+                            <h5 class="mb-0 mt-0 font-16">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" data-toggle="collapse" class="text-dark"> Дополнительная инфомация (Заполнять по желанию) </a>
+                            </h5>
+                          </div>
+                          <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" style="">
+                            <div class="card-body">
+                              <div class="form-group row">
+                                <label for="example-number-input" class="col-sm-2 col-form-label">Этаж</label>
+                                <div class="col-sm-10">
+                                  <input name="floor" class="form-control" type="number" value="" id="example-number-input">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="example-number-input" class="col-sm-2 col-form-label">Кабинет</label>
+                                <div class="col-sm-10">
+                                  <input name="office" class="form-control" type="text" value="" id="example-number-input">
+                                </div>
+                              </div>
+                              <div class="card">
+                                <div class="card-header" role="tab" id="headingTwo">
+                                  <h5 class="mb-0 mt-0 font-16">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" data-toggle="collapse" class="text-dark"> Информация о устройстве </a>
+                                  </h5>
+                                </div>
+                                <div id="collapseTwo" class="collapse show" role="tabpanel" aria-labelledby="headingTwo" style="">
+                                  <div class="card-body">
+                                    <p class="text-muted m-b-30 font-14">В данном поле, выберите устройство или введите <a style='color:red'>поисковую фразу</a>! </p>
+                                    <div class="form-group row">
+                                      <label for="device-name" class="col-sm-2 col-form-label">Поисковая фраза</label>
+                                      <div class="col-sm-10">
+                                        <input name="device-name" class="form-control" type="text" value="" id="device-name">
+                                      </div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary waves-effect m-l-5">
-                                        Отправить
-                                    </button>
-                                </form>
-                                </div> <!-- end col -->
-                            </div> <!-- end row -->
-
-                        </div><!-- container -->
-
-
-                    </div> <!-- Page content Wrapper -->
-
-                </div> <!-- content -->
-
-                <footer class="footer">
-                    © 2023 ParinovYT - ft by >.< Навалил.  <i class="mdi mdi-heart text-danger"></i>
-                </footer>
-
+                                    <div class="form-group row">
+                                      <label for="device-name" class="col-sm-2 col-form-label">Варианты</label>
+                                      <div class="col-sm-10">
+                                        <select name='device_name' id="device-name-list" class="form-control"> 
+                                            <option value='none'>Выбрать (наименование - инвентаризационный номер | Этаж/Кабинет)</option> 
+                                            {% for device in devices %} 
+                                                <option>{{device[2]}} - {{device[1]}} | {{device[4]}}/{{device[5]}}</option> 
+                                            {% endfor %} 
+                                        </select>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row"></div>
+                        <textarea name="text_ticket" id="editor1"></textarea>
+                        <div class="form-group row"></div>
+                        <input name="create" hidden value="true">
+                        <input  id='inp1' name="dev_id" value="none"/>
+                        <button type="submit" class="btn btn-primary waves-effect m-l-5"> Отправить </button>
+                    </div>
+                  </div>
+                  </form>
+                </div>
+                <!-- end col -->
+              </div>
+              <!-- end row -->
             </div>
-            <!-- End Right content here -->
-
+            <!-- container -->
+          </div>
+          <!-- Page content Wrapper -->
         </div>
-        <!-- END wrapper -->
-
-        {% include 'modules/scripts.html' %}
-
-        <script>
-            jQuery(document).ready(function(){
-                $('.summernote').summernote({
-                    height: 300,                 // set editor height
-                    minHeight: null,             // set minimum height of editor
-                    maxHeight: null,             // set maximum height of editor
-                    focus: true                 // set focus to editable area after initializing summernote
+        <!-- content -->
+        <footer class="footer"> © 2023 ParinovYT - ft by >.< Навалил. <i class="mdi mdi-heart text-danger"></i>
+        </footer>
+      </div>
+      <!-- End Right content here -->
+    </div>
+    <!-- END wrapper --> {% include 'modules/scripts.html' %} <script>
+      $(document).ready(function() {
+        var editor1 = Jodit.make('#editor1', {
+          height: 300
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function() {
+        var devices = [];
+        $('#device-name-list option').each(function() {
+          devices.push($(this).text().trim());
+        });
+        var deviceNameInput = $("#device-name");
+        var deviceNameList = $("#device-name-list");
+        deviceNameInput.on('input', function() {
+            deviceNameList.empty();
+            var inputText = deviceNameInput.val().toLowerCase();
+            if (inputText.length > 0) {
+              for (var i = 0; i < devices.length; i++) {
+                if (devices[i].toLowerCase().indexOf(inputText) !== -1) {
+                  var option = $("<option>", {
+                    "class": "dropdown-item", href: "#", text: devices[i]
+                  });
+                option.click(function() {
+                  deviceNameInput.val(devices[i]);
+              //    deviceNameList.empty();
                 });
-            });
-        </script>
-
-
-    </body>
+                deviceNameList.append(option);
+              }
+            }
+          }
+        });
+      });
+    </script>
+  </body>
 </html>

@@ -76,7 +76,12 @@
   {% if status_ticket == 3 %}
 
   {% else %}
-    <textarea id="new-comment-text" class='summernote'></textarea>
+    <textarea id="new-comment-text" ></textarea>
+
+    <div class="form-group row">
+                                              
+    </div>
+    
 
     {% if rule == 'Пользователь' %}
         <button class="btn btn-primary" onclick="addComment('user')">Добавить комментарий</button>
@@ -106,25 +111,18 @@
 
         {% include 'modules/scripts.html' %}
 
-        <script>
-          jQuery(document).ready(function() {
-            $('.summernote').summernote({
-              height: 300, // set editor height
-              minHeight: null, // set minimum height of editor
-              maxHeight: null, // set maximum height of editor
-              focus: true // set focus to editable area after initializing summernote
-            });
-          });
-        </script>
 
         <script>
             $(document).ready(function() {
-              $('.summernote').summernote();
-            });
-          
+              var editor1 = Jodit.make('#new-comment-text', {
+                  height: 300
+              });
+          });
+
             function addComment(sender) {
-              var text = $('#new-comment-text').summernote('code');  // Получаем текст из Summernote
-          
+              var editor = Jodit.instances['new-comment-text']; // получаем объект-редактор Jodit
+              var text = editor.value; // получаем текст из редактора Jodit
+
               // Выполнение POST-запроса
               $.post('/add_comment', { ticket_id: {{id}}, sender: sender, text: text }, function(response) {
                 location.reload();  // Перезагрузка страницы после добавления комментария

@@ -3,6 +3,8 @@ from datetime import datetime
 import json
 import time
 
+from flask import jsonify
+
 from imports import Blueprint, redirect, render_template, request, User, Report, MySqlBase, TemplateIssue, session, getConfigurate, url_for, is_valid_password, is_valid_username
 
 routes = Blueprint('routes', __name__)
@@ -408,24 +410,74 @@ def addticket():
     if checkLogin() == False:
         return redirect(url_for('.login'))
     rule = session.get('type')
+    devices_ = []
+    
+    db_connection = MySqlBase().connection()
+    db_connection.open()
+    if request.method == 'GET':
+        try:
+            cursor = db_connection.connection.cursor()
+            cursor.execute('SELECT * FROM devices')
+            devices__ = cursor.fetchall()
+            for devices___ in devices__:  
+                if devices___[1] == 'null':
+                    continue
+                devices_.append(devices___)    
+        finally:
+            db_connection.close()    
+    
     if rule == 'Пользователь':
         if request.method == 'POST':
+            _create = request.form['create'] 
             login = session.get('login')
             time_created = calendar.timegm(time.gmtime())
             desc = request.form['desc_ticket']
             text = request.form['text_ticket']
             
-            once_comment = [{"sender": "user", "text": text}]
+            floor = request.form['floor']  
+            office = request.form['office']  
+            info_device = request.form['device_name']  
+            info_device_id = 'null'
+        
+            
+            print(f'once add info {_create}')           
+            
+            if _create == "true":
+                if floor:
+                    floor_text = str(floor)
+                else:
+                    floor_text = 'Не указан'
+
+                if office:
+                    office_text = str(office)
+                else:
+                    office_text = 'Не указан'
+
+                if info_device == 'none':
+                    info_device_text = 'нет'
+                else:
+                    info_device_text = f'<br>{info_device}'
+                    devID = info_device.split("-")[-1].strip()
+                    devID = devID.split("|")[0].replace(" ", "")
+                    info_device_id = devID
+                    
+                comment_info = {'sender': 'system', 'text': f'<br>Дополнительная информация о заявке:<br>Этаж: {floor_text}<br>Кабинет: {office_text}<br>Проблемное устройство: {info_device_text}'}
+
+            if _create == "true":        
+                once_comment = [comment_info, {"sender": "user", "text": text}]
+            else:
+                once_comment = [{"sender": "user", "text": text}]
+                
             text = json.dumps(once_comment)
             
             user_obj = Report().create()
-            user_obj.execute(session.get('token'), desc, text, 'null')
+            user_obj.execute(session.get('token'), desc, text, info_device_id)
 
             
             
             print(f'Попытка создания заявки:\nLogin:{login}\nTime:{time_created}\nDescription:{desc}\nText:{text}\nStatus: {user_obj.status_code}')
-            
-        return render_template('addticket.html', login=session.get('login'), rule=rule)
+      
+        return render_template('addticket.html', login=session.get('login'), rule=rule, devices=devices_)
 
 @routes.route('/add_comment', methods=['POST'])
 def add_comment():
@@ -433,8 +485,6 @@ def add_comment():
     ticket_id = request.form['ticket_id']  # Получаем ticket_id
     sender = request.form['sender']  # Получаем отправителя
     text = request.form['text']  # Получаем текст комментария
-
-    user_id = get_id_by_login()
     
     db_connection = MySqlBase().connection()
     db_connection.open()
@@ -452,6 +502,8 @@ def add_comment():
     finally:
         cursor.close()
         db_connection.close()
+        
+        
         
     return f'200'
 
@@ -646,3 +698,22 @@ def inventoryedit():
         data.append(rows[0])
             
     return render_template('admin/material_edit.html', users=data, login=session.get('login'), rule=session.get('type'), inventory_number=inventory_number, inventory_name=inventory_name, inventory_date=inventory_date,inventory_floor=inventory_floor,inventory_office=inventory_office, inventory_type=inventory_type, inventory_responsible=inventory_responsible)    
+
+
+
+@routes.route("/get_devices")
+def get_devices():
+    input_text = request.args.get("input_text")
+    get_devices_example = [
+        "alice87",
+        "bob2021",
+        "carol66",
+        "dave777",
+        "eric88",
+        "frank123",
+        "grace2",
+        "hank57",
+        "izzy"
+    ]
+    filtered_device_example = [device_example for device_example in get_devices_example if input_text.lower() in device_example.lower()]
+    return jsonify(filtered_device_example)
