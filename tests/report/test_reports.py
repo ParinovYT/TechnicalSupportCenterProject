@@ -133,14 +133,16 @@ def create_device(inv_num: str):
     try:
         cursor = db_connection.connection.cursor(prepared=True, )
         insert_query = """
-        INSERT INTO devices VALUES (NULL, %s, %s, %s, %s, %s);
+        INSERT INTO devices VALUES (NULL, %s, %s, %s, %s, %s, %s, %s);
         """
         params = (
             inv_num,
             'Компьютер',
             datetime.datetime(2006, 6, 5).isoformat(),
             3,
-            '321'
+            '321', 
+            'Персональный компьютер',
+            'testUser'
         )
 
         cursor.execute(insert_query, params)

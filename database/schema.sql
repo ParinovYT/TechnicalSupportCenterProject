@@ -58,21 +58,17 @@ CREATE TABLE `devices` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `devices_pk` (`inventory_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `devices`
 --
 
-ALTER TABLE `devices`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
-COMMIT;
-
 LOCK TABLES `devices` WRITE;
 /*!40000 ALTER TABLE `devices` DISABLE KEYS */;
 INSERT INTO `devices` (`id`, `inventory_number`, `object_name`, `year_issue`, `floor`, `office_number`, `type`, `responsible`) VALUES
-(NULL, 'null', 'null', '2006-06-05 00:00:00', 1, '0', 'null', 'system'),
+(1, 'null', 'null', '2006-06-05 00:00:00', 1, '0', 'null', 'system'),
 (NULL, 'НК00068749', 'Персональный компьютер CPU Intel Core 2 Quad Q8200', '2009-01-01 00:00:00', 4, '426', 'Персональный компьютер', 'ОТВЕТСТВЕННОЕ ЛИЦО 1'),
 (NULL, 'HK00048347', 'Коммутатор D-Link НК00048347', '2008-01-01 00:00:00', 2, '202', 'Сетевое оборудование', 'ОТВЕТСТВЕННОЕ ЛИЦО 5'),
 (NULL, 'HK00071190', 'Персональный компьютер в комплекте', '2009-01-01 00:00:00', 1, '120', 'Персональный компьютер', 'ОТВЕТСТВЕННОЕ ЛИЦО 1'),
