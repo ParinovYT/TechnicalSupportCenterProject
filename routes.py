@@ -2,9 +2,6 @@ import calendar
 from datetime import datetime
 import json
 import time
-
-from flask import jsonify
-
 from imports import Blueprint, redirect, render_template, request, User, Report, MySqlBase, TemplateIssue, session, getConfigurate, url_for, is_valid_password, is_valid_username
 
 routes = Blueprint('routes', __name__)
@@ -356,10 +353,13 @@ def my_tickets():
                 issue_status = 'Решено'
             elif rows[8] == 2:
                 issue_color = 'danger'
-                issue_status = 'В работе'
+                issue_status = 'Есть ответ'
             elif rows[8] == 3:
                 issue_color = 'warning'
                 issue_status = 'Закрыт'
+            elif rows[8] == 4:
+                issue_color = 'dark'
+                issue_status = 'Ждем ответа'        
                 
             issue_date = datetime.fromtimestamp(int(rows[5])).strftime('%Y-%m-%d %H:%M:%S')
             issue_date_update = datetime.fromtimestamp(int(rows[6])).strftime('%Y-%m-%d %H:%M:%S')
@@ -395,7 +395,9 @@ def my_tickets():
             elif rows[8] == 3:
                 issue_color = 'warning'
                 issue_status = 'Закрыт'
-                
+            elif rows[8] == 4:
+                issue_color = 'dark'
+                issue_status = 'Есть ответ'    
             issue_date = datetime.fromtimestamp(int(rows[5])).strftime('%Y-%m-%d %H:%M:%S')
             issue_date_update = datetime.fromtimestamp(int(rows[6])).strftime('%Y-%m-%d %H:%M:%S')
             
@@ -485,6 +487,13 @@ def add_comment():
     ticket_id = request.form['ticket_id']  # Получаем ticket_id
     sender = request.form['sender']  # Получаем отправителя
     text = request.form['text']  # Получаем текст комментария
+    worker = request.form['operator']  # Получаем оператора
+    
+    print(f"!!!worker!!! -- {worker}")
+    
+    if worker == 'Не назначен':
+        operator = f"Вам назначен оператор: {session.get('login')}"
+        new_comment_worker = {'sender': 'system', 'text': operator}
     
     db_connection = MySqlBase().connection()
     db_connection.open()
@@ -493,12 +502,22 @@ def add_comment():
         cursor.execute('SELECT comments FROM issues WHERE id = %s', (ticket_id,))
         row = cursor.fetchone()
         comments_data = json.loads(row[0]) if row else [] 
+        if worker == 'Не назначен':
+            comments_data.append(new_comment_worker)
+            cursor.execute("UPDATE issues SET worker = %s WHERE id = %s", (session.get('login'), ticket_id))         
+            db_connection.connection.commit()
         new_comment = {'sender': sender, 'text': text}
         comments_data.append(new_comment)
         cursor.execute("UPDATE issues SET comments = %s, updated_at = %s WHERE id = %s", (json.dumps(comments_data), calendar.timegm(time.gmtime()), ticket_id))       
         if sender == 'system': 
-             cursor.execute("UPDATE issues SET status = %s WHERE id = %s", ('3', ticket_id))         
+             cursor.execute("UPDATE issues SET status = %s WHERE id = %s", ('3', ticket_id))       
         db_connection.connection.commit()
+        if sender == 'user':
+            cursor.execute("UPDATE issues SET status = %s WHERE id = %s", ('2', ticket_id))      
+            db_connection.connection.commit()       
+        if sender == 'support':
+            cursor.execute("UPDATE issues SET status = %s WHERE id = %s", ('4', ticket_id))    
+            db_connection.connection.commit()       
     finally:
         cursor.close()
         db_connection.close()
@@ -530,8 +549,11 @@ def viewticket():
                 comments = json.loads(rows[3])
                 history_chat_.append({'comments': comments})
                 _status_ticket = rows[8]
+                _operator = rows[9]
+                if _operator == '':
+                    _operator = 'Не назначен'
                 
-        return render_template('viewticket.html', login=session.get('login'), rule=rule, id=ticket_id, history_chat=history_chat_, status_ticket=_status_ticket)
+        return render_template('viewticket.html', login=session.get('login'), rule=rule, id=ticket_id, history_chat=history_chat_, status_ticket=_status_ticket, operator=_operator)
     
     
     if rule == 'Пользователь':
@@ -553,7 +575,8 @@ def viewticket():
                 history_chat_.append({'comments': comments})
                 _status_ticket = rows[8]
                 
-        return render_template('viewticket.html', login=session.get('login'), rule=rule, id=ticket_id, history_chat=history_chat_, status_ticket=_status_ticket)    
+            _operator = 'no_operator'
+        return render_template('viewticket.html', login=session.get('login'), rule=rule, id=ticket_id, history_chat=history_chat_, status_ticket=_status_ticket, operator=_operator)    
     
 @routes.route('/view_profile', methods=['GET', 'POST'])
 def viewprofile():
@@ -698,22 +721,3 @@ def inventoryedit():
         data.append(rows[0])
             
     return render_template('admin/material_edit.html', users=data, login=session.get('login'), rule=session.get('type'), inventory_number=inventory_number, inventory_name=inventory_name, inventory_date=inventory_date,inventory_floor=inventory_floor,inventory_office=inventory_office, inventory_type=inventory_type, inventory_responsible=inventory_responsible)    
-
-
-
-@routes.route("/get_devices")
-def get_devices():
-    input_text = request.args.get("input_text")
-    get_devices_example = [
-        "alice87",
-        "bob2021",
-        "carol66",
-        "dave777",
-        "eric88",
-        "frank123",
-        "grace2",
-        "hank57",
-        "izzy"
-    ]
-    filtered_device_example = [device_example for device_example in get_devices_example if input_text.lower() in device_example.lower()]
-    return jsonify(filtered_device_example)

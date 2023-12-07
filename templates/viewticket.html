@@ -53,11 +53,17 @@
               <div class="row">
                 <div class="col-12">
                   <div class="card m-b-30">
+                    
                     <div class="card-body">
-                      <h4 class="mt-0 header-title">Заявка #{{id}}</h4>
-                      <p class="text-muted m-b-30 font-14">В этом поле вы можете взаимодействовать с вашей заявкой.</p>
 
-              
+                      {% if rule == 'Пользователь' %}
+                        <h4 class="mt-0 header-title">Заявка #{{id}}</h4>
+                        <p class="text-muted m-b-30 font-14">В этом поле вы можете взаимодействовать с вашей заявкой.</p>
+                      {% else %}
+                        <h4 class="mt-0 header-title">Заявка #{{id}}</h4>
+                        <p class="text-muted m-b-30 font-14">В этом поле вы можете взаимодействовать с вашей заявкой.</p>
+                      {% endif %}
+
                       {% for message in history_chat %}
                         {% for comment in message['comments'] %}
                             {% if comment['sender'] == 'user' %}
@@ -86,8 +92,13 @@
     {% if rule == 'Пользователь' %}
         <button class="btn btn-primary" onclick="addComment('user')">Добавить комментарий</button>
     {% else %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+      <strong style="text-align: right;">При ответе в чате заявки, вы становитесь оператором данной заявки</strong>
+  </div>
+
         <button class="btn btn-primary" onclick="addComment('support')">Добавить комментарий</button>
-        <button class="btn btn-primary" onclick="toWork()">Взять в работу</button>
+        <!--   <button class="btn btn-primary" onclick="close_the_request()">Закрыть обращение (решено)</button> -->
     {% endif %}
 
   {% endif %}
@@ -124,10 +135,15 @@
               var editor = Jodit.instances['new-comment-text']; // получаем объект-редактор Jodit
               var text = editor.value; // получаем текст из редактора Jodit
 
-              // Выполнение POST-запроса
-              $.post('/add_comment', { ticket_id: {{id}}, sender: sender, text: text }, function(response) {
+              var text1 = '{{operator}}'
+
+              console.log(text1)
+
+              $.post('/add_comment', { ticket_id: {{id}}, sender: sender, text: text, operator: text1 }, function(response) {
                 location.reload();  // Перезагрузка страницы после добавления комментария
               });
+            
+              
             }
           </script>
   </body>
