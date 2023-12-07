@@ -80,6 +80,8 @@
                                                     <th>Год выпуска</th>
                                                     <th>Этаж</th>
                                                     <th>Кабинет</th>
+                                                    <th>Тип</th>
+                                                    <th>Ответственный</th>
                                                     <th>Действия</th>
                                                 </tr>
                                                 </thead>
@@ -93,7 +95,9 @@
                                                         <td>{{ device[3] }}</td>
                                                         <td>{{ device[4] }}</td>
                                                         <td>{{ device[5] }}</td>
-                                                      
+                                                        <td>{{ device[6] }}</td>
+                                                        <td>{{ device[7] }}</td>
+
                                                         <td class="text-center">
                                                             <button type="button" class="btn btn-dark waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                               Action
@@ -104,6 +108,7 @@
                                                             </div>
                                                         </td>
                                                     </tr>
+                                                    
                                                     {% endfor %}                                                    
                                                     
 

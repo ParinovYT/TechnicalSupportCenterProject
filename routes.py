@@ -9,6 +9,18 @@ routes = Blueprint('routes', __name__)
 
 cfg = getConfigurate()
 
+def get_users():
+    db_connection = MySqlBase().connection()
+    db_connection.open()
+    try:
+        cursor = db_connection.connection.cursor()
+        cursor.execute("SELECT username FROM users")
+        row = cursor.fetchall()
+        return row
+    finally:
+        db_connection.close()
+
+
 def get_id_by_login():
     db_connection = MySqlBase().connection()
     db_connection.open()
@@ -525,19 +537,23 @@ def inventoryadd():
         inventory_date = request.form['inventory_date']
         inventory_floor = request.form['inventory_floor']
         inventory_office = request.form['inventory_office']
+        inventory_type = request.form['inventory_type']
+        inventory_responsible = request.form['inventory_responsible']
         
         db_connection = MySqlBase().connection()
         db_connection.open()
         try:
             cursor = db_connection.connection.cursor()
          
-            insert_query = "INSERT INTO devices VALUES (NULL, %s, %s, %s, %s, %s);"
+            insert_query = "INSERT INTO devices VALUES (NULL, %s, %s, %s, %s, %s, %s, %s);"
             params = (
                inventory_number, 
                inventory_name, 
                inventory_date, 
                inventory_floor, 
-               inventory_office
+               inventory_office,
+               inventory_type,
+               inventory_responsible
             )
             cursor.execute(insert_query, params)
             db_connection.connection.commit()
@@ -545,7 +561,12 @@ def inventoryadd():
         finally:
             db_connection.close()
     
-    return render_template('admin/material_add.html', login=session.get('login'), rule=session.get('type'))    
+    data = []
+    row=get_users()
+    for rows in row:
+        data.append(rows[0])
+        
+    return render_template('admin/material_add.html', users=data, login=session.get('login'), rule=session.get('type'))    
 
 
 
@@ -556,8 +577,8 @@ def inventoryedit():
     if request.method == 'GET':
         has_only_del = request.args.get('delete')
         inv_number = request.args.get('inv_number')
-
         if has_only_del == 'true':
+            session['inv_number'] = inv_number
             db_connection = MySqlBase().connection()
             db_connection.open()
             try:
@@ -567,8 +588,6 @@ def inventoryedit():
             finally:
                 db_connection.close()
             return redirect(url_for('.inventorylist'))     
-        
-        session['inv_number'] = inv_number
         
         db_connection = MySqlBase().connection()
         db_connection.open()
@@ -585,7 +604,8 @@ def inventoryedit():
             inventory_date = data[3]
             inventory_floor = data[4]
             inventory_office = data[5]    
-                
+            inventory_type = data[6]
+            inventory_responsible = data[7]       
      
     if request.method == 'POST':
         inventory_number = request.form['inventory_number']
@@ -593,6 +613,8 @@ def inventoryedit():
         inventory_date = request.form['inventory_date']
         inventory_floor = request.form['inventory_floor']
         inventory_office = request.form['inventory_office']
+        inventory_type = request.form['inventory_type']
+        inventory_responsible = request.form['inventory_responsible']
         
         db_connection = MySqlBase().connection()
         db_connection.open()
@@ -602,18 +624,25 @@ def inventoryedit():
             cursor.execute('DELETE FROM devices WHERE inventory_number = %s', (session.get('inv_number'),))
             db_connection.connection.commit()
             
-            insert_query = "INSERT INTO devices VALUES (NULL, %s, %s, %s, %s, %s);"
+            insert_query = "INSERT INTO devices VALUES (NULL, %s, %s, %s, %s, %s, %s, %s);"
             params = (
                inventory_number, 
                inventory_name, 
                inventory_date, 
                inventory_floor, 
-               inventory_office
+               inventory_office,
+               inventory_type,
+               inventory_responsible
             )
             cursor.execute(insert_query, params)
             db_connection.connection.commit()
             
         finally:
             db_connection.close()
+    
+    data = []
+    row=get_users()
+    for rows in row:
+        data.append(rows[0])
             
-    return render_template('admin/material_edit.html', login=session.get('login'), rule=session.get('type'), inventory_number=inventory_number, inventory_name=inventory_name, inventory_date=inventory_date,inventory_floor=inventory_floor,inventory_office=inventory_office)    
+    return render_template('admin/material_edit.html', users=data, login=session.get('login'), rule=session.get('type'), inventory_number=inventory_number, inventory_name=inventory_name, inventory_date=inventory_date,inventory_floor=inventory_floor,inventory_office=inventory_office, inventory_type=inventory_type, inventory_responsible=inventory_responsible)    

@@ -102,6 +102,29 @@
                                             <input name="inventory_office" class="form-control" type="text" value="{{inventory_office}}" id="example-number-input">
                                         </div>
                                     </div>
+                                    
+                                    <div class="form-group row">
+                                        <label for="example-number-input" class="col-sm-2 col-form-label">Тип</label>
+                                        <div class="col-sm-10">
+                                            <input name="inventory_type" class="form-control" type="text" value="{{inventory_type}}" id="example-number-input">
+                                        </div>
+                                    </div>
+                                    
+
+                                    <div class="form-group row">
+                                        <label for="example-number-input" class="col-sm-2 col-form-label">Ответственный</label>
+                                        <div class="col-sm-10">
+                                            <select name="inventory_responsible" class="form-control">
+                                                <option>{{inventory_responsible}}</option>
+                                                {% for user in users %}
+                                                {% if user != inventory_responsible  %} 
+                                                    <option>{{user}}</option>
+                                                {% endif %}
+                                                {% endfor %}   
+                                            </select>
+                                        </div>
+                                    </div>
+
 
                                     <!-- button -->
                                 </div>

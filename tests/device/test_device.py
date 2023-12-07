@@ -6,11 +6,12 @@ from src.core.classes.mysql import MySqlBase
 from src.core.classes.user import User
 
 INVENTORY_NUMBER = '#34V23BVV'
-OBJECT_NAME = 'Принтер'
+OBJECT_NAME = 'Принтер Sony'
 YEAR_ISSUE = datetime.datetime(2020, 10, 23).isoformat()
 FLOOR = 3
 OFFICE_NUMBER = '341'
-
+TYPE = 'Принтер'
+RESPONSIBLE = 'ParinovYT'
 
 def create_device(inv_num: str):
     """Temp solution"""
@@ -19,14 +20,16 @@ def create_device(inv_num: str):
     try:
         cursor = db_connection.connection.cursor(prepared=True, )
         insert_query = """
-        INSERT INTO devices VALUES (NULL, %s, %s, %s, %s, %s);
+        INSERT INTO devices VALUES (NULL, %s, %s, %s, %s, %s, %s, %s);
         """
         params = (
             inv_num,
             OBJECT_NAME,
             YEAR_ISSUE,
             FLOOR,
-            OFFICE_NUMBER
+            OFFICE_NUMBER, 
+            TYPE,
+            RESPONSIBLE
         )
 
         cursor.execute(insert_query, params)

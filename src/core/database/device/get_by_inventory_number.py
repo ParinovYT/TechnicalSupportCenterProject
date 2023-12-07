@@ -25,7 +25,7 @@ class GetByInventoryNumber(MySqlQuery):
             cursor = self._connection.connection.cursor()
 
             cursor.execute("""
-            SELECT id, inventory_number, object_name, year_issue, floor, office_number
+            SELECT id, inventory_number, object_name, year_issue, floor, office_number, type, responsible
             FROM devices
             WHERE inventory_number=%s
             """, (inventory_number,))
@@ -39,7 +39,10 @@ class GetByInventoryNumber(MySqlQuery):
                 self.__model_device.year_issue = str(row[3])
                 self.__model_device.floor = int(row[4])
                 self.__model_device.office_number = str(row[5])
-
+                self.__model_device.type = int(row[6])
+                self.__model_device.responsible = str(row[7])
+                
+                
                 self._status_code = OK
             else:
                 self._status_code = NOT_FOUND

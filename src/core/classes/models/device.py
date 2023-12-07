@@ -10,6 +10,8 @@ class ModelDevice(BaseModel):
         self.__year_issue: str
         self.__floor: int
         self.__office_number: str
+        self.__type: str
+        self.__responsible: str
 
     @property
     def id(self) -> int:
@@ -58,3 +60,19 @@ class ModelDevice(BaseModel):
     @office_number.setter
     def office_number(self, value: str):
         self.__office_number = value
+
+    @property
+    def type(self) -> str:
+        return self.__type
+
+    @type.setter
+    def type(self, value: str):
+        self.__type = value
+        
+    @property
+    def responsible(self) -> str:
+        return self.__responsible
+
+    @responsible.setter
+    def responsible(self, value: str):
+        self.__responsible = value
