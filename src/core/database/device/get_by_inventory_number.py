@@ -39,7 +39,7 @@ class GetByInventoryNumber(MySqlQuery):
                 self.__model_device.year_issue = str(row[3])
                 self.__model_device.floor = int(row[4])
                 self.__model_device.office_number = str(row[5])
-                self.__model_device.type = int(row[6])
+                self.__model_device.type = str(row[6])
                 self.__model_device.responsible = str(row[7])
                 
                 self._status_code = OK
