@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% set page_name = 'View Profile' %} {% include 'modules/head.html' %}
+    </head>
+
+
+    <body class="fixed-left">
+
+        <!-- Loader -->
+        <div id="preloader"><div id="status"><div class="spinner"></div></div></div>
+  <!-- Begin page -->
+  <div id="wrapper">
+
+    {% include "./modules/left.html" %}
+
+    <!-- Start right Content here -->
+
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+
+            <!-- Top Bar Start -->
+            <div class="topbar">
+
+                <nav class="navbar-custom">
+
+                    <ul class="list-inline float-right mb-0">
+                      
+                        <li class="list-inline-item dropdown notification-list">
+                            <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
+                               aria-haspopup="false" aria-expanded="false">
+                                <img src="assets/images/users/avatar-5.jpg" alt="user" class="rounded-circle">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                                <a class="dropdown-item" href="logout"><i class="mdi mdi-logout m-r-5 text-muted"></i> Выход</a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                    <ul class="list-inline menu-left mb-0">
+                        <li class="list-inline-item">
+                            <button type="button" class="button-menu-mobile open-left waves-effect">
+                                <i class="ion-navicon"></i>
+                            </button>
+                        </li>
+                        <li class="hide-phone list-inline-item app-search">
+                            <h3 class="page-title">Портал технической поддержки | Просмотр профиля</h3>
+                        </li>
+                    </ul>
+
+                    <div class="clearfix"></div>
+
+                </nav>
+
+            </div>
+            <!-- Top Bar End -->
+
+            <div class="page-content-wrapper ">
+
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <h4 class="mt-0 header-title">Профиль: {{user_id}}</h4>
+                                    <p class="text-muted m-b-30 font-14">
+                                        Помимо просмотра профиля, вы можете изменять любую информацию в этом разделе.
+                                        Изменению подлежат все поля, кроме ID.
+                                    </p>
+                                    <form class="form-horizontal m-t-20" method="POST" action="{{ url_for('routes.viewprofile') }}">
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-sm-2 col-form-label">ID</label>
+                                        <div class="col-sm-10">
+                                            <input readonly="readonly" name="user_id" class="form-control" type="text" value="{{user_id}}" id="example-text-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="example-text-input" class="col-sm-2 col-form-label">Имя пользователя</label>
+                                        <div class="col-sm-10">
+                                            <input name="username" class="form-control" type="text" value="{{username}}" id="example-text-input">
+                                        </div>
+                                    </div>       
+                            
+                                    <div class="form-group row">
+                                        <label for="example-number-input" class="col-sm-2 col-form-label">Пароль</label>
+                                        <div class="col-sm-10">
+                                            <input name="password" class="form-control" type="text" value="{{password}}" id="example-number-input">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group row">
+                                        <label for="example-number-input" class="col-sm-2 col-form-label">Роль</label>
+                                        <div class="col-sm-10">
+                                            <select name="urule" class="form-control">
+                                                <option>{{urule}}</option>
+                                                {% for rule in rules %}
+                                                {% if rule != urule  %} 
+                                                    <option>{{rule}}</option>
+                                                {% endif %}
+                                                {% endfor %}   
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- button -->
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <button type="submit" class="btn btn-primary mb-3 me-auto">ОК</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+
+                </div><!-- container -->
+
+
+            </div>
+
+                </div> <!-- content -->
+
+                <footer class="footer">
+                    © 2023 ParinovYT - ft by >.< Навалил.  <i class="mdi mdi-heart text-danger"></i>
+                </footer>
+
+            </div>
+            <!-- End Right content here -->
+
+        </div>
+        <!-- END wrapper -->
+
+        {% include 'modules/scripts.html' %}
+
+
+    </body>
+</html>

@@ -19,7 +19,6 @@ def get_users():
     finally:
         db_connection.close()
 
-
 def get_id_by_login():
     db_connection = MySqlBase().connection()
     db_connection.open()
@@ -483,6 +482,8 @@ def addticket():
 
 @routes.route('/add_comment', methods=['POST'])
 def add_comment():
+    if checkLogin() == False:
+        return redirect(url_for('.login'))    
     comments_data = []
     ticket_id = request.form['ticket_id']  # Получаем ticket_id
     sender = request.form['sender']  # Получаем отправителя
@@ -578,12 +579,76 @@ def viewticket():
     
 @routes.route('/view_profile', methods=['GET', 'POST'])
 def viewprofile():
-    
-    return render_template('admin/view_profile.html', login=session.get('login'), rule=session.get('type'))    
+    if checkLogin() == False:
+        return redirect(url_for('.login'))
+    if request.method == 'GET':
+        user_id = request.args.get('user_id')
+        if not user_id:
+            return redirect(url_for('.users'))
+        else:
+            session.pop('id_stored', None)   
+        db_connection = MySqlBase().connection()
+        db_connection.open()
+        try:
+            cursor = db_connection.connection.cursor()
+            cursor.execute('SELECT * FROM users WHERE id = %s', (user_id,))
+            row = cursor.fetchall()      
+        finally:
+            db_connection.close()
+        for rows in row:
+            username = rows[1]
+            password = rows[2]
+            __rule = rows[4]
+            session['pwd_stored'] = password
+            
+            if __rule == 4:
+                rule = 'Пользователь'
+            elif __rule == 3:
+                rule = 'Сотрудник'
+            elif __rule == 2:
+                rule = 'Администратор' 
+            elif __rule == 1:
+                rule = 'Заблокирован'  
+       
+    if request.method == 'POST':
+        user_id = request.form['user_id']
+        username = request.form['username']
+        rule = request.form['urule']
+        
+        db_connection = MySqlBase().connection()
+        db_connection.open()
+        try:
+            cursor = db_connection.connection.cursor()
+            if session.get('pwd_stored') != request.form['password']:
+                cursor.execute("UPDATE users SET password = %s WHERE id = %s", (request.form['password'], user_id,))    
+                db_connection.connection.commit()  
+                
+            if rule == 'Пользователь':
+                rule = 4
+            elif rule == 'Сотрудник':
+                rule = 3
+            elif rule == 'Администратор':
+                rule = 2 
+            elif rule == 'Заблокирован':
+                rule = 1
+                
+            cursor.execute("UPDATE users SET username = %s, rule = %s WHERE id = %s", (username, rule, user_id,)) 
+            session['id_stored'] = user_id
+            db_connection.connection.commit()   
+            session.pop('pwd_stored', None)                    
+        finally:
+            db_connection.close()
+             
+        return redirect(url_for('.viewprofile', user_id=session.get('id_stored'))) 
+        #str(self._hash.sha(value))
+        
+    return render_template('admin/view_profile.html', login=session.get('login'), rule=session.get('type'), user_id=user_id, username=username, password=password, urule=rule, rules=['Пользователь', 'Сотрудник', 'Администратор', 'Заблокирован'])    
 
 
 @routes.route('/inventory_list', methods=['GET', 'POST'])
 def inventorylist():
+    if checkLogin() == False:
+        return redirect(url_for('.login'))
     _devices = []
     db_connection = MySqlBase().connection()
     db_connection.open()
@@ -604,6 +669,8 @@ def inventorylist():
 
 @routes.route('/inventory_add', methods=['GET', 'POST'])
 def inventoryadd():
+    if checkLogin() == False:
+        return redirect(url_for('.login'))
     if request.method == 'POST':
         inventory_number = request.form['inventory_number']
         inventory_name = request.form['inventory_name']
@@ -646,7 +713,8 @@ def inventoryadd():
 
 @routes.route('/inventory_edit', methods=['GET', 'POST'])
 def inventoryedit():
-    
+    if checkLogin() == False:
+        return redirect(url_for('.login'))   
     if request.method == 'GET':
         has_only_del = request.args.get('delete')
         inv_number = request.args.get('inv_number')
