@@ -154,7 +154,7 @@
 
         <script>
             function close_ticket(id) {
-              $.post('/add_comment', { ticket_id: id, sender: 'system', text: 'Пользователь закрыл обращение' }, function(response) {
+              $.post('/add_comment', { ticket_id: id, sender: 'system', text: 'Пользователь закрыл обращение', operator: 'None' }, function(response) {
                 location.reload();  // Перезагрузка страницы после добавления комментария
               });
             }

@@ -356,7 +356,7 @@ def my_tickets():
                 issue_status = 'Есть ответ'
             elif rows[8] == 3:
                 issue_color = 'warning'
-                issue_status = 'Закрыт'
+                issue_status = 'Закрыта'
             elif rows[8] == 4:
                 issue_color = 'dark'
                 issue_status = 'Ждем ответа'        
@@ -394,7 +394,7 @@ def my_tickets():
                 issue_status = 'В работе'
             elif rows[8] == 3:
                 issue_color = 'warning'
-                issue_status = 'Закрыт'
+                issue_status = 'Закрыта'
             elif rows[8] == 4:
                 issue_color = 'dark'
                 issue_status = 'Есть ответ'    
@@ -488,8 +488,6 @@ def add_comment():
     sender = request.form['sender']  # Получаем отправителя
     text = request.form['text']  # Получаем текст комментария
     worker = request.form['operator']  # Получаем оператора
-    
-    print(f"!!!worker!!! -- {worker}")
     
     if worker == 'Не назначен':
         operator = f"Вам назначен оператор: {session.get('login')}"
