@@ -5,7 +5,7 @@
   "server_secret_key": "JgLR]dC=1a.Z(7(:cw;m.tc)1/;Tslz39]b.W3~6WZV}=DMLSA9jm!L}-eM=sB_K",
   "server_debug": true,
   "server_logging": true,
-  "use_docker_db": false,
+  "use_docker_db": true,
 
   "db_port_without_docker": 3306,
   "db_host_without_docker": "kmaksid3.beget.tech",
