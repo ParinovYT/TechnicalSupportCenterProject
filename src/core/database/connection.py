@@ -7,7 +7,7 @@ from src.core.classes.mysql.connection import MySqlConnection
 
 class Connection(MySqlConnection):
     def __init__(self):
-        if Config.get['use_docker_db'] == True:
+        if bool(Config.get['use_docker_db']) == True:
             self.__host = os.environ.get('DATABASE_HOST', 'localhost')
             self.__port = os.environ.get('DATABASE_PORT', '3306')
             self.__user = os.environ.get('DATABASE_USER', 'user')
