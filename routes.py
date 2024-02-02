@@ -157,7 +157,7 @@ def login():
     if request.method == 'POST':
         block_login = 0
         user_obj = User().sign_in()
-        user_obj.execute(request.form['username'], request.form['password'], int(Config.get['login_timeout']))  
+        user_obj.execute(request.form['username'], request.form['password'], int(Config.get('login_timeout')))  
         _status = user_obj.status_code
         _token = user_obj.get_token 
 
@@ -180,7 +180,7 @@ def login():
                 return render_template('login.html', status=999, token='', rule=_rule_selected)
             
             session['login'] = request.form['username']
-            session['time'] = calendar.timegm(time.gmtime()) + int(Config.get['login_timeout'])
+            session['time'] = calendar.timegm(time.gmtime()) + int(Config.get('login_timeout'))
             session['token'] = _token
             session['type'] = _rule_selected
             return redirect(url_for('.home_general')) 
