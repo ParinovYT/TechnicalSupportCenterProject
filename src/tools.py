@@ -1,18 +1,7 @@
-import json
 import random
 import re
 import secrets
 import string
-
-cfg = 0
-
-def getConfigurate(path='src/config.json'):
-    global cfg
-    if cfg == 0:
-        with open(path) as f:
-            cfg = json.load(f)
-        return cfg
-    return cfg
 
 def generate_password():
     pattern = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W]).{8,64}$'
