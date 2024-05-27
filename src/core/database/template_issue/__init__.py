@@ -27,7 +27,7 @@ class TemplateIssue(MySqlQuery):
             issue,
             solution
             FROM template_issueses
-            JOIN technical_support.category_issue ci
+            JOIN category_issue ci
             on ci.id = template_issueses.category_id
             """)
 

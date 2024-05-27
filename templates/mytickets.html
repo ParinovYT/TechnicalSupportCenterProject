@@ -91,7 +91,6 @@
                                                 </thead>
 
                                                 <tbody>
-                                               
                                                     {% for ticket in tickets %}
                                                     <tr>
                                                         <td>#{{ ticket[0] }}</td>
@@ -113,15 +112,15 @@
                                                         <td> <span class="badge badge-{{ ticket[5] }}">{{ ticket[4] }}</span></td>
                                                         <td class="text-center">
                                                             <button type="button" class="btn btn-dark waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                              Action
+                                                              Подробнее
                                                             </button>
                                                             <div class="dropdown-menu" style="">
-                                                              <a class="btn btn-outline-info waves-effect waves-light dropdown-item view_ticket" href="view_ticket?ticket_id={{ ticket[0] }}">View</a>
+                                                              <a class="btn btn-outline-info waves-effect waves-light dropdown-item view_ticket" href="view_ticket?ticket_id={{ ticket[0] }}">Чат</a>
                                                               {% if ticket[4] == 'Закрыт' %}
 
                                                               {% else %}
                                                                 <div class="dropdown-divider"></div>
-                                                                <a class="btn btn-outline-danger waves-effect waves-light dropdown-item delete_ticket" onclick="close_ticket('{{ ticket[0] }}')">Close</a>
+                                                                <a class="btn btn-outline-danger waves-effect waves-light dropdown-item delete_ticket" onclick="close_ticket('{{ ticket[0] }}')">Закрыть</a>
                                                               {% endif %}
                                                             </div>
                                                         </td>
@@ -141,7 +140,7 @@
                 </div> <!-- content -->
 
                 <footer class="footer">
-                    © 2023 ParinovYT - ft by >.< Навалил.  <i class="mdi mdi-heart text-danger"></i>
+                    © 2024 ParinovYT  <i class="mdi mdi-heart text-danger"></i>
                 </footer>
 
             </div>

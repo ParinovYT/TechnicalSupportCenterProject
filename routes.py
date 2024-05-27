@@ -242,7 +242,7 @@ def home_general():
         print(respone)
         
         text = json.loads(respone)      
-        print(text)
+        print(f"Грузим-грузим  - {text}")
         
         return render_template('userarea.html', login=session.get('login'), rule=rule, template_issueses=text)
     elif rule == 'Администратор':
@@ -467,6 +467,7 @@ def addticket():
                 once_comment = [comment_info, {"sender": "user", "text": text}]
             else:
                 once_comment = [{"sender": "user", "text": text}]
+            
                 
             text = json.dumps(once_comment)
             

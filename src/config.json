@@ -5,11 +5,11 @@
   "server_secret_key": "JgLR]dC=1a.Z(7(:cw;m.tc)1/;Tslz39]b.W3~6WZV}=DMLSA9jm!L}-eM=sB_K",
   "server_debug": true,
   "server_logging": true,
-  "use_docker_db": true,
+  "use_docker_db": false,
 
   "db_port_without_docker": 3306,
-  "db_host_without_docker": "kmaksid3.beget.tech",
-  "db_user_without_docker": "kmaksid3_diploma",
+  "db_host_without_docker": "lglobufr.beget.tech",
+  "db_user_without_docker": "lglobufr_diploma",
   "db_password_without_docker": "NK*9U4mX",
-  "db_database_without_docker": "kmaksid3_diploma"
+  "db_database_without_docker": "lglobufr_diploma"
 }

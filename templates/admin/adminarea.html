@@ -106,29 +106,27 @@
 
 										<tbody>
 											{% for ticket in tickets %}
-											<tr>
 												{% if ticket[4] == 'Открыто' %}
+												<tr>
+													<td>#{{ ticket[0] }}</td>
+													<td>{{ ticket[6] }}</td>
+													<td>{{ ticket[1] }}</td>
+													<td>{{ ticket[2] }}</td>
+													<td>{{ ticket[3] }}</td>
+													<td>
+														<span class="badge badge-{{ ticket[5] }}">{{ ticket[4] }}</span>
+													</td>
 
-												<td>#{{ ticket[0] }}</td>
-												<td>{{ ticket[6] }}</td>
-												<td>{{ ticket[1] }}</td>
-												<td>{{ ticket[2] }}</td>
-												<td>{{ ticket[3] }}</td>
-												<td>
-													<span class="badge badge-{{ ticket[5] }}">{{ ticket[4] }}</span>
-												</td>
-
-												<td class="text-center">
-													<button type="button" class="btn btn-dark waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Action</button>
-													<div class="dropdown-menu" style="">
-														<a class="btn btn-outline-info waves-effect waves-light dropdown-item view_ticket" href="view_ticket?ticket_id={{ ticket[0] }}">View</a>
-														<div class="dropdown-divider"></div>
-														<a class="btn btn-outline-danger waves-effect waves-light dropdown-item delete_ticket" onclick="close_ticket('{{ ticket[0] }}')">Close</a>
-													</div>
-												</td>
-
+													<td class="text-center">
+														<button type="button" class="btn btn-dark waves-effect waves-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Подробнее</button>
+														<div class="dropdown-menu" style="">
+															<a class="btn btn-outline-info waves-effect waves-light dropdown-item view_ticket" href="view_ticket?ticket_id={{ ticket[0] }}">Чат</a>
+															<div class="dropdown-divider"></div>
+															<a class="btn btn-outline-danger waves-effect waves-light dropdown-item delete_ticket" onclick="close_ticket('{{ ticket[0] }}')">Закрыть</a>
+														</div>
+													</td>
+												</tr>
 												{% endif %}
-											</tr>
 											{% endfor %}
 										</tbody>
 									</table>
@@ -142,7 +140,7 @@
 				<!-- content -->
 
 				<footer class="footer">
-					© 2023 ParinovYT - ft by >.< Навалил.
+					© 2024 ParinovYT
 					<i class="mdi mdi-heart text-danger"></i>
 				</footer>
 			</div>
