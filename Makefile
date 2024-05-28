@@ -14,7 +14,7 @@ VENV-NAME = venv
 PATH-TO-REQUIREMENTS = requirements.txt
 
 # APP
-PATH-TO-APP-FILE = app.py
+PATH-TO-APP-FILE = __init__.py
 
 ifeq ($(OS),Windows_NT)
 	VENV-PATH = ./$(VENV-NAME)/Scripts
